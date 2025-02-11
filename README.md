@@ -1,4 +1,4 @@
-# Your Project Title
+# Tower of the Betrayer
 ## Team Members
 Jeff Cui: https://github.com/JJJcfff
 Elaine Zhao: https://github.com/ElaineZhao1210
@@ -23,6 +23,10 @@ https://store.steampowered.com/app/1942280/Brotato/
 
 ### [Low Poly Style Games]
 The visual design of our game draws inspiration from low poly art styles, which are both visually appealing and efficient for development. The low poly aesthetic allows for a focus on clean, stylized environments and characters, enhancing the fantasy theme of the game while maintaining performance. Examples include games like "Totally Accurate Battle Simulator" and "For The King," which feature vibrant, minimalist designs that effectively convey their worlds.
+
+![image](https://github.com/user-attachments/assets/8211249f-b3e3-4706-8cfd-44ef93f8ba19)
+
+https://store.steampowered.com/app/508440/Totally_Accurate_Battle_Simulator/
 
 
 ## Gameplay
