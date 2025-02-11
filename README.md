@@ -24,6 +24,10 @@ https://store.steampowered.com/app/1942280/Brotato/
 ### [Low Poly Style Games]
 The visual design of our game draws inspiration from low poly art styles, which are both visually appealing and efficient for development. The low poly aesthetic allows for a focus on clean, stylized environments and characters, enhancing the fantasy theme of the game while maintaining performance. Examples include games like "Totally Accurate Battle Simulator" and "For The King," which feature vibrant, minimalist designs that effectively convey their worlds.
 
+![image](https://github.com/user-attachments/assets/8211249f-b3e3-4706-8cfd-44ef93f8ba19)
+
+https://store.steampowered.com/app/508440/Totally_Accurate_Battle_Simulator/
+
 
 ## Gameplay
 In this game, players take on the role of the most skilled warrior from a village that has been enslaved by a devil. Bored with his control over the humans, the devil constructs a 10-floor monster tower and declares that if any adventurer can conquer it, he will grant the village its freedom. As the village’s last hope, the player fights through the tower, growing stronger with each battle. However, upon reaching the final floor, the devil refuses to honor his promise, forcing the player into a final showdown against him.
