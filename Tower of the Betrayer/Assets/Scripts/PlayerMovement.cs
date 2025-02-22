@@ -23,25 +23,20 @@ public class PlayerMovement : MonoBehaviour
     
     public void OnMove(InputValue value)
     {
-        movementValue = value.Get<Vector2>()*speed;
+        movementValue = value.Get<Vector2>() * speed;
     }
     
-    public void OnLook(InputValue value)
-    {
-        lookValue = value.Get<Vector2>().x*rotationSpeed;
-    }
 
-    void Update()
+    void FixedUpdate()
     {
-        rb.AddRelativeForce(
-            movementValue.x*Time.deltaTime,
-            0,
-            movementValue.y*Time.deltaTime);
+        // Convert the 2D input into a 3D vector in world space
+        Vector3 movement = new Vector3(movementValue.x, 0, movementValue.y);
         
-        rb.AddRelativeTorque(
+        // Apply the force in world space instead of relative space
+        rb.AddForce(
+            movement.x * Time.deltaTime,
             0,
-            lookValue*Time.deltaTime,
-            0);
+            movement.z * Time.deltaTime,
+            ForceMode.Force);
     }
-    
 }
