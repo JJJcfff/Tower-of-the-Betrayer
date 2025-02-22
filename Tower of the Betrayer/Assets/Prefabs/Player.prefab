@@ -44,6 +44,31 @@ PrefabInstance:
       propertyPath: amount
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: -5450332129317394832, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -5450332129317394832, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: currentHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 964998719290922426, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 964998719290922426, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7fd22b7e1909a0140bd4b17573f91441, type: 2}
+    - target: {fileID: 964998719290922426, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 2853080190045973775, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: m_Name
@@ -53,6 +78,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853080190045973775, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4525568526607287031, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
@@ -151,6 +181,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7384163624559293735}
+    - targetCorrespondingSourceObject: {fileID: 2853080190045973775, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1502521844259564342}
   m_SourcePrefab: {fileID: 100100000, guid: c582f62be42ec8d47b7f2002f0cc4c9d, type: 3}
 --- !u!1 &765317836114587021 stripped
 GameObject:
@@ -184,9 +218,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35811506b04d4844fa833095603fb6d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3896289067588341404, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
+  attackRange: 10
+  attackSpeed: 1
+  projectileSpeed: 10
+  projectilePrefab: {fileID: 3896289067588341404, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
     type: 3}
-  shootPoint: {fileID: 92800624441110025}
 --- !u!114 &7384163624559293735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +254,24 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1502521844259564342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765317836114587021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fca0fe239c14c4dbcb32be0eef63d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  healthBar: {fileID: 0}
 --- !u!4 &5970864048194402998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9212707748624644660, guid: c582f62be42ec8d47b7f2002f0cc4c9d,

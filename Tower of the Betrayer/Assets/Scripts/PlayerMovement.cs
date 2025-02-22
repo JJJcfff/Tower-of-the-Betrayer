@@ -29,10 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Convert the 2D input into a 3D vector in world space
         Vector3 movement = new Vector3(movementValue.x, 0, movementValue.y);
-        
-        // Apply the force in world space instead of relative space
         rb.AddForce(
             movement.x * Time.deltaTime,
             0,

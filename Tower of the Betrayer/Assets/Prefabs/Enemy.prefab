@@ -13,13 +13,13 @@ GameObject:
   - component: {fileID: 964998719290922426}
   - component: {fileID: 5288118507609798751}
   - component: {fileID: 6286319996085992264}
-  - component: {fileID: -5450332129317394832}
   - component: {fileID: -5428044137644803907}
   - component: {fileID: 635738153068484353}
   - component: {fileID: 5255557745857353904}
+  - component: {fileID: 3678708162435348193}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: d467755ea4b144d4ca6f85d08c785bb5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,22 +143,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &-5450332129317394832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2853080190045973775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34c65fafbb50f546b0705332a04270b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amount: 100
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &-5428044137644803907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +190,20 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3678708162435348193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2853080190045973775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe850605f9aaa84690e9d43059020da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &4525568526607287031
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,13 +377,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8877f1f61fe94429dfd91679f0a456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 3
   bulletPrefab: {fileID: 4565382164983471439, guid: 63b0242d68f46a940a1dbb3a5cfe06a7,
     type: 3}
-  fireRate: 5
-  sightSensor: {fileID: 4069243815286330422}
-  baseAttackDistance: 10
-  playerAttackDistance: 10
+  fireRate: 1
+  attackRange: 5
+  stoppingDistance: 4
 --- !u!1 &8638524151099002801
 GameObject:
   m_ObjectHideFlags: 0

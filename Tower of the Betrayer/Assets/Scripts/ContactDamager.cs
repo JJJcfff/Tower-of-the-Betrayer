@@ -10,10 +10,14 @@ public class ContactDamager : MonoBehaviour
     {
         Destroy(gameObject);
         
-        Life life = other.GetComponent<Life>();
-        if (life != null)
+        if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
-            life.amount -= damage;
+            playerHealth.TakeDamage(damage);
+        }
+        
+        if (other.TryGetComponent(out EnemyHealth enemyHealth))
+        {
+            enemyHealth.TakeDamage(damage);
         }
     }
 }

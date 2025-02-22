@@ -7,13 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class WavesGameMode : MonoBehaviour
 {
-    [SerializeField] Life playerLife;
-    [SerializeField] Life playerBaseLife;
+    [SerializeField] private PlayerHealth playerLife;
     
     void Start()
     {
-        playerLife.onDeath.AddListener(OnPlayerDeathOrBaseDied);
-        playerBaseLife.onDeath.AddListener(OnPlayerDeathOrBaseDied);
+        playerLife.onDeath.AddListener(OnPlayerDeath);
         EnemyManager.instance.onChanged.AddListener(CheckWinCondition);
         WaveManager.instance.onChanged.AddListener(CheckWinCondition);
     }
@@ -25,13 +23,9 @@ public class WavesGameMode : MonoBehaviour
             SceneManager.LoadScene("WinScreen");
         }
     }
+    
 
-    private void Awake()
-    {
-        playerLife.onDeath.AddListener(OnPlayerDeathOrBaseDied);
-    }
-
-    void OnPlayerDeathOrBaseDied()
+    void OnPlayerDeath()
     {
         SceneManager.LoadScene("LoseScreen");
     }

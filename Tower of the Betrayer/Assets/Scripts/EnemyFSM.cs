@@ -3,109 +3,36 @@ using UnityEngine.AI;
 
 public class EnemyFSM : MonoBehaviour
 {
-    public enum EnemyState
-    {
-        GoToBase,
-        AttackBase,
-        ChasePlayer,
-        AttackPlayer
-    }
-
-    public EnemyState currentState;
-
     public GameObject bulletPrefab;
-    public float fireRate;
-    public Sight sightSensor;
-    public float baseAttackDistance;
-    public float playerAttackDistance;
-    private NavMeshAgent agent;
-    private Transform baseTransform;
+    public float fireRate = 1f;
+    public float attackRange = 5f;
+    public float stoppingDistance = 4f; 
 
+    private NavMeshAgent agent;
     private float lastShootTime;
+    private Transform playerTransform;
 
     private void Awake()
     {
-        baseTransform = GameObject.Find("BaseDamagePoint").transform;
         agent = GetComponentInParent<NavMeshAgent>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        agent.stoppingDistance = stoppingDistance;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (currentState == EnemyState.GoToBase)
-            GoToBase();
-        else if (currentState == EnemyState.AttackBase)
-            AttackBase();
-        else if (currentState == EnemyState.ChasePlayer)
-            ChasePlayer();
-        else if (currentState == EnemyState.AttackPlayer)
-            AttackPlayer();
-    }
+        if (!playerTransform) return;
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, playerAttackDistance);
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, baseAttackDistance);
-    }
-
-
-    private void GoToBase()
-    {
-        agent.isStopped = false;
-
-        agent.SetDestination(baseTransform.position);
-
-        if (sightSensor.detectedObject != null)
-            currentState = EnemyState.ChasePlayer;
-
-        var distanceToBase = Vector3.Distance(transform.position, baseTransform.position);
-        if (distanceToBase < baseAttackDistance)
-            currentState = EnemyState.AttackBase;
-    }
-
-
-    private void ChasePlayer()
-    {
-        agent.isStopped = false;
-
-        if (sightSensor.detectedObject == null)
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+        
+        if (distanceToPlayer <= attackRange)
         {
-            currentState = EnemyState.GoToBase;
-            return;
+            LookTo(playerTransform.position);
+            Shoot();
         }
-
-        agent.SetDestination(sightSensor.detectedObject.transform.position);
-
-        var distanceToPlayer = Vector3.Distance(transform.position, sightSensor.detectedObject.transform.position);
-        if (distanceToPlayer <= playerAttackDistance)
-            currentState = EnemyState.AttackPlayer;
-    }
-
-    private void AttackPlayer()
-    {
-        agent.isStopped = true;
-
-        if (sightSensor.detectedObject == null)
-        {
-            currentState = EnemyState.GoToBase;
-            return;
-        }
-
-        LookTo(sightSensor.detectedObject.transform.position);
-        Shoot();
-
-        var distanceToPlayer = Vector3.Distance(transform.position, sightSensor.detectedObject.transform.position);
-        if (distanceToPlayer > playerAttackDistance * 1.1f)
-            currentState = EnemyState.ChasePlayer;
-    }
-
-    private void AttackBase()
-    {
-        agent.isStopped = true;
-        LookTo(baseTransform.position);
-        Shoot();
+        
+        agent.SetDestination(playerTransform.position);
     }
 
     private void LookTo(Vector3 targetPosition)
@@ -123,5 +50,13 @@ public class EnemyFSM : MonoBehaviour
 
         lastShootTime = Time.time;
         Instantiate(bulletPrefab, transform.position, transform.rotation);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, stoppingDistance);
     }
 }
