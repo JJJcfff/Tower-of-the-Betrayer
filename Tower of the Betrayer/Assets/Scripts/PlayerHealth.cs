@@ -1,9 +1,12 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Manages the player's health and computes damage taken.
 public class PlayerHealth: MonoBehaviour
 {
     public float maxHealth = 100;

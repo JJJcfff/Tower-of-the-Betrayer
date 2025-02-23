@@ -1,6 +1,9 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Manages the screen transitions and win/lose conditions in the game.
 public class WavesGameMode : MonoBehaviour
 {
     [SerializeField] private PlayerHealth playerLife;

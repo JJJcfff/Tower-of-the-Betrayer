@@ -1,11 +1,15 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using UnityEngine;
 
+// Manages the spawning of enemies in a wave.
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject prefab;
-    public float spawnRate;
-    public float startTime;
-    public float endTime;
+    public GameObject prefab;       // Enemy prefab to spawn.
+    public float spawnRate;         // Interval between spawns.
+    public float startTime;         // Time to start spawning.
+    public float endTime;           // Time to stop spawning.
+    
     
     [Header("Spawn Area Settings")]
     public float spawnRadius = 10f; // How far from center enemies can spawn

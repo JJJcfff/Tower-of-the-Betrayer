@@ -1,10 +1,14 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using UnityEngine;
 
+// Updates the camera's position based on the player's position.
 public class CameraFollow2_5D : MonoBehaviour
 {
     public Transform player;
     public Vector3 offset;  
 
+    // Updates the camera's position.
     private void LateUpdate()
     {
         if (player)

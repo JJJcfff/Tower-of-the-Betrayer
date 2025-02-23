@@ -1,10 +1,13 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Applies damage to any PlayerHealth or EnemyHealth component on objects that collide with this object.
 public class ContactDamager : MonoBehaviour
 {
-    public float damage;
+    public float damage; // Amount of damage to apply on contact.
     
     void OnTriggerEnter(Collider other)
     {

@@ -1,8 +1,11 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Manages wave spawners
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager instance;

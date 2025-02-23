@@ -1,7 +1,10 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Manages the score of the player
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;

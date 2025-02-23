@@ -1,11 +1,14 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using UnityEngine;
 
+// Manages the player's shooting mechanics, including attack range, speed, and projectile instantiation.
 public class PlayerShooting : MonoBehaviour
 {
     [Header("Attack Settings")]
-    public float attackRange = 10f;
+    public float attackRange = 10f;   // Attack range in units
     public float attackSpeed = 1f;    // Attacks per second
-    public float projectileSpeed = 10f;
+    public float projectileSpeed = 10f; // Speed of the projectile
     public GameObject projectilePrefab;
 
     private float attackTimer;

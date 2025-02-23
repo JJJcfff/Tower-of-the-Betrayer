@@ -1,9 +1,12 @@
+// Authors: Jeff Cui, Elaine Zhao
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Manages player movement and rotation based on user input.
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
