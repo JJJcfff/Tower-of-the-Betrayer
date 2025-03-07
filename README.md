@@ -94,3 +94,9 @@ In this game, players take on the role of the most skilled warrior from a villag
 ### Project Checkpoint 1-2:
 
 Our deliverables for this iteration consists of a basic game in which the player can move around using WASD and the closest enemy within attack range takes damage automatically, and the enemies are randomly generated and tend to move towards the player. If the player survives with given health level after destroying all enemies, the player wins. If the player dies before clearing the field, the player loses.
+<img width="600" alt="Game Screen Example" src="https://github.com/user-attachments/assets/1968ff43-fdbd-40be-80c7-cdb87f628d53" /> 
+
+<img width="300" alt="Win Screen" src="https://github.com/user-attachments/assets/01c5aec9-ae3b-4da5-b4a7-eb0072b1b424" /> <img width="300" alt="Lose Screen" src="https://github.com/user-attachments/assets/800c7112-b3a6-4c01-a118-03498778c802" />
+
+
+
