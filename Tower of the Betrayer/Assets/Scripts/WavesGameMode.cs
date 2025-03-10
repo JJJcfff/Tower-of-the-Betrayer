@@ -22,6 +22,8 @@ public class WavesGameMode : MonoBehaviour
             {
                 Debug.Log("Player died. Loading LoseScreen ...");
                 SceneManager.LoadScene("LoseScreen");
+                Cursor.lockState = CursorLockMode.None; // Unlock cursor
+                Cursor.visible = true;
             }
         }
         else
@@ -37,6 +39,8 @@ public class WavesGameMode : MonoBehaviour
         {
             Debug.Log("Player win. Loading WinScreen ...");
             SceneManager.LoadScene("WinScreen");
+            Cursor.lockState = CursorLockMode.None; // Unlock cursor
+            Cursor.visible = true;
         }
     }
 }
