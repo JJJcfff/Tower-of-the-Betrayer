@@ -100,3 +100,8 @@ Our deliverables for this iteration consists of a basic game in which the player
 
 
 
+## How to Play
+
+//todo
+
+
