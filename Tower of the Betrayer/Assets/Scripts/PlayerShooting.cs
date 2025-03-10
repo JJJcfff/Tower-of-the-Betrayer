@@ -15,8 +15,8 @@ public class PlayerShooting : MonoBehaviour
     public GameObject projectilePrefab;
 
     [Header("Melee Attack Settings")]
-    public float meleeDamage = 50f;
-    public float meleeAttackRange = 3f;
+    public float meleeDamage = 25f;
+    public float meleeAttackRange = 0.5f;
     public float meleeCooldown = 0.5f; // Cooldown for melee attacks
 
     [Header("Sword Settings")]
