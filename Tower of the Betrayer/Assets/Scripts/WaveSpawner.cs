@@ -5,11 +5,13 @@ using UnityEngine;
 // Manages the spawning of enemies in a wave.
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject prefab;       // Enemy prefab to spawn.
+    [Header("Enemy Prefabs")]
+    public GameObject[] enemyPrefabs;  // Array to hold Enemy Yellow and Enemy Red prefabs
+    
+    [Header("Wave Settings")]
     public float spawnRate;         // Interval between spawns.
     public float startTime;         // Time to start spawning.
     public float endTime;           // Time to stop spawning.
-    
     
     [Header("Spawn Area Settings")]
     public float spawnRadius = 10f; // How far from center enemies can spawn
@@ -18,6 +20,13 @@ public class WaveSpawner : MonoBehaviour
 
     void Start()
     {
+        // Validate enemy prefabs array
+        if (enemyPrefabs == null || enemyPrefabs.Length == 0)
+        {
+            Debug.LogError("No enemy prefabs assigned to WaveSpawner!");
+            return;
+        }
+
         if (mapCenter == null)
         {
             mapCenter = transform;
@@ -30,8 +39,11 @@ public class WaveSpawner : MonoBehaviour
     
     void Spawn()
     {
+        // Select a random enemy prefab from the array
+        GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        
         Vector3 randomPosition = GetRandomSpawnPosition();
-        Instantiate(prefab, randomPosition, Quaternion.identity);
+        Instantiate(selectedPrefab, randomPosition, Quaternion.identity);
     }
 
     Vector3 GetRandomSpawnPosition()
