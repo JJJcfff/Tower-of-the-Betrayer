@@ -169,6 +169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b592fa2a17443a489b511c5714aa6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRedEnemy: 0
+  redSpeedMultiplier: 1.5
+  redFireRateMultiplier: 0.7
 --- !u!195 &5255557745857353904
 NavMeshAgent:
   m_ObjectHideFlags: 0

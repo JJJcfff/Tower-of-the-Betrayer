@@ -1,6 +1,7 @@
 // Authors: Jeff Cui, Elaine Zhao
 
 using UnityEngine;
+using UnityEngine.AI;
 
 // Manages the spawning of enemies in a wave.
 public class WaveSpawner : MonoBehaviour
@@ -13,10 +14,19 @@ public class WaveSpawner : MonoBehaviour
     public float startTime;         // Time to start spawning.
     public float endTime;           // Time to stop spawning.
     
+    [Header("Enemy Settings")]
+    public float yellowEnemySpeedMultiplier = 0.6f;  // Speed multiplier for yellow enemies
+    public float redEnemySpeedMultiplier = 1.2f;     // Speed multiplier for red enemies (2x yellow)
+    
     [Header("Spawn Area Settings")]
     public float spawnRadius = 10f; // How far from center enemies can spawn
     public bool useCircularSpawn = true; // True for circular area, False for square area
     public Transform mapCenter; // Center of the spawn area
+
+    // Control spawn probability
+    [Header("Spawn Probability")]
+    [Range(0, 1)]
+    public float yellowEnemyProbability = 0.3f;  // Probability of spawning a yellow enemy
 
     void Start()
     {
@@ -39,11 +49,47 @@ public class WaveSpawner : MonoBehaviour
     
     void Spawn()
     {
-        // Select a random enemy prefab from the array
-        GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        // Select the enemy prefab based on probability
+        GameObject selectedPrefab = null;
+        bool isYellowEnemy = Random.value < yellowEnemyProbability;
+        
+        // Find the appropriate prefab by name
+        foreach (GameObject prefab in enemyPrefabs)
+        {
+            if (isYellowEnemy && prefab.name.Contains("Yellow"))
+            {
+                selectedPrefab = prefab;
+                break;
+            }
+            else if (!isYellowEnemy && prefab.name.Contains("Red"))
+            {
+                selectedPrefab = prefab;
+                break;
+            }
+        }
+        
+        // If we couldn't find the specific type, just pick one randomly
+        if (selectedPrefab == null)
+        {
+            selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        }
         
         Vector3 randomPosition = GetRandomSpawnPosition();
-        Instantiate(selectedPrefab, randomPosition, Quaternion.identity);
+        GameObject spawnedEnemy = Instantiate(selectedPrefab, randomPosition, Quaternion.identity);
+        
+        // Apply appropriate speed multiplier based on enemy type
+        NavMeshAgent agent = spawnedEnemy.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            if (spawnedEnemy.name.Contains("Yellow"))
+            {
+                agent.speed *= yellowEnemySpeedMultiplier;
+            }
+            else if (spawnedEnemy.name.Contains("Red"))
+            {
+                agent.speed *= redEnemySpeedMultiplier;
+            }
+        }
     }
 
     Vector3 GetRandomSpawnPosition()

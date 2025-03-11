@@ -254,7 +254,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c730768a688c044cb98afe0f4d8035b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2853080190045973775, guid: c582f62be42ec8d47b7f2002f0cc4c9d, type: 3}
+  enemyPrefabs:
+  - {fileID: 828286185013400016, guid: 2da4487b727ca46dea5d81538c2c0449, type: 3}
+  - {fileID: 191439863927198088, guid: 6fe988a3b9ea44550b999d6da886d1aa, type: 3}
+  isRedEnemyType: 
   spawnRate: 0.5
   startTime: 1
   endTime: 5
