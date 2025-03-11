@@ -89,7 +89,7 @@ In this game, players take on the role of the most skilled warrior from a villag
   - ~~Create a basic scene representing player's home~~
   - ~~Transition from battle field back to home after a game~~
 
-### Project Checkpoint 2: 3D Scenes and Models (Ch 11, 12, 13)
+### Project Checkpoint 3: Visual Effects (Ch 11, 12, 13)
 
 - Home Scene
   - Replace weapon selection checkbox with Player Object Movement and Action
