@@ -119,6 +119,8 @@ The model reference:
 
 - https://poly.pizza/bundle/Toon-Shooter-Game-Kit-qraiSXoAru
 - https://poly.pizza/m/TX8r9WBXpe
+<img width="800" alt="Start Screen" src="https://github.com/user-attachments/assets/627004cf-7473-4868-9c1a-1cf9c984b9b8" />
+<img width="800" alt="Game Screen" src="https://github.com/user-attachments/assets/39c051ff-3777-47ea-9a8a-d374d6cfc0e9" />
 
 ## How to Play
 
