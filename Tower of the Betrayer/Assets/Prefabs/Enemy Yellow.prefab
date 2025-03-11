@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Yellow
       objectReference: {fileID: 0}
+    - target: {fileID: 8003388738644797459, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bc11c9acd81ef4704a091119dc19a4c9, type: 2}
     - target: {fileID: 9212707748624644660, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: m_LocalPosition.x

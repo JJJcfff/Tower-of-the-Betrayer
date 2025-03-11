@@ -257,10 +257,13 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 828286185013400016, guid: 2da4487b727ca46dea5d81538c2c0449, type: 3}
   - {fileID: 191439863927198088, guid: 6fe988a3b9ea44550b999d6da886d1aa, type: 3}
-  isRedEnemyType: 
+  - {fileID: 8572278412208364138, guid: 61bc74caf73f54a77a367163d2eb5bef, type: 3}
   spawnRate: 0.5
   startTime: 1
   endTime: 5
+  yellowEnemySpeedMultiplier: 0.6
+  redEnemySpeedMultiplier: 1.2
+  defaultEnemySpeedMultiplier: 1
   spawnRadius: 18
   useCircularSpawn: 0
   mapCenter: {fileID: 0}
