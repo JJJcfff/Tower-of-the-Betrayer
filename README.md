@@ -98,7 +98,7 @@ In this game, players take on the role of the most skilled warrior from a villag
   - Change battle field ground and wall effects
   - Add collision sound / effects
 - Weapon
-  - Replace sward
+  - Replace sword
 - Scene Transition
   - Improve transition between scenes that are currently done by minimal buttons
 
