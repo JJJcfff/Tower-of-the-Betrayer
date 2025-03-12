@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5627228720657052259, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7772939416864247189, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
         type: 3}
       propertyPath: damage

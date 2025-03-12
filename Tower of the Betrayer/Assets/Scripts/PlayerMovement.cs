@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementValue;
     private float lookValue;
     private Rigidbody rb;
+    private PlayerShooting playerShooting; // Reference to PlayerShooting component
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
         
         rb = GetComponent<Rigidbody>();
+        playerShooting = GetComponent<PlayerShooting>(); // Get PlayerShooting component
     }
     
     public void OnMove(InputValue value)
@@ -38,5 +40,11 @@ public class PlayerMovement : MonoBehaviour
             0,
             movement.z * Time.deltaTime,
             ForceMode.Force);
+
+        // Send movement direction to PlayerShooting
+        if (playerShooting != null)
+        {
+            playerShooting.SetMovementDirection(movement);
+        }
     }
 }

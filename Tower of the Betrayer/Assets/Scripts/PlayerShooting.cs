@@ -28,6 +28,8 @@ public class PlayerShooting : MonoBehaviour
     private bool hasSword;
     private bool hasStaff;
 
+    private Vector3 movementDirection; // Store the current movement direction
+
     private void Start()
     {
         hasSword = WeaponSelection.hasSword;
@@ -51,9 +53,14 @@ public class PlayerShooting : MonoBehaviour
             staffObject.SetActive(false); 
         }
 
-
         // Initialize melee cooldown timer
         meleeTimer = meleeCooldown;
+    }
+
+    // Method to receive movement direction from PlayerMovement
+    public void SetMovementDirection(Vector3 direction)
+    {
+        movementDirection = direction;
     }
 
     private void Update()
@@ -61,26 +68,64 @@ public class PlayerShooting : MonoBehaviour
         attackTimer += Time.deltaTime;
         meleeTimer += Time.deltaTime;
 
-        // Fire ranged weapon (staff) if available
-        if (hasStaff && attackTimer >= 1f / attackSpeed)
+        // Find nearest enemy regardless of range
+        Transform nearestEnemy = FindNearestEnemy();
+        
+        if (nearestEnemy != null)
+        {
+            // Face the nearest enemy
+            Vector3 direction = (nearestEnemy.position - transform.position).normalized;
+            Vector3 horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
+            transform.rotation = Quaternion.LookRotation(horizontalDirection);
+            
+            // Rotate sword if we have a current target
+            if (currentTarget != null && swordObject != null)
+            {
+                swordObject.transform.rotation = Quaternion.LookRotation(direction);
+            }
+        }
+        else if (movementDirection.sqrMagnitude > 0.01f) // If moving and no enemies
+        {
+            // Face movement direction
+            Vector3 horizontalMovement = new Vector3(movementDirection.x, 0, movementDirection.z).normalized;
+            transform.rotation = Quaternion.LookRotation(horizontalMovement);
+        }
+
+        // Fire ranged weapon (staff) if available and enemy in range
+        if (hasStaff && attackTimer >= 1f / attackSpeed && nearestEnemy != null && 
+            Vector3.Distance(transform.position, nearestEnemy.position) <= rangedAttackRange)
         {
             ShootProjectile();
             attackTimer = 0f;
         }
 
-        // Perform melee attack if available
-        if (hasSword && meleeTimer >= meleeCooldown)
+        // Perform melee attack if available and enemy in range
+        if (hasSword && meleeTimer >= meleeCooldown && nearestEnemy != null &&
+            Vector3.Distance(transform.position, nearestEnemy.position) <= meleeAttackRange)
         {
             MeleeAttack();
             meleeTimer = 0f;
         }
+    }
 
-        // Rotate Sword to Face Enemy
-        if (currentTarget != null)
+    private Transform FindNearestEnemy()
+    {
+        // Find ALL enemies in the scene with the "Enemy" tag
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Transform nearest = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (GameObject enemy in enemies)
         {
-            Vector3 direction = (currentTarget.position - transform.position).normalized;
-            swordObject.transform.rotation = Quaternion.LookRotation(direction);
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearest = enemy.transform;
+            }
         }
+
+        return nearest;
     }
 
     private void ShootProjectile()

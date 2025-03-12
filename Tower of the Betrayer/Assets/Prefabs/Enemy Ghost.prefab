@@ -92,6 +92,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Ghost
       objectReference: {fileID: 0}
+    - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: maxHealth
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8003388738644797459, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: m_Controller
