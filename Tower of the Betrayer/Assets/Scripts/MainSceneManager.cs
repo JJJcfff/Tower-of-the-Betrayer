@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
 public class MainSceneManager : MonoBehaviour
 {
     public Button startGameButton;
@@ -13,7 +12,7 @@ public class MainSceneManager : MonoBehaviour
         if (startGameButton != null)
         {
             Debug.Log("StartGameButton is assigned.");
-            startGameButton.onClick.AddListener(() => StartGame());
+            startGameButton.onClick.AddListener(() => GameManager.Instance.StartNewGame());
         }
         else
         {

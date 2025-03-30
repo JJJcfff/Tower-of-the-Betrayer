@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HomeButton : MonoBehaviour
+public class ReturnToMainButton : MonoBehaviour
 {
-    public void LoadHomeScene()
+    public void LoadMainScene()
     {
-        SceneManager.LoadScene("Home");
+        GameManager.Instance.LoadMainScene();
     }
 }

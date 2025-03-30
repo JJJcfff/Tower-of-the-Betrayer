@@ -8,75 +8,76 @@ public class WeaponSelection : MonoBehaviour
     public Toggle staffToggle;
     public Button startGameButton;
 
-    public static bool hasSword = false;
-    public static bool hasStaff = false;
-
     private void Start()
     {
-        // Reset weapon selection
-        hasSword = false;
-        hasStaff = false;
-        swordToggle.isOn = false;
-        staffToggle.isOn = false;
-
-        // Add Listeners for the Toggles
-        swordToggle.onValueChanged.AddListener(delegate { ToggleSword(swordToggle.isOn); });
-        staffToggle.onValueChanged.AddListener(delegate { ToggleStaff(staffToggle.isOn); });
-
-        // Add Listener for Start Game Button
-        startGameButton.onClick.AddListener(StartGame);
+        // Use GameManager state instead of static variables
+        swordToggle.isOn = GameManager.Instance.hasSword;
+        staffToggle.isOn = GameManager.Instance.hasStaff;
         
-        // Initially disable the start button until a weapon is selected
-        startGameButton.interactable = false;
+        if (swordToggle != null)
+        {
+            swordToggle.onValueChanged.AddListener(ToggleSword);
+        }
+        
+        if (staffToggle != null)
+        {
+            staffToggle.onValueChanged.AddListener(ToggleStaff);
+        }
+        
+        if (startGameButton != null)
+        {
+            startGameButton.onClick.AddListener(StartGame);
+            UpdateStartButton();
+        }
     }
 
     private void ToggleSword(bool isChecked)
     {
         if (isChecked)
         {
-            hasSword = true;
-            hasStaff = false;
+            GameManager.Instance.hasSword = true;
+            GameManager.Instance.hasStaff = false;
             staffToggle.isOn = false;
         }
         else
         {
-            hasSword = false;
+            GameManager.Instance.hasSword = false;
         }
         UpdateStartButton();
-        Debug.Log("Sword: " + hasSword + ", Staff: " + hasStaff);
     }
 
     private void ToggleStaff(bool isChecked)
     {
         if (isChecked)
         {
-            hasStaff = true;
-            hasSword = false;
+            GameManager.Instance.hasStaff = true;
+            GameManager.Instance.hasSword = false;
             swordToggle.isOn = false;
         }
         else
         {
-            hasStaff = false;
+            GameManager.Instance.hasStaff = false;
         }
         UpdateStartButton();
-        Debug.Log("Sword: " + hasSword + ", Staff: " + hasStaff);
     }
 
     private void UpdateStartButton()
     {
-        // Enable start button only if exactly one weapon is selected
-        startGameButton.interactable = hasSword || hasStaff;
+        if (startGameButton != null)
+        {
+            startGameButton.interactable = GameManager.Instance.hasSword || GameManager.Instance.hasStaff;
+        }
     }
 
     private void StartGame()
     {
-        if (!hasSword && !hasStaff)
+        if (!GameManager.Instance.hasSword && !GameManager.Instance.hasStaff)
         {
             Debug.LogWarning("Cannot start game: No weapon selected!");
             return;
         }
         
-        Debug.Log("Starting Game... Sword: " + hasSword + ", Staff: " + hasStaff);
+        Debug.Log("Starting Game... Sword: " + GameManager.Instance.hasSword + ", Staff: " + GameManager.Instance.hasStaff);
         SceneManager.LoadScene("Game");
     }
 }

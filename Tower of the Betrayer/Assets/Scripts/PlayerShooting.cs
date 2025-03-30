@@ -32,8 +32,8 @@ public class PlayerShooting : MonoBehaviour
 
     private void Start()
     {
-        hasSword = WeaponSelection.hasSword;
-        hasStaff = WeaponSelection.hasStaff;
+        hasSword = GameManager.Instance.hasSword;
+        hasStaff = GameManager.Instance.hasStaff;
 
         Debug.Log("Weapons Loaded: Sword - " + hasSword + ", Staff - " + hasStaff);
 

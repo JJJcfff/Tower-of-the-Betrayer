@@ -23,12 +23,12 @@ public class PlayerHealth: MonoBehaviour
 
     void Update()
     {
-        if (currentHealth <= 0) 
+        if (currentHealth <= 0 && gameObject.activeSelf) 
         {
             print("PlayerHealth: " + currentHealth);
             print("Player died");
             onDeath.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false); // Disable instead of destroy to allow WavesGameMode to handle death
         }
     }
     

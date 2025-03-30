@@ -12,6 +12,11 @@ public class WavesGameMode : MonoBehaviour
     {
         EnemyManager.instance.onChanged.AddListener(CheckWinCondition);
         WaveManager.instance.onChanged.AddListener(CheckWinCondition);
+        
+        if (playerLife != null)
+        {
+            playerLife.onDeath.AddListener(HandlePlayerDeath);
+        }
     }
 
     void Update()
@@ -20,17 +25,21 @@ public class WavesGameMode : MonoBehaviour
         {
             if (playerLife.currentHealth <= 0)
             {
-                Debug.Log("Player died. Loading LoseScreen ...");
-                SceneManager.LoadScene("LoseScreen");
-                Cursor.lockState = CursorLockMode.None; // Unlock cursor
-                Cursor.visible = true;
+                HandlePlayerDeath();
             }
         }
         else
         {
-            Debug.Log("Player object is null. Loading LoseScreen.");
-            SceneManager.LoadScene("LoseScreen");
+            Debug.LogWarning("Player object is null. This is expected after death.");
         }
+    }
+
+    void HandlePlayerDeath()
+    {
+        Debug.Log("Player died. Loading LoseScreen ...");
+        GameManager.Instance.CompleteFloor(false);
+        Cursor.lockState = CursorLockMode.None; // Unlock cursor
+        Cursor.visible = true;
     }
 
     void CheckWinCondition()
@@ -38,7 +47,7 @@ public class WavesGameMode : MonoBehaviour
         if (EnemyManager.instance.enemies.Count <= 0 && WaveManager.instance.waves.Count <= 0)
         {
             Debug.Log("Player win. Loading WinScreen ...");
-            SceneManager.LoadScene("WinScreen");
+            GameManager.Instance.CompleteFloor(true);
             Cursor.lockState = CursorLockMode.None; // Unlock cursor
             Cursor.visible = true;
         }

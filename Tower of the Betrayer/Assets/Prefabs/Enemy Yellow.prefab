@@ -80,8 +80,39 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 3021225145024170671}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2853080190045973775, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3750196537227785576}
   m_SourcePrefab: {fileID: 100100000, guid: c582f62be42ec8d47b7f2002f0cc4c9d, type: 3}
+--- !u!1 &828286185013400016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2853080190045973775, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3235419293582802143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3750196537227785576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828286185013400016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc2820e3b50cfb4890e4d200ba865a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleDrops:
+  - resourceType: 0
+    chance: 0.801
+    minAmount: 0
+    maxAmount: 5
+  - resourceType: 1
+    chance: 0.769
+    minAmount: 0
+    maxAmount: 5
 --- !u!4 &5997836300851349227 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9212707748624644660, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
