@@ -1,6 +1,7 @@
 // // Authors: Jeff Cui, Elaine Zhao
 
 using UnityEngine;
+using Inventory;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -19,42 +20,87 @@ public class PlayerShooting : MonoBehaviour
     public float meleeAttackRange = 0.5f;
     public float meleeCooldown = 0.5f; // Cooldown for melee attacks
 
-    [Header("Sword Settings")]
+    [Header("Weapon Settings")]
     public GameObject swordObject; // 3D sword capsule
     public GameObject staffObject; // 3D staff cube
     private Transform currentTarget; // Enemy being hit
     private Vector3 originalSwordScale; // Store original sword scale
 
-    private bool hasSword;
-    private bool hasStaff;
-
+    private WeaponType selectedWeapon;
     private Vector3 movementDirection; // Store the current movement direction
 
     private void Start()
     {
-        hasSword = GameManager.Instance.hasSword;
-        hasStaff = GameManager.Instance.hasStaff;
-
-        Debug.Log("Weapons Loaded: Sword - " + hasSword + ", Staff - " + hasStaff);
-
-        // Store the original sword scale
-        if (hasSword && swordObject != null)
+        if (GameManager.Instance == null)
         {
-            originalSwordScale = swordObject.transform.localScale;
-            swordObject.SetActive(true);
-        } else {
-            swordObject.SetActive(false); 
+            Debug.LogError("GameManager not found!");
+            return;
         }
 
-        if (hasStaff && staffObject != null)
+        selectedWeapon = GameManager.Instance.GetSelectedWeapon();
+        Debug.Log($"Selected weapon: {selectedWeapon}");
+
+        // Store the original sword scale and setup weapon objects
+        if (selectedWeapon == WeaponType.Sword)
         {
-            staffObject.SetActive(true); 
-        } else {
-            staffObject.SetActive(false); 
+            if (swordObject != null)
+            {
+                originalSwordScale = swordObject.transform.localScale;
+                swordObject.SetActive(true);
+            }
+            if (staffObject != null)
+            {
+                staffObject.SetActive(false);
+            }
+        }
+        else // Staff
+        {
+            if (swordObject != null)
+            {
+                swordObject.SetActive(false);
+            }
+            if (staffObject != null)
+            {
+                staffObject.SetActive(true);
+            }
         }
 
         // Initialize melee cooldown timer
         meleeTimer = meleeCooldown;
+
+        // Update weapon stats from PlayerStats
+        UpdateWeaponStats();
+    }
+
+    private void UpdateWeaponStats()
+    {
+        if (PlayerStats.Instance == null)
+        {
+            Debug.LogError("PlayerStats not found!");
+            return;
+        }
+
+        // Update stats based on selected weapon
+        if (selectedWeapon == WeaponType.Sword)
+        {
+            meleeDamage = PlayerStats.Instance.GetWeaponDamage(WeaponType.Sword);
+            meleeAttackRange = PlayerStats.Instance.GetWeaponRange(WeaponType.Sword);
+            meleeCooldown = 1f / PlayerStats.Instance.GetWeaponSpeed(WeaponType.Sword);
+        }
+        else // Staff
+        {
+            attackSpeed = PlayerStats.Instance.GetWeaponSpeed(WeaponType.Staff);
+            rangedAttackRange = PlayerStats.Instance.GetWeaponRange(WeaponType.Staff);
+            // Set projectile damage in the ContactDamager component of the projectile prefab
+            if (projectilePrefab != null)
+            {
+                ContactDamager damager = projectilePrefab.GetComponent<ContactDamager>();
+                if (damager != null)
+                {
+                    damager.damage = PlayerStats.Instance.GetWeaponDamage(WeaponType.Staff);
+                }
+            }
+        }
     }
 
     // Method to receive movement direction from PlayerMovement
@@ -73,38 +119,54 @@ public class PlayerShooting : MonoBehaviour
         
         if (nearestEnemy != null)
         {
-            // Face the nearest enemy
+            // Calculate direction to enemy
             Vector3 direction = (nearestEnemy.position - transform.position).normalized;
             Vector3 horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
-            transform.rotation = Quaternion.LookRotation(horizontalDirection);
             
-            // Rotate sword if we have a current target
-            if (currentTarget != null && swordObject != null)
+            // Make player face the enemy instantly
+            transform.forward = horizontalDirection;
+            
+            // Weapons follow the exact aim direction (including vertical)
+            if (selectedWeapon == WeaponType.Sword && swordObject != null)
             {
                 swordObject.transform.rotation = Quaternion.LookRotation(direction);
             }
+            else if (selectedWeapon == WeaponType.Staff && staffObject != null)
+            {
+                staffObject.transform.rotation = Quaternion.LookRotation(direction);
+            }
+
+            // Fire ranged weapon (staff) if available and enemy in range
+            if (selectedWeapon == WeaponType.Staff && attackTimer >= 1f / attackSpeed && 
+                Vector3.Distance(transform.position, nearestEnemy.position) <= rangedAttackRange)
+            {
+                ShootProjectile();
+                attackTimer = 0f;
+            }
+
+            // Perform melee attack if available and enemy in range
+            if (selectedWeapon == WeaponType.Sword && meleeTimer >= meleeCooldown &&
+                Vector3.Distance(transform.position, nearestEnemy.position) <= meleeAttackRange)
+            {
+                MeleeAttack();
+                meleeTimer = 0f;
+            }
         }
-        else if (movementDirection.sqrMagnitude > 0.01f) // If moving and no enemies
+        else if (movementDirection.sqrMagnitude > 0.01f)
         {
-            // Face movement direction
+            // If no enemies but moving, face movement direction instantly
             Vector3 horizontalMovement = new Vector3(movementDirection.x, 0, movementDirection.z).normalized;
-            transform.rotation = Quaternion.LookRotation(horizontalMovement);
-        }
-
-        // Fire ranged weapon (staff) if available and enemy in range
-        if (hasStaff && attackTimer >= 1f / attackSpeed && nearestEnemy != null && 
-            Vector3.Distance(transform.position, nearestEnemy.position) <= rangedAttackRange)
-        {
-            ShootProjectile();
-            attackTimer = 0f;
-        }
-
-        // Perform melee attack if available and enemy in range
-        if (hasSword && meleeTimer >= meleeCooldown && nearestEnemy != null &&
-            Vector3.Distance(transform.position, nearestEnemy.position) <= meleeAttackRange)
-        {
-            MeleeAttack();
-            meleeTimer = 0f;
+            transform.forward = horizontalMovement;
+            
+            // Weapons follow the movement direction
+            if (selectedWeapon == WeaponType.Sword && swordObject != null)
+            {
+                swordObject.transform.rotation = Quaternion.LookRotation(horizontalMovement);
+            }
+            else if (selectedWeapon == WeaponType.Staff && staffObject != null)
+            {
+                staffObject.transform.rotation = Quaternion.LookRotation(horizontalMovement);
+            }
         }
     }
 

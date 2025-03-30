@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Inventory;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public EnemyManager enemyManager;
     public WaveManager waveManager;
+
+    private WeaponType selectedWeapon = WeaponType.Sword;
+    private bool endlessMode = false;
+    public const int BOSS_FLOOR = 10; // Floor where boss fight becomes available
 
     void Awake()
     {
@@ -39,24 +44,73 @@ public class GameManager : MonoBehaviour
         score = 0;
         hasSword = false;
         hasStaff = false;
+        endlessMode = false;
     }
 
     public void StartNewGame()
     {
-        InitializeGame();
-        SceneManager.LoadScene("Home");
+        // Reset game state
+        selectedWeapon = WeaponType.Sword;
+        endlessMode = false;
+        currentFloor = 1;
+        
+        // Reset player stats to default if needed
+        if (PlayerStats.Instance != null)
+        {
+            PlayerStats.Instance.ResetToDefault();
+        }
+    }
+
+    public void SetSelectedWeapon(WeaponType weapon)
+    {
+        selectedWeapon = weapon;
+        Debug.Log($"Selected weapon set to: {weapon}");
+    }
+
+    public WeaponType GetSelectedWeapon()
+    {
+        return selectedWeapon;
+    }
+
+    public void SetEndlessMode(bool enabled)
+    {
+        // Only allow endless mode toggle after reaching boss floor
+        if (currentFloor >= BOSS_FLOOR)
+        {
+            endlessMode = enabled;
+            Debug.Log($"Endless mode set to: {enabled}");
+        }
+        else
+        {
+            Debug.LogWarning($"Cannot toggle endless mode before floor {BOSS_FLOOR}");
+            endlessMode = false;
+        }
+    }
+
+    public bool IsEndlessModeEnabled()
+    {
+        return endlessMode;
+    }
+
+    public bool CanToggleEndlessMode()
+    {
+        return currentFloor >= BOSS_FLOOR;
     }
 
     public void CompleteFloor(bool success)
     {
         if (success)
         {
+            Debug.Log($"Completed floor {currentFloor}");
             currentFloor++;
-            // Save any floor completion rewards
-            SceneManager.LoadScene("Main");
+            Debug.Log($"Next floor will be {currentFloor}");
+
+            // Return to home screen between floors
+            SceneManager.LoadScene("Home");
         }
         else
         {
+            // Handle failure
             SceneManager.LoadScene("LoseScreen");
         }
     }

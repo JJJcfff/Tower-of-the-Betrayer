@@ -18,8 +18,8 @@ namespace Inventory
         private List<Potion> potions = new List<Potion>();
 
         // Constants for gem operations
-        private const int GEM_TRANSFER_COST = 5;  // Gem scraps needed to transfer a gem
-        private const int GEM_CREATION_COST = 10; // Gem scraps needed to create a new gem
+        private const int GEM_TRANSFER_COST = 5;  // Gem dust needed to transfer a gem
+        private const int GEM_CREATION_COST = 10; // Gem dust needed to create a new gem
 
         void Awake()
         {
@@ -77,9 +77,9 @@ namespace Inventory
         #region Gem Management
         public Gem CreateGem(GemEffect effect, float effectValue, int level)
         {
-            if (!UseResource(ResourceType.GemScraps, GEM_CREATION_COST))
+            if (!UseResource(ResourceType.GemDust, GEM_CREATION_COST))
             {
-                Debug.Log("Not enough gem scraps to create a new gem!");
+                Debug.Log("Not enough gem dust to create a new gem!");
                 return null;
             }
 
@@ -97,9 +97,9 @@ namespace Inventory
 
         public bool TransferGem(string gemId, WeaponType fromWeapon, WeaponType toWeapon)
         {
-            if (!UseResource(ResourceType.GemScraps, GEM_TRANSFER_COST))
+            if (!UseResource(ResourceType.GemDust, GEM_TRANSFER_COST))
             {
-                Debug.Log("Not enough gem scraps to transfer the gem!");
+                Debug.Log("Not enough gem dust to transfer the gem!");
                 return false;
             }
 
@@ -217,6 +217,26 @@ namespace Inventory
         public void LoadInventory()
         {
             // Implement load logic here
+        }
+        #endregion
+
+        #region Reset Inventory
+        public void ResetInventory()
+        {
+            // Clear all resources
+            resources.Clear();
+            
+            // Re-initialize resources with 0 values
+            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+            {
+                resources[type] = 0;
+            }
+            
+            // Clear potions and gems
+            potions.Clear();
+            gems.Clear();
+            
+            Debug.Log("Inventory has been reset");
         }
         #endregion
     }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using Inventory;
+using System.Linq;
 
 public class GameSceneUI : MonoBehaviour
 {
@@ -15,12 +16,17 @@ public class GameSceneUI : MonoBehaviour
     public TextMeshProUGUI mushroomText;
     public CanvasGroup resourcePanel;
     
-    [Header("Potion Display")]
-    public Transform potionContainer;  // Parent object for potion buttons
-    public GameObject potionButtonPrefab;  // Prefab for potion button
-    public CanvasGroup potionPanel;
+    [Header("Floor Display")]
+    public TextMeshProUGUI floorText;
     
-    private Dictionary<string, GameObject> activePotionButtons = new Dictionary<string, GameObject>();
+    [Header("Potion Display")]
+    public TextMeshProUGUI healthPotionCountText;
+    public TextMeshProUGUI speedPotionCountText;
+    public Image healthPotionImage;
+    public Image speedPotionImage;
+    public TextMeshProUGUI healthPotionHotkeyText;
+    public TextMeshProUGUI speedPotionHotkeyText;
+    
     private InventoryManager inventoryManager;
     private PlayerHealth playerHealth;
 
@@ -50,12 +56,45 @@ public class GameSceneUI : MonoBehaviour
             healthBar.SetColor(healthBarColor);
         }
 
+        // Set up potion hotkey texts
+        if (healthPotionHotkeyText != null) healthPotionHotkeyText.text = "[Q]";
+        if (speedPotionHotkeyText != null) speedPotionHotkeyText.text = "[E]";
+
         // Initial UI update
         UpdateResourceDisplay();
         UpdatePotionDisplay();
+        UpdateFloorDisplay();
 
         // Update the UI every 0.5 seconds
         InvokeRepeating(nameof(UpdateUI), 0.5f, 0.5f);
+    }
+
+    private void Update()
+    {
+        // Check for potion hotkeys
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UseFirstPotionOfType(PotionType.HealthRestore);
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            UseFirstPotionOfType(PotionType.SpeedBoost);
+        }
+
+        // Update UI
+        UpdateUI();
+    }
+
+    private void UseFirstPotionOfType(PotionType type)
+    {
+        var potions = inventoryManager.GetAllPotions();
+        var potion = potions.FirstOrDefault(p => !p.isPermanent && p.type == type);
+        
+        if (potion != null)
+        {
+            inventoryManager.UsePotion(potion.id);
+            UpdatePotionDisplay();
+        }
     }
 
     private void UpdateUI()
@@ -68,13 +107,22 @@ public class GameSceneUI : MonoBehaviour
 
         UpdateResourceDisplay();
         UpdatePotionDisplay();
+        UpdateFloorDisplay();
+    }
+
+    private void UpdateFloorDisplay()
+    {
+        if (floorText != null && GameManager.Instance != null)
+        {
+            floorText.text = $"Floor {GameManager.Instance.currentFloor}";
+        }
     }
 
     private void UpdateResourceDisplay()
     {
         if (gemScrapsText != null)
         {
-            gemScrapsText.text = $"Gem Scraps: {inventoryManager.GetResourceAmount(ResourceType.GemScraps)}";
+            gemScrapsText.text = $"Gem Dust: {inventoryManager.GetResourceAmount(ResourceType.GemDust)}";
         }
         
         if (mushroomText != null)
@@ -85,75 +133,20 @@ public class GameSceneUI : MonoBehaviour
 
     private void UpdatePotionDisplay()
     {
-        // Get all potions from inventory
-        List<Potion> potions = inventoryManager.GetAllPotions();
-        HashSet<string> currentPotions = new HashSet<string>();
-
-        foreach (Potion potion in potions)
+        var potions = inventoryManager.GetAllPotions();
+        
+        // Update health potion count
+        int healthPotionCount = potions.Count(p => !p.isPermanent && p.type == PotionType.HealthRestore);
+        if (healthPotionCountText != null)
         {
-            // Skip permanent potions as they shouldn't be shown in the quick-use UI
-            if (potion.isPermanent) continue;
-
-            currentPotions.Add(potion.id);
-
-            // If we don't have a button for this potion yet, create one
-            if (!activePotionButtons.ContainsKey(potion.id))
-            {
-                CreatePotionButton(potion);
-            }
+            healthPotionCountText.text = healthPotionCount.ToString();
         }
-
-        // Remove buttons for potions that no longer exist
-        List<string> potionsToRemove = new List<string>();
-        foreach (var kvp in activePotionButtons)
+        
+        // Update speed potion count
+        int speedPotionCount = potions.Count(p => !p.isPermanent && p.type == PotionType.SpeedBoost);
+        if (speedPotionCountText != null)
         {
-            if (!currentPotions.Contains(kvp.Key))
-            {
-                Destroy(kvp.Value);
-                potionsToRemove.Add(kvp.Key);
-            }
-        }
-
-        foreach (string potionId in potionsToRemove)
-        {
-            activePotionButtons.Remove(potionId);
-        }
-
-        // Show/hide potion panel based on whether there are any potions
-        if (potionPanel != null)
-        {
-            potionPanel.alpha = currentPotions.Count > 0 ? 1 : 0;
-            potionPanel.interactable = currentPotions.Count > 0;
-            potionPanel.blocksRaycasts = currentPotions.Count > 0;
-        }
-    }
-
-    private void CreatePotionButton(Potion potion)
-    {
-        GameObject buttonObj = Instantiate(potionButtonPrefab, potionContainer);
-        activePotionButtons[potion.id] = buttonObj;
-
-        // Set up button text
-        TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-        if (buttonText != null)
-        {
-            buttonText.text = $"{potion.name}\n{potion.description}";
-        }
-
-        // Set up button click handler
-        Button button = buttonObj.GetComponent<Button>();
-        if (button != null)
-        {
-            button.onClick.AddListener(() => OnPotionButtonClicked(potion.id));
-        }
-    }
-
-    private void OnPotionButtonClicked(string potionId)
-    {
-        if (inventoryManager.UsePotion(potionId))
-        {
-            // Potion was used successfully
-            // The UI will update on the next UpdateUI call
+            speedPotionCountText.text = speedPotionCount.ToString();
         }
     }
 } 

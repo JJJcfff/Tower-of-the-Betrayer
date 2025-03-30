@@ -16,13 +16,45 @@ public class PlayerHealth: MonoBehaviour
 
     private void Start()
     {
+        if (PlayerStats.Instance == null)
+        {
+            Debug.LogError("PlayerStats not found!");
+            return;
+        }
+
+        // Get max health from PlayerStats
+        maxHealth = PlayerStats.Instance.MaxHealth;
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-        healthBar.SetHealth(currentHealth);
+
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(currentHealth);
+        }
+        else
+        {
+            Debug.LogWarning("HealthBar reference not set!");
+        }
     }
 
     void Update()
     {
+        // Update maxHealth from PlayerStats if it changed
+        if (PlayerStats.Instance != null && maxHealth != PlayerStats.Instance.MaxHealth)
+        {
+            float oldMaxHealth = maxHealth;
+            maxHealth = PlayerStats.Instance.MaxHealth;
+            
+            // Adjust current health proportionally
+            currentHealth = (currentHealth / oldMaxHealth) * maxHealth;
+            
+            if (healthBar != null)
+            {
+                healthBar.SetMaxHealth(maxHealth);
+                healthBar.SetHealth(currentHealth);
+            }
+        }
+
         if (currentHealth <= 0 && gameObject.activeSelf) 
         {
             print("PlayerHealth: " + currentHealth);
@@ -35,7 +67,10 @@ public class PlayerHealth: MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(currentHealth);
+        }
         print("PlayerHealth: " + currentHealth);
     }
 }

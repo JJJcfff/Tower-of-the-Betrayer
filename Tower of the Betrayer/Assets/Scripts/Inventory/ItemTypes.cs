@@ -6,7 +6,7 @@ namespace Inventory
     // Resource types (raw materials)
     public enum ResourceType
     {
-        GemScraps,
+        GemDust,
         Mushroom
     }
 
