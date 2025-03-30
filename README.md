@@ -122,10 +122,36 @@ The model reference:
 <img width="800" alt="Start Screen" src="https://github.com/user-attachments/assets/627004cf-7473-4868-9c1a-1cf9c984b9b8" />
 <img width="800" alt="Game Screen" src="https://github.com/user-attachments/assets/39c051ff-3777-47ea-9a8a-d374d6cfc0e9" />
 
-## How to Play
+# How to Play
 
-1. Load the **Home** scene to start the game play
-2. You can check/uncheck staff or sword to select 1 or 2 weapons together to play in the game
-3. Click "Start Game" to start once you finalize weapon selection
-4. During the game, use keyboard up/down/left/right or WASD to move the player object. Sword is a melee weapon (shown as a yellow object) and Staff is a ranged weapon, and both are automatically handled by the game. The player's bullets are blue and the enemy bullets are in orange.
-5. After win or lose, hit "Return Home" to go back to Home Screen.
+## Getting Started
+- Load the Main scene first, then you'll be taken to the Home scene
+- Select your weapon by checking sword or staff toggle
+- Click "Start Battle" to begin
+
+## Combat & Controls
+- WASD to move
+- Character automatically faces the nearest enemy
+- Sword: melee weapon, attacks at close range
+- Staff: ranged weapon, shoots blue projectiles
+- Avoid orange enemy projectiles
+- Q: Use health potion
+- E: Use speed potion
+- Enemy drops random amounts of Gemdust and Mushrooms
+
+## Upgrading Weapons
+- Spend Gem Dust for Damage, Attack Speed, and Range upgrades
+- Reset buttons refund 80% of spent Gem Dust
+
+## Potions
+- Craft potions with Mushrooms in the Home scene
+- Permanent potions provide lasting stat increases
+- Temporally Potion can be used during battle
+
+## Game Progression
+- "Return to Main Menu" after winning or losing
+
+## Debug Commands
+- J: add 50 Gem Dust (Home scene)
+- K: add 50 Mushrooms (Home scene)
+
