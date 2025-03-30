@@ -177,7 +177,7 @@ namespace Inventory
         {
             // This method will need to be implemented to coordinate with your
             // player stats system. For now, we'll just log the effect
-            Debug.Log($"Applied potion effect: {potion.type} with value {potion.effectValue}");
+            Debug.Log($"Applied potion effect: {potion.type} with value {potion.effectValue} (Permanent: {potion.isPermanent})");
             
             switch (potion.type)
             {
@@ -192,12 +192,40 @@ namespace Inventory
                     break;
                     
                 case PotionType.SpeedBoost:
-                    // Apply temporary speed boost to player movement
+                    // Apply speed boost (temporary or permanent)
                     PlayerMovement playerMovement = GameObject.FindObjectOfType<PlayerMovement>();
-                    if (playerMovement != null)
+                    
+                    if (potion.isPermanent && PlayerStats.Instance != null)
                     {
+                        // Apply permanent speed boost to PlayerStats
+                        Debug.Log($"Before increase: PlayerStats.Speed = {PlayerStats.Instance.Speed}");
+                        PlayerStats.Instance.IncreaseSpeed(potion.effectValue);
+                        Debug.Log($"After increase: PlayerStats.Speed = {PlayerStats.Instance.Speed}");
+                        
+                        // Update current PlayerMovement if available
+                        if (playerMovement != null)
+                        {
+                            Debug.Log($"Before update: playerMovement.baseSpeed = {playerMovement.baseSpeed}, playerMovement.speed = {playerMovement.speed}");
+                            // Update the base speed and current speed to reflect the permanent boost
+                            playerMovement.baseSpeed += potion.effectValue;
+                            playerMovement.speed += potion.effectValue;
+                            Debug.Log($"After update: playerMovement.baseSpeed = {playerMovement.baseSpeed}, playerMovement.speed = {playerMovement.speed}");
+                            Debug.Log($"Permanently increased speed by {potion.effectValue}");
+                        }
+                        else
+                        {
+                            Debug.LogError("PlayerMovement not found when applying permanent speed boost!");
+                        }
+                    }
+                    else if (playerMovement != null)
+                    {
+                        // Apply temporary speed boost
                         playerMovement.ApplySpeedBoost(potion.effectValue, 10f); // 10 second boost
-                        Debug.Log($"Applied speed boost of {potion.effectValue} for 10 seconds");
+                        Debug.Log($"Applied temporary speed boost of {potion.effectValue} for 10 seconds");
+                    }
+                    else
+                    {
+                        Debug.LogError("PlayerMovement not found when applying speed boost!");
                     }
                     break;
                     

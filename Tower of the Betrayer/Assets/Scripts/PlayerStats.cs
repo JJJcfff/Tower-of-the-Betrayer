@@ -122,6 +122,18 @@ public class PlayerStats : MonoBehaviour
     {
         Speed += amount;
         SaveStats();
+        
+        // Update active PlayerMovement if it exists
+        PlayerMovement playerMovement = GameObject.FindObjectOfType<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            // Update both base speed and current speed to maintain any temporary boosts
+            float tempBoostAmount = playerMovement.speed - playerMovement.baseSpeed;
+            playerMovement.baseSpeed = Speed;
+            playerMovement.speed = Speed + tempBoostAmount;
+            
+            Debug.Log($"Updated PlayerMovement speed from PlayerStats: baseSpeed={playerMovement.baseSpeed}, speed={playerMovement.speed}");
+        }
     }
 
     public float GetWeaponDamage(WeaponType type)

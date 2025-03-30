@@ -179,7 +179,16 @@ public class GameSceneUI : MonoBehaviour
                 speedText.color = Color.white; // Default color
             }
             
+            // Add info about permanent speed if available
+            if (PlayerStats.Instance != null)
+            {
+                speedInfo += $" [Base: {PlayerStats.Instance.Speed:F1}]";
+            }
+            
             speedText.text = speedInfo;
+            
+            // Log debug info
+            Debug.Log($"Speed Display - Current: {playerMovement.speed}, Base: {playerMovement.baseSpeed}, PlayerStats: {(PlayerStats.Instance != null ? PlayerStats.Instance.Speed : 0)}");
         }
     }
 } 

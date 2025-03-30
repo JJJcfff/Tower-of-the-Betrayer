@@ -37,7 +37,19 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerShooting = GetComponent<PlayerShooting>();
-        baseSpeed = speed;
+        
+        // Initialize speed from PlayerStats if available
+        if (PlayerStats.Instance != null)
+        {
+            speed = PlayerStats.Instance.Speed;
+            baseSpeed = speed;
+            Debug.Log($"Initialized player speed from PlayerStats: {speed}");
+        }
+        else
+        {
+            baseSpeed = speed;
+            Debug.Log("PlayerStats not found, using default speed");
+        }
     }
     
     public void OnMove(InputValue value)
