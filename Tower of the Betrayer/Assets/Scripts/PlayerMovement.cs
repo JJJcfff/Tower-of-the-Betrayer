@@ -1,6 +1,8 @@
 // Authors: Jeff Cui, Elaine Zhao
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,15 +10,34 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 2f;
+    public float baseSpeed;
+    public bool speedBoosted = false;
     
     private Vector2 movementValue;
     private PlayerShooting playerShooting;
+    
+    // Track active speed boosts
+    private List<SpeedBoost> activeSpeedBoosts = new List<SpeedBoost>();
+    
+    // Class to track individual speed boosts
+    private class SpeedBoost
+    {
+        public float amount;
+        public Coroutine coroutine;
+        
+        public SpeedBoost(float amount, Coroutine coroutine)
+        {
+            this.amount = amount;
+            this.coroutine = coroutine;
+        }
+    }
 
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerShooting = GetComponent<PlayerShooting>();
+        baseSpeed = speed;
     }
     
     public void OnMove(InputValue value)
@@ -40,5 +61,61 @@ public class PlayerMovement : MonoBehaviour
         {
             playerShooting.SetMovementDirection(moveDirection);
         }
+    }
+    
+    // Apply a temporary speed boost that stacks with other boosts
+    public void ApplySpeedBoost(float boostAmount, float duration)
+    {
+        // Start coroutine to track this specific boost
+        Coroutine boostCoroutine = StartCoroutine(HandleSpeedBoost(boostAmount, duration));
+        
+        // Add to active boosts list
+        activeSpeedBoosts.Add(new SpeedBoost(boostAmount, boostCoroutine));
+        
+        // Apply the boost immediately
+        speed += boostAmount;
+        speedBoosted = true;
+        
+        Debug.Log($"Added speed boost of +{boostAmount} for {duration} seconds. Total speed now: {speed}");
+    }
+    
+    private IEnumerator HandleSpeedBoost(float boostAmount, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        
+        // Remove this specific boost
+        RemoveSpeedBoost(boostAmount);
+    }
+    
+    private void RemoveSpeedBoost(float boostAmount)
+    {
+        // Find the boost in the list
+        SpeedBoost boostToRemove = null;
+        foreach (var boost in activeSpeedBoosts)
+        {
+            if (Math.Abs(boost.amount - boostAmount) < 0.001f)
+            {
+                boostToRemove = boost;
+                break;
+            }
+        }
+        
+        if (boostToRemove != null)
+        {
+            // Remove the boost amount from speed
+            speed -= boostToRemove.amount;
+            activeSpeedBoosts.Remove(boostToRemove);
+            
+            // Update speedBoosted flag
+            speedBoosted = activeSpeedBoosts.Count > 0;
+            
+            Debug.Log($"Speed boost of +{boostAmount} expired. Total speed now: {speed}");
+        }
+    }
+    
+    // For debugging purposes
+    public int GetActiveBoostCount()
+    {
+        return activeSpeedBoosts.Count;
     }
 }

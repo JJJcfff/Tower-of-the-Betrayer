@@ -27,14 +27,19 @@ public class GameSceneUI : MonoBehaviour
     public TextMeshProUGUI healthPotionHotkeyText;
     public TextMeshProUGUI speedPotionHotkeyText;
     
+    [Header("Speed Display")]
+    public TextMeshProUGUI speedText;
+    
     private InventoryManager inventoryManager;
     private PlayerHealth playerHealth;
+    private PlayerMovement playerMovement;
 
     private void Start()
     {
         // Get required components
         inventoryManager = InventoryManager.Instance;
         playerHealth = FindObjectOfType<PlayerHealth>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
 
         if (inventoryManager == null)
         {
@@ -64,6 +69,7 @@ public class GameSceneUI : MonoBehaviour
         UpdateResourceDisplay();
         UpdatePotionDisplay();
         UpdateFloorDisplay();
+        UpdateSpeedDisplay();
 
         // Update the UI every 0.5 seconds
         InvokeRepeating(nameof(UpdateUI), 0.5f, 0.5f);
@@ -108,6 +114,7 @@ public class GameSceneUI : MonoBehaviour
         UpdateResourceDisplay();
         UpdatePotionDisplay();
         UpdateFloorDisplay();
+        UpdateSpeedDisplay();
     }
 
     private void UpdateFloorDisplay()
@@ -147,6 +154,32 @@ public class GameSceneUI : MonoBehaviour
         if (speedPotionCountText != null)
         {
             speedPotionCountText.text = speedPotionCount.ToString();
+        }
+    }
+
+    private void UpdateSpeedDisplay()
+    {
+        if (speedText != null && playerMovement != null)
+        {
+            string speedInfo = $"Speed: {playerMovement.speed:F1}";
+            
+            // Add active boost count if any boosts are active
+            if (playerMovement.speedBoosted)
+            {
+                speedInfo += $" (+{(playerMovement.speed - playerMovement.baseSpeed):F1})";
+                int boostCount = playerMovement.GetActiveBoostCount();
+                if (boostCount > 1)
+                {
+                    speedInfo += $" [{boostCount} active]";
+                }
+                speedText.color = new Color(0.2f, 0.8f, 0.2f); // Green for boosted speed
+            }
+            else
+            {
+                speedText.color = Color.white; // Default color
+            }
+            
+            speedText.text = speedInfo;
         }
     }
 } 

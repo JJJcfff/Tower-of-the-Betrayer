@@ -73,4 +73,18 @@ public class PlayerHealth: MonoBehaviour
         }
         print("PlayerHealth: " + currentHealth);
     }
+    
+    public void RestoreHealth(float amount)
+    {
+        // Add health but don't exceed max health
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        
+        // Update health bar
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(currentHealth);
+        }
+        
+        Debug.Log($"Health restored: {amount}. Current health: {currentHealth}/{maxHealth}");
+    }
 }

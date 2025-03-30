@@ -178,6 +178,42 @@ namespace Inventory
             // This method will need to be implemented to coordinate with your
             // player stats system. For now, we'll just log the effect
             Debug.Log($"Applied potion effect: {potion.type} with value {potion.effectValue}");
+            
+            switch (potion.type)
+            {
+                case PotionType.HealthRestore:
+                    // Find player health and restore health
+                    PlayerHealth playerHealth = GameObject.FindObjectOfType<PlayerHealth>();
+                    if (playerHealth != null)
+                    {
+                        playerHealth.RestoreHealth(potion.effectValue);
+                        Debug.Log($"Restored {potion.effectValue} health points");
+                    }
+                    break;
+                    
+                case PotionType.SpeedBoost:
+                    // Apply temporary speed boost to player movement
+                    PlayerMovement playerMovement = GameObject.FindObjectOfType<PlayerMovement>();
+                    if (playerMovement != null)
+                    {
+                        playerMovement.ApplySpeedBoost(potion.effectValue, 10f); // 10 second boost
+                        Debug.Log($"Applied speed boost of {potion.effectValue} for 10 seconds");
+                    }
+                    break;
+                    
+                case PotionType.MaxHealthBoost:
+                    // Increase max health if it's a permanent potion
+                    if (potion.isPermanent && PlayerStats.Instance != null)
+                    {
+                        PlayerStats.Instance.IncreaseMaxHealth(potion.effectValue);
+                        Debug.Log($"Increased max health by {potion.effectValue}");
+                    }
+                    break;
+                    
+                default:
+                    Debug.LogWarning($"Unknown potion type: {potion.type}");
+                    break;
+            }
         }
 
         private string GetPotionDescription(PotionType type, float value, bool isPermanent)
