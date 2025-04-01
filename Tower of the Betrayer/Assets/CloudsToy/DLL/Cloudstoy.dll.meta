@@ -1,0 +1,32 @@
+fileFormatVersion: 2
+guid: fad473750b2b4e64cb3636b5ac9026f9
+timeCreated: 1576058293
+licenseType: Store
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  isOverridable: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+    WindowsStoreApps:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 35559
+  packageName: CloudsToy
+  packageVersion: v2.2.3
+  assetPath: Assets/CloudsToy/DLL/Cloudstoy.dll
+  uploadId: 342895

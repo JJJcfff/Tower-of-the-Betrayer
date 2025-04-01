@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 78108e31f67bf014180d5b9e3cf4e030
+timeCreated: 1503142439
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 35559
+  packageName: CloudsToy
+  packageVersion: v2.2.3
+  assetPath: Assets/CloudsToy/Scenes/Others/9.-CloudsToy Runtime.unity
+  uploadId: 342895

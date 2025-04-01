@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 02e672c4157cbd748a97028560fb6694
+timeCreated: 1430643282
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 35559
+  packageName: CloudsToy
+  packageVersion: v2.2.3
+  assetPath: Assets/CloudsToy/Materials/Clouds/smoke2 Alpha.mat
+  uploadId: 342895

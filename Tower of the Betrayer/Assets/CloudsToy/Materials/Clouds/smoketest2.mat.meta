@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a07edcb2358191c49a277d8e6e998d0a
+timeCreated: 1430643551
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 35559
+  packageName: CloudsToy
+  packageVersion: v2.2.3
+  assetPath: Assets/CloudsToy/Materials/Clouds/smoketest2.mat
+  uploadId: 342895
