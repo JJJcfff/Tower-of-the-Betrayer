@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 180905676}
   - component: {fileID: 180905675}
   - component: {fileID: 180905674}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4076,6 +4076,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword8_FBX
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b4aa9a1cfcf4ae1479aadf4392cfa95c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6159,6 +6164,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: STAFF_05_V1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c29329954ba7184c91f1dec6854d90f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6290,10 +6300,20 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 608391893247606535, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 765317836114587021, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425623811328836213, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1502521844259564342, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
@@ -6425,6 +6445,11 @@ PrefabInstance:
       propertyPath: meleeAttackRange
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5793747986666491070, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5970864048194402998, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6474,6 +6499,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549617212324712243, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549617212324712243, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569722389143508484, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569722389143508484, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7234454555743074525, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}

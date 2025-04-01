@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Inventory;
 
 // Applies damage to any PlayerHealth or EnemyHealth component on objects that collide with this object.
 public class ContactDamager : MonoBehaviour
@@ -24,15 +25,27 @@ public class ContactDamager : MonoBehaviour
             return;
         }
         
-        // Apply damage and destroy the bullet
-        if (other.TryGetComponent(out PlayerHealth playerHealth))
-        {
-            playerHealth.TakeDamage(damage);
-        }
-        
+        // Apply damage to enemy
         if (other.TryGetComponent(out EnemyHealth enemyHealth))
         {
             enemyHealth.TakeDamage(damage);
+        }
+        
+        // Apply damage to player - SIMPLIFIED DIRECT APPROACH
+        if (other.TryGetComponent(out PlayerHealth playerHealth))
+        {
+            // Get current health for verification
+            float healthBefore = playerHealth.currentHealth;
+            
+            // Direct forced damage application - bypass any potential issues
+            playerHealth.currentHealth -= damage;
+            playerHealth.currentHealth = Mathf.Max(playerHealth.currentHealth, 0);
+            
+            // Update health bar
+            if (playerHealth.healthBar != null)
+            {
+                playerHealth.healthBar.SetHealth(playerHealth.currentHealth);
+            }
         }
         
         Destroy(gameObject);

@@ -43,12 +43,10 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = PlayerStats.Instance.Speed;
             baseSpeed = speed;
-            Debug.Log($"Initialized player speed from PlayerStats: {speed}");
         }
         else
         {
             baseSpeed = speed;
-            Debug.Log("PlayerStats not found, using default speed");
         }
     }
     
@@ -87,8 +85,6 @@ public class PlayerMovement : MonoBehaviour
         // Apply the boost immediately
         speed += boostAmount;
         speedBoosted = true;
-        
-        Debug.Log($"Added speed boost of +{boostAmount} for {duration} seconds. Total speed now: {speed}");
     }
     
     private IEnumerator HandleSpeedBoost(float boostAmount, float duration)
@@ -120,8 +116,6 @@ public class PlayerMovement : MonoBehaviour
             
             // Update speedBoosted flag
             speedBoosted = activeSpeedBoosts.Count > 0;
-            
-            Debug.Log($"Speed boost of +{boostAmount} expired. Total speed now: {speed}");
         }
     }
     

@@ -131,8 +131,6 @@ public class PlayerStats : MonoBehaviour
             float tempBoostAmount = playerMovement.speed - playerMovement.baseSpeed;
             playerMovement.baseSpeed = Speed;
             playerMovement.speed = Speed + tempBoostAmount;
-            
-            Debug.Log($"Updated PlayerMovement speed from PlayerStats: baseSpeed={playerMovement.baseSpeed}, speed={playerMovement.speed}");
         }
     }
 

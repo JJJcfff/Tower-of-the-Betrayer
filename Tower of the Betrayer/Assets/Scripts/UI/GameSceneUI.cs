@@ -186,9 +186,6 @@ public class GameSceneUI : MonoBehaviour
             }
             
             speedText.text = speedInfo;
-            
-            // Log debug info
-            Debug.Log($"Speed Display - Current: {playerMovement.speed}, Base: {playerMovement.baseSpeed}, PlayerStats: {(PlayerStats.Instance != null ? PlayerStats.Instance.Speed : 0)}");
         }
     }
 } 
