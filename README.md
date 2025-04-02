@@ -154,7 +154,7 @@ Quick Look of the Game:
 <img width="600" alt="Home" src="https://github.com/user-attachments/assets/d0c980cc-9955-4e6a-8976-fe8a72465365" />
 <img width="600" alt="Game" src="https://github.com/user-attachments/assets/18a1174c-e433-4856-865a-022549faed83" />
 
-# How to Play
+# Instructions on How to Play and Testing the Game
 
 ## Getting Started
 
