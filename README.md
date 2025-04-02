@@ -81,7 +81,7 @@ In this game, players take on the role of the most skilled warrior from a villag
 
 - ~~Enemy~~
   - ~~Introduce more enemy variants (different movement speed, max health, shooting speed etc.)~~
-  - ~~Implement different modes of random enemy generation
+  - ~~Implement different modes of random enemy generation~~
 - ~~Weapon logic~~
   - ~~Implement player's second weapon~~
   - ~~Allow player to select weapon before game~~
@@ -91,22 +91,38 @@ In this game, players take on the role of the most skilled warrior from a villag
 
 ### Project Checkpoint 3: Visual Effects (Ch 11, 12, 13)
 
-- Home Scene
-  - Replace weapon selection checkbox with Player Object Movement and Action
-  - Build Simple Home Scene
-- Battle Field
-  - Change battle field ground and wall effects
-  - Add collision sound / effects
-- Weapon
-  - Replace sword
-- Scene Transition
-  - Improve transition between scenes that are currently done by minimal buttons
+- ~~Home Scene~~
+  - ~~Replace weapon selection checkbox with Player Object Movement and Action~~
+  - ~~Build Simple Home Scene~~
+- ~~Battle Field~~
+  - ~~Change battle field ground and wall effects~~
+  - ~~Add collision sound / effects~~
+- ~~Weapon~~
+  - ~~Replace sword~~
+- ~~Scene Transition~~
+  - ~~Improve transition between scenes that are currently done by minimal buttons~~
+
+### Project Checkpoint 3-4: Sound, UI, and Animation (Ch 14, 15, 17)
+
+- Player & Enemy Animation
+  - Implement proper movement animations for player and enemies
+  - Add audio effect at necessary points (i.e. ememy death, attacking)
+- Finalize Game Play Parameters
+  - Design the difficulty upgrade floor by floor, implement the random factor and hints
+  - Finalize the gem system (weapon upgrade and potion power) parameter setting
+- Implement Boss Fight
+  - Design boss character with special attacks and arena
+  - Create boss health visualization system
+- Other Fixes
+  - Consider adding collision detection between player and enemey, letting player take damage on these
+  - Improve animation glitches (i.e. limit movement of player and bullets within the field)
 
 ## Development
 
 ### Project Checkpoint 1-2:
 
 Our deliverables for this iteration consists of a basic game in which the player can move around using WASD and the closest enemy within attack range takes damage automatically, and the enemies are randomly generated and tend to move towards the player. If the player survives with given health level after destroying all enemies, the player wins. If the player dies before clearing the field, the player loses.
+
 <img width="600" alt="Game Screen Example" src="https://github.com/user-attachments/assets/1968ff43-fdbd-40be-80c7-cdb87f628d53" />
 
 <img width="300" alt="Win Screen" src="https://github.com/user-attachments/assets/01c5aec9-ae3b-4da5-b4a7-eb0072b1b424" /> <img width="300" alt="Lose Screen" src="https://github.com/user-attachments/assets/800c7112-b3a6-4c01-a118-03498778c802" />
@@ -119,17 +135,31 @@ The model reference:
 
 - https://poly.pizza/bundle/Toon-Shooter-Game-Kit-qraiSXoAru
 - https://poly.pizza/m/TX8r9WBXpe
-<img width="800" alt="Start Screen" src="https://github.com/user-attachments/assets/627004cf-7473-4868-9c1a-1cf9c984b9b8" />
-<img width="800" alt="Game Screen" src="https://github.com/user-attachments/assets/39c051ff-3777-47ea-9a8a-d374d6cfc0e9" />
+
+  <img width="800" alt="Start Screen" src="https://github.com/user-attachments/assets/627004cf-7473-4868-9c1a-1cf9c984b9b8" />
+  <img width="800" alt="Game Screen" src="https://github.com/user-attachments/assets/39c051ff-3777-47ea-9a8a-d374d6cfc0e9" />
+
+### Project Part 3: Visual Effects
+
+In part 3, (i) we added a **Main** scene, showing the game title and entry to start the game; (ii) we improved the **Home** scene with actual functionality of crafting weapons and purchasing potions; (iii) and we replaced the basic shapes in the **Game** scene with castle, towel, and cloud and sky effect. (iv) we also introduced background audio to our game.
+
+We successfully implemented the continous game logic of finishing a floor -> returning to home -> preparing for battle -> next battle. Both weapons can be upgraded using available gems or degraded for refund, and the player could also buy potion of different usages with available mushrooms. Gems and mushrooms are collected (i.e. computed) during the game, reflected at the top right corner. Usage of the potions during the game would be reflected at the top left corner below the health bar. Available temporary potions are shown at the buttom 2 corners.
+
+Asset we used:
+[Cloud Effect](https://assetstore.unity.com/packages/tools/particles-effects/cloudstoy-35559), [Sky](https://assetstore.unity.com/packages/2d/textures-materials/sky/free-night-sky-79066), [Medivel Castle](https://assetstore.unity.com/packages/3d/environments/fantasy/medieval-castle-modular-282498).
+
+Quick Look of the Game:
 
 # How to Play
 
 ## Getting Started
-- Load the Main scene first, then you'll be taken to the Home scene
+
+- Load the **Main** scene to play the game, click "Start Game" to start, and you'll be directed to the **Home** scene
 - Select your weapon by checking sword or staff toggle
-- Click "Start Battle" to begin
+- Click "Start Battle" to begin, the battlefield is created on **Game** scene.
 
 ## Combat & Controls
+
 - WASD to move
 - Character automatically faces the nearest enemy
 - Sword: melee weapon, attacks at close range
@@ -140,18 +170,21 @@ The model reference:
 - Enemy drops random amounts of Gemdust and Mushrooms
 
 ## Upgrading Weapons
+
 - Spend Gem Dust for Damage, Attack Speed, and Range upgrades
 - Reset buttons refund 80% of spent Gem Dust
 
 ## Potions
+
 - Craft potions with Mushrooms in the Home scene
 - Permanent potions provide lasting stat increases
 - Temporally Potion can be used during battle
 
 ## Game Progression
+
 - "Return to Main Menu" after winning or losing
 
 ## Debug Commands
+
 - J: add 50 Gem Dust (Home scene)
 - K: add 50 Mushrooms (Home scene)
-
