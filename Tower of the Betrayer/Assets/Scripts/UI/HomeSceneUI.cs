@@ -316,7 +316,7 @@ public class HomeSceneUI : MonoBehaviour
     private void OnPermanentPotionCraft(string potionName)
     {
         float value;
-        int cost = 5; // Base cost for permanent potions
+        int cost = 10; // Base cost for permanent potions
 
         // Check if we have enough mushrooms
         if (!inventory.UseResource(ResourceType.Mushroom, cost))

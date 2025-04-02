@@ -132,7 +132,7 @@ namespace Inventory
         public Potion CreatePotion(PotionType type, float effectValue, bool isPermanent)
         {
             // Check if we have enough mushrooms (cost could vary based on potion type)
-            int mushroomCost = isPermanent ? 5 : 2;
+            int mushroomCost = isPermanent ? 10 : 2;
             
             if (!UseResource(ResourceType.Mushroom, mushroomCost))
             {
