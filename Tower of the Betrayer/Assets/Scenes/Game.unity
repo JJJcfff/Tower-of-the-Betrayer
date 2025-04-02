@@ -6310,6 +6310,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 787797029208734326, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1425623811328836213, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_Layer
@@ -6403,17 +6408,17 @@ PrefabInstance:
     - target: {fileID: 3955145869431244096, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.94
+      value: -0.34
       objectReference: {fileID: 0}
     - target: {fileID: 3955145869431244096, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.79
+      value: -0.11
       objectReference: {fileID: 0}
     - target: {fileID: 3955145869431244096, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.18
+      value: 1.12
       objectReference: {fileID: 0}
     - target: {fileID: 5586784930359852651, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
@@ -6445,6 +6450,12 @@ PrefabInstance:
       propertyPath: meleeAttackRange
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5586784930359852651, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 3896289067588341404, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
+        type: 3}
     - target: {fileID: 5793747986666491070, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -6453,12 +6464,12 @@ PrefabInstance:
     - target: {fileID: 5970864048194402998, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.041
       objectReference: {fileID: 0}
     - target: {fileID: 5970864048194402998, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 1.534
       objectReference: {fileID: 0}
     - target: {fileID: 5970864048194402998, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}
@@ -6519,6 +6530,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234454555743074525, guid: 933babad80037be448043a2b27aaa2c0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7234454555743074525, guid: 933babad80037be448043a2b27aaa2c0,
         type: 3}

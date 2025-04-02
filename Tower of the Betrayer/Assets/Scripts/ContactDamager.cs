@@ -19,6 +19,7 @@ public class ContactDamager : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"Contact with: {other.name}");
         // If this is a player bullet and it hit the player, ignore the collision
         if (isPlayerBullet && other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
@@ -40,6 +41,7 @@ public class ContactDamager : MonoBehaviour
             // Direct forced damage application - bypass any potential issues
             playerHealth.currentHealth -= damage;
             playerHealth.currentHealth = Mathf.Max(playerHealth.currentHealth, 0);
+            Debug.Log($"Player took {damage} damage. Health: {playerHealth.currentHealth}");
             
             // Update health bar
             if (playerHealth.healthBar != null)

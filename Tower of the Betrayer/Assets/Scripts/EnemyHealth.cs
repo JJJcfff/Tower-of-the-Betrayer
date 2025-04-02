@@ -70,7 +70,7 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        Debug.Log($"Enemy took {damage} damage. Health: {currentHealth}");
+        //Debug.Log($"Enemy took {damage} damage. Health: {currentHealth}");
         
         // Show damage feedback if not already flashing
         if (!isFlashing)
