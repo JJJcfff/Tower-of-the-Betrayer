@@ -141,7 +141,7 @@ The model reference:
 
 ### Project Part 3: Visual Effects
 
-In part 3, (i) we added a **Main** scene, showing the game title and entry to start the game; (ii) we improved the **Home** scene with actual functionality of crafting weapons and purchasing potions; (iii) and we replaced the basic shapes in the **Game** scene with castle, towel, and cloud and sky effect. (iv) we also introduced background audio to our game.
+In part 3, (i) we added a **Main** scene, showing the game title and entry to start the game; (ii) we improved the **Home** scene with a 3D setting and the actual functionality of crafting weapons and purchasing potions; (iii) and we replaced the basic shapes in the **Game** scene with castle, towel, and cloud and sky effect. (iv) we also introduced background audio to our game.
 
 We successfully implemented the continous game logic of finishing a floor -> returning to home -> preparing for battle -> next battle. Both weapons can be upgraded using available gems or degraded for refund, and the player could also buy potion of different usages with available mushrooms. Gems and mushrooms are collected (i.e. computed) during the game, reflected at the top right corner. Usage of the potions during the game would be reflected at the top left corner below the health bar. Available temporary potions are shown at the buttom 2 corners.
 
@@ -151,7 +151,9 @@ Asset we used:
 Quick Look of the Game:
 
 <img width="600" alt="Main" src="https://github.com/user-attachments/assets/ef9abe6b-352c-4145-b065-d6fd2622263c" />
-<img width="600" alt="Home" src="https://github.com/user-attachments/assets/d0c980cc-9955-4e6a-8976-fe8a72465365" />
+<img width="600" alt="HomeScene" src="https://github.com/user-attachments/assets/e166a61c-9d8e-4d1a-b3a9-2d7cef31ca74" />
+<img width="600" alt="GemCrafting" src="https://github.com/user-attachments/assets/bbe114aa-eb15-4ea8-aabe-fa344b054950" />
+<img width="600" alt="PotionPurchase" src="https://github.com/user-attachments/assets/63b58a4f-b21f-4595-af19-0658608b40be" />
 <img width="600" alt="Game" src="https://github.com/user-attachments/assets/18a1174c-e433-4856-865a-022549faed83" />
 
 # Instructions on How to Play and Testing the Game
@@ -159,7 +161,8 @@ Quick Look of the Game:
 ## Getting Started
 
 - Load the **Main** scene to play the game, click "Start Game" to start, and you'll be directed to the **Home** scene
-- Select your weapon by checking sword or staff toggle
+- Select your weapon by checking sword or staff toggle.
+- [!! Not applicable for first floor] Start gem crafting by pressing G or potion purchase by pressing P. Close button of the pop-up windows are on upper left.
 - Click "Start Battle" to begin, the battlefield is created on **Game** scene.
 
 ## Combat & Controls
