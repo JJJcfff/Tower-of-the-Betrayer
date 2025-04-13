@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Controls the initial state and visibility of UI elements on the home canvas.
+
 using UnityEngine;
 
 public class HomeCanvasController : MonoBehaviour

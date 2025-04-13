@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Singleton class that manages the overall game state, including floor progression, score, weapon selection, and scene transitions.
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Inventory;

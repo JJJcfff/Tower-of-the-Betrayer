@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages the main menu scene, initializes managers, and handles the start game button.
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;

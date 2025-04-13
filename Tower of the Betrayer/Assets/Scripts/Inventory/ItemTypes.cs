@@ -3,6 +3,9 @@ using System;
 
 namespace Inventory
 {
+    // Authors: Jeff Cui, Elaine Zhao
+    // Defines the various item types, enums (ResourceType, GemEffect, PotionType), and base classes used by the inventory system.
+    
     // Resource types (raw materials)
     public enum ResourceType
     {

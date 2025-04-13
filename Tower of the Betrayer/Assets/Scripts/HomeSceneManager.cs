@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages the home scene, specifically handling the start game button functionality.
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

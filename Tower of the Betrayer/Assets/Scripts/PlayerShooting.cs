@@ -1,4 +1,5 @@
-// // Authors: Jeff Cui, Elaine Zhao
+// Authors: Jeff Cui, Elaine Zhao
+// Manages player attacks, including ranged (staff) and melee (sword) logic.
 
 using UnityEngine;
 using Inventory;

@@ -1,4 +1,5 @@
 // Authors: Jeff Cui, Elaine Zhao
+// Updates the camera's position to follow the player with a specified offset.
 
 using UnityEngine;
 

@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// When attached to an enemy GameObject, this script handles dropping resources (like GemDust or Mushrooms) when the enemy is destroyed.
+
 using UnityEngine;
 using Inventory;
 

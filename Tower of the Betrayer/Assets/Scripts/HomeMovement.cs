@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Handles player movement and UI interaction triggers in the home scene.
+
 using UnityEngine;
 
 public class SmoothMoverWithUITrigger : MonoBehaviour

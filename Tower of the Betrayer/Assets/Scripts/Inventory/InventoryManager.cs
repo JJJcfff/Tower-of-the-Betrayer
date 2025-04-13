@@ -5,6 +5,9 @@ using System;
 
 namespace Inventory
 {
+    // Authors: Jeff Cui, Elaine Zhao
+    // Singleton class managing player inventory, including resources (gem dust, mushrooms), gems, and potions. Handles saving/loading.
+    
     [System.Serializable]
     public class InventoryManager : MonoBehaviour
     {

@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Handles the weapon selection UI in the home scene, updating GameManager state and enabling the start button.
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;

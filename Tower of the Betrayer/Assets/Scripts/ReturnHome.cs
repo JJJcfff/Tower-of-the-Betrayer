@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Handles the button click event to return to the main menu scene, resetting inventory and stats.
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Inventory;

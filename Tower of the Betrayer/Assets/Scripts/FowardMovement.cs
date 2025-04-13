@@ -1,4 +1,5 @@
 // Authors: Jeff Cui, Elaine Zhao
+// Simple script to move the attached GameObject forward continuously based on its speed.
 
 using System.Collections;
 using System.Collections.Generic;

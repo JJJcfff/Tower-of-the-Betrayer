@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Singleton class that manages persistent player stats (health, speed, weapon stats) and handles saving/loading.
+
 using UnityEngine;
 using Inventory;
 

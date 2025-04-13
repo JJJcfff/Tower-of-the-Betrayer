@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages all UI elements in the Home scene, including resource display, weapon stats/upgrades, potion crafting, and game start options.
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

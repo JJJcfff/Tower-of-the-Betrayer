@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages the UI panels (Weapon, Potions) on the home scene canvas.
+
 using UnityEngine;
 using UnityEngine.UI;
 

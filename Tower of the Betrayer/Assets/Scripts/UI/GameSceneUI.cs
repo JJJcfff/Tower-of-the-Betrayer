@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages the UI elements in the game scene, including health bar, resource display, floor number, potion counts, and speed display.
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

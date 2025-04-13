@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Handles the visual hover effect for potion buttons in the UI.
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
