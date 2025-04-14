@@ -319,12 +319,31 @@ public class HomeSceneUI : MonoBehaviour
     private void OnPermanentPotionCraft(string potionName)
     {
         float value;
-        int cost = 10; // Base cost for permanent potions
+        PotionType type;
 
-        // Check if we have enough mushrooms
-        if (!inventory.UseResource(ResourceType.Mushroom, cost))
+        // Determine the potion type and value
+        switch (potionName)
         {
-            Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
+            case "MaxHealth":
+                type = PotionType.MaxHealthBoost;
+                value = 10f;
+                break;
+            case "Speed":
+                type = PotionType.SpeedBoost;
+                value = 1f;
+                break;
+            default:
+                Debug.LogError($"Unknown permanent potion type: {potionName}");
+                return;
+        }
+
+        // Create a permanent potion using InventoryManager which handles resource deduction
+        Potion newPotion = inventory.CreatePotion(type, value, true);
+        
+        // Check if potion was created successfully
+        if (newPotion == null)
+        {
+            // Creation failed, likely due to insufficient resources
             return;
         }
 
@@ -332,19 +351,17 @@ public class HomeSceneUI : MonoBehaviour
         switch (potionName)
         {
             case "MaxHealth":
-                value = 10f;
                 playerStats.IncreaseMaxHealth(value);
                 Debug.Log($"Increased Max Health by {value}");
                 break;
             case "Speed":
-                value = 1f;
                 playerStats.IncreaseSpeed(value);
                 Debug.Log($"Increased Speed by {value}");
                 break;
-            default:
-                Debug.LogError($"Unknown permanent potion type: {potionName}");
-                return;
         }
+        
+        // Remove permanent potion from inventory since we've already applied its effect
+        inventory.RemovePotionAfterDirectUse(newPotion.id);
 
         // Update UI to reflect changes
         UpdateResourceDisplay();
@@ -354,7 +371,6 @@ public class HomeSceneUI : MonoBehaviour
     {
         PotionType type;
         float value;
-        int cost = 2; // Base cost for temporary potions
 
         switch (potionName)
         {
@@ -370,13 +386,16 @@ public class HomeSceneUI : MonoBehaviour
                 return;
         }
 
-        if (!inventory.UseResource(ResourceType.Mushroom, cost))
+        // Let CreatePotion handle the resource deduction
+        Potion newPotion = inventory.CreatePotion(type, value, false);
+        
+        // Check if potion was created successfully
+        if (newPotion == null)
         {
-            Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
+            // Creation failed, likely due to insufficient resources
             return;
         }
-
-        inventory.CreatePotion(type, value, false);
+        
         UpdatePotionDisplay();
     }
 

@@ -134,8 +134,29 @@ namespace Inventory
         #region Potion Management
         public Potion CreatePotion(PotionType type, float effectValue, bool isPermanent)
         {
-            // Check if we have enough mushrooms (cost could vary based on potion type)
-            int mushroomCost = isPermanent ? 10 : 2;
+            // Set cost based on potion type and permanence
+            int mushroomCost;
+            
+            if (isPermanent)
+            {
+                // Permanent potions
+                if (type == PotionType.MaxHealthBoost)
+                    mushroomCost = 10; // Max Health potion
+                else if (type == PotionType.SpeedBoost)
+                    mushroomCost = 5;  // Speed potion
+                else
+                    mushroomCost = 10; // Default for other permanent potions
+            }
+            else
+            {
+                // Temporary potions
+                if (type == PotionType.HealthRestore)
+                    mushroomCost = 5;  // Health restore potion
+                else if (type == PotionType.SpeedBoost)
+                    mushroomCost = 2;  // Speed boost potion
+                else
+                    mushroomCost = 5;  // Default for other temporary potions
+            }
             
             if (!UseResource(ResourceType.Mushroom, mushroomCost))
             {
@@ -271,6 +292,19 @@ namespace Inventory
         public Potion GetPotionById(string id)
         {
             return potions.Find(p => p.id == id);
+        }
+        
+        public void RemovePotionAfterDirectUse(string potionId)
+        {
+            Potion potion = potions.Find(p => p.id == potionId);
+            if (potion == null)
+            {
+                Debug.Log("Potion not found for removal!");
+                return;
+            }
+            
+            potions.Remove(potion);
+            Debug.Log($"Removed potion {potion.type} after direct application of effect");
         }
         #endregion
 
