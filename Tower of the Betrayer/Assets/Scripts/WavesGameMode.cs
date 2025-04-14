@@ -59,10 +59,28 @@ public class WavesGameMode : MonoBehaviour
         // Wait for 1 second to allow UI to update
         yield return new WaitForSeconds(1f);
         
-        // Complete the floor and return to home screen
-        Debug.Log("Returning to home screen after delay");
-        Cursor.lockState = CursorLockMode.None; // Unlock cursor
+        // Unlock cursor
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        GameManager.Instance.CompleteFloor(true);
+        
+        // Check if we were in a boss floor
+        bool wasBossFloor = GameManager.Instance.IsNextFloorBoss();
+        bool isEndlessMode = GameManager.Instance.IsEndlessModeEnabled();
+        
+        Debug.Log($"[Level Completion] Floor: {GameManager.Instance.currentFloor}, Boss Floor: {wasBossFloor}, Endless Mode: {isEndlessMode}");
+        
+        // Check if this is a boss floor - use the same logic as GameSceneInitializer
+        if (wasBossFloor && !isEndlessMode)
+        {
+            // Only show win screen if not in endless mode
+            Debug.Log("Boss defeated! Loading WinScreen...");
+            SceneManager.LoadScene("WinScreen");
+        }
+        else
+        {
+            // Complete the floor and return to home screen for normal floors
+            Debug.Log("Returning to home screen after delay");
+            GameManager.Instance.CompleteFloor(true);
+        }
     }
 }

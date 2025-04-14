@@ -125,8 +125,16 @@ public class FloorDifficultyManager : MonoBehaviour
 
     private void GenerateRandomModifiers()
     {
-        // Use a weighted distribution for modifier count (0-3)
-        // Weights: 10% for 0, 20% for 1, 30% for 2, 40% for 3
+        // Make sure Random is properly seeded with a varied seed
+        int uniqueSeed = (int)(System.DateTime.Now.Ticks % 1000000) + 
+                       (GameManager.Instance.currentFloor * 137) + 
+                       Random.Range(1, 10000);
+        Random.InitState(uniqueSeed);
+        
+        int currentFloor = GameManager.Instance.currentFloor;
+        
+        // Simple fixed distribution for modifier count (0-3)
+        // 10% chance for 0, 20% chance for 1, 30% chance for 2, 40% chance for 3
         float randomValue = Random.value;
         int modifierCount;
         
@@ -147,10 +155,7 @@ public class FloorDifficultyManager : MonoBehaviour
             modifierCount = 3;       // 40% chance
         }
         
-        Debug.Log($"Generating {modifierCount} random modifiers for floor {GameManager.Instance.currentFloor} (weighted distribution)");
-        
-        // Make sure Random is properly seeded
-        Random.InitState((int)System.DateTime.Now.Ticks + GameManager.Instance.currentFloor);
+        Debug.Log($"Generating {modifierCount} random modifiers for floor {currentFloor}");
         
         List<ModifierType> availableModifierTypes = new List<ModifierType>(System.Enum.GetValues(typeof(ModifierType)).Cast<ModifierType>());
         
@@ -166,23 +171,50 @@ public class FloorDifficultyManager : MonoBehaviour
             // Remove this type so we don't get duplicates
             availableModifierTypes.RemoveAt(typeIndex);
             
-            // Exactly 50% chance for good or bad
-            // Use a different random call for each attribute to increase variance
-            bool isGood = (Random.value + Random.value * 0.3f + (float)i * 0.17f) % 1.0f < 0.5f;
+            // Randomly determine if the effect is increasing (+) or decreasing (-) the stat
+            bool isIncreasing = Random.value < 0.5f;
             
-            // Determine the intensity level (0 = Small, 1 = Medium, 2 = Large)
+            // Determine if the modifier is good for the player based on its type and direction
+            bool isGood;
+            
+            switch (modifierType)
+            {
+                case ModifierType.PlayerSpeed:
+                case ModifierType.PlayerDamage:
+                case ModifierType.PlayerHealth:
+                case ModifierType.PlayerHealthRegen:
+                    // For player stats, increasing is good, decreasing is bad
+                    isGood = isIncreasing;
+                    break;
+                
+                case ModifierType.EnemyDamage:
+                case ModifierType.EnemySpeed:
+                    // For enemy stats, decreasing is good, increasing is bad
+                    isGood = !isIncreasing;
+                    break;
+                
+                default:
+                    isGood = false;
+                    break;
+            }
+            
+            // Simple random intensity level (0-2) with equal chance
             int intensityLevel = Random.Range(0, 3);
             
             // Create the modifier
             FloorModifier modifier = new FloorModifier(modifierType, isGood, intensityLevel);
             activeModifiers.Add(modifier);
             
-            Debug.Log($"Added {(isGood ? "Good" : "Bad")} {modifierType} modifier with intensity {intensityLevel}");
+            string effectDirection = isGood ? "Good" : "Bad";
+            Debug.Log($"Added {effectDirection} {modifierType} modifier with intensity {intensityLevel}");
         }
     }
 
     private void ApplyModifiers()
     {
+        // Variables to track enemy speed modifications
+        float enemySpeedModifier = 0f;
+        
         foreach (FloorModifier modifier in activeModifiers)
         {
             // Get the base modifier value based on intensity
@@ -204,19 +236,12 @@ public class FloorDifficultyManager : MonoBehaviour
                     break;
                 
                 case ModifierType.PlayerHealthRegen:
-                    // Only apply health regen if it's a good modifier
-                    if (modifier.isGood)
-                    {
-                        // Health regen uses different values (0.5/1/1.5 health per second)
-                        currentPlayerHealthRegenRate = modifier.intensityLevel == 0 ? 0.5f : 
-                                                      (modifier.intensityLevel == 1 ? 1f : 1.5f);
-                    }
-                    else
-                    {
-                        // Health degeneration (negative regeneration)
-                        currentPlayerHealthRegenRate = modifier.intensityLevel == 0 ? -0.5f : 
-                                                      (modifier.intensityLevel == 1 ? -1f : -1.5f);
-                    }
+                    // Apply health regen based on intensity level
+                    float regenValue = modifier.intensityLevel == 0 ? 0.5f : 
+                                      (modifier.intensityLevel == 1 ? 1f : 1.5f);
+                                      
+                    // Apply positive or negative regen based on whether it's good or bad
+                    currentPlayerHealthRegenRate = modifier.isGood ? regenValue : -regenValue;
                     break;
                 
                 case ModifierType.EnemyDamage:
@@ -225,11 +250,16 @@ public class FloorDifficultyManager : MonoBehaviour
                     break;
                 
                 case ModifierType.EnemySpeed:
-                    // This will need to be applied to the wave spawner
-                    // Implementation depends on how enemy speed is set
+                    // Track enemy speed modification - will be passed to spawners
+                    // For "good" modifiers, we want to DECREASE enemy speed
+                    enemySpeedModifier += modifier.isGood ? -value : value;
                     break;
             }
         }
+        
+        // Store enemy speed modifier somewhere it can be accessed
+        // This would need to be retrieved by the WaveSpawner
+        PlayerPrefs.SetFloat("EnemySpeedModifier", enemySpeedModifier);
         
         // Make sure multipliers don't go below a minimum threshold
         currentPlayerSpeedMultiplier = Mathf.Max(currentPlayerSpeedMultiplier, 0.5f);
@@ -238,6 +268,8 @@ public class FloorDifficultyManager : MonoBehaviour
         currentHealthMultiplier = Mathf.Max(currentHealthMultiplier, 1f);
         currentDamageMultiplier = Mathf.Max(currentDamageMultiplier, 1f);
         currentEnemyCountMultiplier = Mathf.Max(currentEnemyCountMultiplier, 1f);
+        
+        Debug.Log($"Applied enemy speed modifier: {enemySpeedModifier}");
     }
 
     private float GetModifierValue(int intensityLevel)
@@ -398,6 +430,8 @@ public class FloorModifier
         
         string effectText = "";
         
+        // For player attributes, isGood means the effect is positive for the player
+        // For enemy attributes, isGood means the effect is negative for enemies (which is positive for player)
         switch (type)
         {
             case ModifierType.PlayerSpeed:

@@ -2667,6 +2667,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2450343b3ed134486cdc27e852338f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossPrefab: {fileID: 8572278412208364138, guid: 64e9f3ab11edf9d4dbd8a6c6fcf56a96,
+    type: 3}
+  bossSpawnPoint: {fileID: 0}
+  bossSpawnDelay: 2
 --- !u!4 &694311850
 Transform:
   m_ObjectHideFlags: 0

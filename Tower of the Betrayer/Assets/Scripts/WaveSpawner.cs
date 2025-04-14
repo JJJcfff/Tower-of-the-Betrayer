@@ -65,20 +65,31 @@ public class WaveSpawner : MonoBehaviour
             // Get the Animator from the spawned enemy
             Animator enemyAnimator = spawnedEnemy.GetComponent<Animator>();
             
-            // Apply speed multiplier based on enemy name
+            // Base speed multiplier based on enemy type
+            float baseMultiplier = defaultEnemySpeedMultiplier;
             if (spawnedEnemy.name.Contains("Yellow"))
             {
-                agent.speed *= yellowEnemySpeedMultiplier;
+                baseMultiplier = yellowEnemySpeedMultiplier;
             }
             else if (spawnedEnemy.name.Contains("Red"))
             {
-                agent.speed *= redEnemySpeedMultiplier;
+                baseMultiplier = redEnemySpeedMultiplier;
             }
-            else
+            
+            // Apply the base multiplier
+            float finalSpeed = agent.speed * baseMultiplier;
+            
+            // Apply floor modifier for enemy speed if exists
+            if (PlayerPrefs.HasKey("EnemySpeedModifier"))
             {
-                // For any other enemy types
-                agent.speed *= defaultEnemySpeedMultiplier;
+                float enemySpeedMod = PlayerPrefs.GetFloat("EnemySpeedModifier");
+                // Apply the modifier as a multiplier (1 + modifier)
+                finalSpeed *= (1f + enemySpeedMod);
+                Debug.Log($"Applied enemy speed modifier: {enemySpeedMod}, Final speed: {finalSpeed}");
             }
+            
+            // Set the final speed
+            agent.speed = finalSpeed;
             
             // Update the animator speed parameter
             if (enemyAnimator != null)

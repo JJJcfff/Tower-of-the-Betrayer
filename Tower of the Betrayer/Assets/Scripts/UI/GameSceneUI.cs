@@ -154,7 +154,22 @@ public class GameSceneUI : MonoBehaviour
     {
         if (floorText != null && GameManager.Instance != null)
         {
-            floorText.text = $"Floor {GameManager.Instance.currentFloor}";
+            int currentFloor = GameManager.Instance.currentFloor;
+            bool isEndlessModeEnabled = GameManager.Instance.IsEndlessModeEnabled();
+            
+            // Display boss battle text if this is a boss floor
+            if (GameManager.Instance.IsNextFloorBoss())
+            {
+                floorText.text = "Boss Battle";
+            }
+            else if (isEndlessModeEnabled && currentFloor > GameManager.BOSS_FLOOR)
+            {
+                floorText.text = $"Floor {currentFloor} (Endless)";
+            }
+            else
+            {
+                floorText.text = $"Floor {currentFloor}";
+            }
         }
     }
 
@@ -236,13 +251,72 @@ public class GameSceneUI : MonoBehaviour
             
             foreach (FloorModifier modifier in activeModifiers)
             {
-                string description = modifier.GetDescription();
-                string colorHex = ColorUtility.ToHtmlStringRGB(modifier.isGood ? goodModifierColor : badModifierColor);
+                // Get the attribute name
+                string attributeName = GetAttributeNameFromType(modifier.type);
                 
-                sb.AppendLine($"<color=#{colorHex}>{description}</color>");
+                // Determine if this is an increase or decrease effect based on type and isGood
+                bool isIncrease;
+                
+                switch (modifier.type)
+                {
+                    case ModifierType.PlayerSpeed:
+                    case ModifierType.PlayerDamage:
+                    case ModifierType.PlayerHealth:
+                    case ModifierType.PlayerHealthRegen:
+                        // For player stats, good means increase
+                        isIncrease = modifier.isGood;
+                        break;
+                    
+                    case ModifierType.EnemyDamage:
+                    case ModifierType.EnemySpeed:
+                        // For enemy stats, good means decrease
+                        isIncrease = !modifier.isGood;
+                        break;
+                    
+                    default:
+                        isIncrease = modifier.isGood;
+                        break;
+                }
+                
+                // Generate the magnitude indicators based on intensity level
+                string intensitySymbols = string.Empty;
+                for (int i = 0; i <= modifier.intensityLevel; i++)
+                {
+                    // Use UP arrow for increase, DOWN arrow for decrease
+                    intensitySymbols += isIncrease ? "↑" : "↓";
+                }
+                
+                // Build the formatted text with clear indicators
+                string formattedText = $"{attributeName}{intensitySymbols}";
+                
+                // Apply color based on whether it's good for the player
+                string colorHex = ColorUtility.ToHtmlStringRGB(modifier.isGood ? goodModifierColor : badModifierColor);
+                sb.AppendLine($"<color=#{colorHex}>{formattedText}</color>");
             }
             
             modifiersText.text = sb.ToString();
+        }
+    }
+    
+    // Helper method to get a readable attribute name from the modifier type
+    private string GetAttributeNameFromType(ModifierType type)
+    {
+        switch (type)
+        {
+            case ModifierType.PlayerSpeed:
+                return "Speed";
+            case ModifierType.PlayerDamage:
+                return "Damage";
+            case ModifierType.PlayerHealth:
+                return "Health";
+            case ModifierType.PlayerHealthRegen:
+                return "HP Regen";
+            case ModifierType.EnemyDamage:
+                return "Enemy Damage";
+            case ModifierType.EnemySpeed:
+                return "Enemy Speed";
+            default:
+                return type.ToString();
         }
     }
     

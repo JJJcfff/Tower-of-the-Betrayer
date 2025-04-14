@@ -187,6 +187,18 @@ public class HomeSceneUI : MonoBehaviour
         {
             AddDebugResource(ResourceType.Mushroom, 50);
         }
+        
+        // Debug control to jump to floor 9 (right before boss floor)
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.currentFloor = 9;
+                Debug.Log("[DEBUG] Jumped to floor 9!");
+                UpdateFloorDisplay();
+                UpdateEndlessModeUI();
+            }
+        }
     }
 
     private void UpdateResourceDisplay()

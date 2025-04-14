@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     private WeaponType selectedWeapon = WeaponType.Sword;
     private bool endlessMode = false;
+    private bool nextFloorIsBoss = false; // Flag to indicate if next floor should be boss
     public const int BOSS_FLOOR = 10; // Floor where boss fight becomes available
 
     void Awake()
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         hasSword = false;
         hasStaff = false;
         endlessMode = false;
+        nextFloorIsBoss = false;
     }
 
     public void StartNewGame()
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
         // Reset game state
         selectedWeapon = WeaponType.Sword;
         endlessMode = false;
+        nextFloorIsBoss = false;
         currentFloor = 1;
         
         // Reset player stats to default if needed
@@ -80,19 +83,60 @@ public class GameManager : MonoBehaviour
         // Only allow endless mode toggle after reaching boss floor
         if (currentFloor >= BOSS_FLOOR)
         {
+            // If turning endless mode off (was on before), make next floor the boss floor
+            if (endlessMode && !enabled)
+            {
+                nextFloorIsBoss = true;
+                PlayerPrefs.SetInt("NextFloorIsBoss", 1);
+                PlayerPrefs.Save();
+                Debug.Log("Endless mode disabled - next floor will be the boss floor!");
+            }
+            else
+            {
+                nextFloorIsBoss = false;
+                PlayerPrefs.SetInt("NextFloorIsBoss", 0);
+                PlayerPrefs.Save();
+            }
+            
             endlessMode = enabled;
+            PlayerPrefs.SetInt("EndlessMode", enabled ? 1 : 0);
+            PlayerPrefs.Save();
             Debug.Log($"Endless mode set to: {enabled}");
         }
         else
         {
             Debug.LogWarning($"Cannot toggle endless mode before floor {BOSS_FLOOR}");
             endlessMode = false;
+            nextFloorIsBoss = false;
+            PlayerPrefs.SetInt("NextFloorIsBoss", 0);
+            PlayerPrefs.SetInt("EndlessMode", 0);
+            PlayerPrefs.Save();
         }
     }
 
     public bool IsEndlessModeEnabled()
     {
         return endlessMode;
+    }
+    
+    public bool IsNextFloorBoss()
+    {
+        // Check if this is explicitly marked as a boss floor from endless mode toggle
+        if (nextFloorIsBoss)
+        {
+            Debug.Log($"[Boss Check] nextFloorIsBoss flag is TRUE - this is a boss floor");
+            return true;
+        }
+            
+        // Or if this is the standard boss floor (10) and not in endless mode
+        if (currentFloor == BOSS_FLOOR && !endlessMode)
+        {
+            Debug.Log($"[Boss Check] Floor {currentFloor} is boss floor and endless mode is disabled");
+            return true;
+        }
+        
+        Debug.Log($"[Boss Check] Not a boss floor. Floor: {currentFloor}, Endless: {endlessMode}, NextFloorIsBoss: {nextFloorIsBoss}");
+        return false;
     }
 
     public bool CanToggleEndlessMode()
@@ -105,6 +149,13 @@ public class GameManager : MonoBehaviour
         if (success)
         {
             Debug.Log($"Completed floor {currentFloor}");
+            
+            // Clear the boss flag if we just completed the boss floor
+            if (nextFloorIsBoss)
+            {
+                nextFloorIsBoss = false;
+            }
+            
             currentFloor++;
             Debug.Log($"Next floor will be {currentFloor}");
 
@@ -127,11 +178,16 @@ public class GameManager : MonoBehaviour
     // Called when entering the Game scene
     public void ApplyFloorDifficulty()
     {
+        // Load boss flag from PlayerPrefs
+        nextFloorIsBoss = PlayerPrefs.GetInt("NextFloorIsBoss", 0) == 1;
+        
         // Apply the existing modifiers that were generated in the home scene
         if (FloorDifficultyManager.Instance != null)
         {
             FloorDifficultyManager.Instance.ApplyExistingModifiers();
         }
+        
+        Debug.Log($"[Game Scene Start] Floor: {currentFloor}, Boss Flag: {nextFloorIsBoss}, Endless: {endlessMode}");
     }
 
     public void LoadHomeScene()
