@@ -7,6 +7,7 @@ using TMPro;
 using Inventory;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class HomeSceneUI : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class HomeSceneUI : MonoBehaviour
 
     [Header("Game Progress")]
     public TextMeshProUGUI floorText;
+    public TextMeshProUGUI modifiersHintText;
 
     [Header("Weapon Stats - Sword")]
     public TextMeshProUGUI swordDamageText;
@@ -68,6 +70,12 @@ public class HomeSceneUI : MonoBehaviour
             Debug.LogError("UI components verification failed. Please check the Inspector for missing assignments.");
             return;
         }
+        
+        // Generate modifiers for the next floor if they haven't been generated yet
+        if (FloorDifficultyManager.Instance != null && !FloorDifficultyManager.Instance.AreModifiersGenerated())
+        {
+            FloorDifficultyManager.Instance.GenerateFloorModifiers();
+        }
 
         // Initialize UI
         UpdateResourceDisplay();
@@ -103,6 +111,7 @@ public class HomeSceneUI : MonoBehaviour
         if (maxHealthText == null) { Debug.LogError("Max Health Text not assigned!"); isValid = false; }
         if (speedText == null) { Debug.LogError("Speed Text not assigned!"); isValid = false; }
         if (floorText == null) { Debug.LogError("Floor Text not assigned!"); isValid = false; }
+        // modifiersHintText is optional, so no need to verify it
 
         // Check weapon stats
         if (swordDamageText == null) { Debug.LogError("Sword Damage Text not assigned!"); isValid = false; }
@@ -250,6 +259,52 @@ public class HomeSceneUI : MonoBehaviour
             {
                 floorText.text = $"Next: Floor {nextFloor}";
             }
+            
+            // Update modifiers hint
+            UpdateModifiersHint();
+        }
+    }
+    
+    private void UpdateModifiersHint()
+    {
+        if (modifiersHintText == null || FloorDifficultyManager.Instance == null) return;
+        
+        List<FloorModifier> modifiers = FloorDifficultyManager.Instance.GetActiveModifiers();
+        
+        int goodModifiers = 0;
+        int badModifiers = 0;
+        
+        foreach (var modifier in modifiers)
+        {
+            if (modifier.isGood)
+                goodModifiers++;
+            else
+                badModifiers++;
+        }
+        
+        if (goodModifiers == 0 && badModifiers == 0)
+        {
+            modifiersHintText.text = "The journey ahead seems ordinary...";
+        }
+        else
+        {
+            string blessingText = goodModifiers > 0 ? $"<color=green>{goodModifiers} blessing{(goodModifiers > 1 ? "s" : "")}</color>" : "";
+            string curseText = badModifiers > 0 ? $"<color=red>{badModifiers} curse{(badModifiers > 1 ? "s" : "")}</color>" : "";
+            
+            if (goodModifiers > 0 && badModifiers > 0)
+            {
+                modifiersHintText.text = $"The next floor holds {blessingText} and {curseText}...";
+            }
+            else if (goodModifiers > 0)
+            {
+                string prefix = goodModifiers == 1 ? "a " : "";
+                modifiersHintText.text = $"Fortune smiles upon you with {prefix}{blessingText}!";
+            }
+            else
+            {
+                string prefix = badModifiers == 1 ? "a " : "";
+                modifiersHintText.text = $"Beware, darkness lurks with {prefix}{curseText}...";
+            }
         }
     }
 
@@ -319,31 +374,12 @@ public class HomeSceneUI : MonoBehaviour
     private void OnPermanentPotionCraft(string potionName)
     {
         float value;
-        PotionType type;
+        int cost = 10; // Base cost for permanent potions
 
-        // Determine the potion type and value
-        switch (potionName)
+        // Check if we have enough mushrooms
+        if (!inventory.UseResource(ResourceType.Mushroom, cost))
         {
-            case "MaxHealth":
-                type = PotionType.MaxHealthBoost;
-                value = 10f;
-                break;
-            case "Speed":
-                type = PotionType.SpeedBoost;
-                value = 1f;
-                break;
-            default:
-                Debug.LogError($"Unknown permanent potion type: {potionName}");
-                return;
-        }
-
-        // Create a permanent potion using InventoryManager which handles resource deduction
-        Potion newPotion = inventory.CreatePotion(type, value, true);
-        
-        // Check if potion was created successfully
-        if (newPotion == null)
-        {
-            // Creation failed, likely due to insufficient resources
+            Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
             return;
         }
 
@@ -351,17 +387,19 @@ public class HomeSceneUI : MonoBehaviour
         switch (potionName)
         {
             case "MaxHealth":
+                value = 10f;
                 playerStats.IncreaseMaxHealth(value);
                 Debug.Log($"Increased Max Health by {value}");
                 break;
             case "Speed":
+                value = 1f;
                 playerStats.IncreaseSpeed(value);
                 Debug.Log($"Increased Speed by {value}");
                 break;
+            default:
+                Debug.LogError($"Unknown permanent potion type: {potionName}");
+                return;
         }
-        
-        // Remove permanent potion from inventory since we've already applied its effect
-        inventory.RemovePotionAfterDirectUse(newPotion.id);
 
         // Update UI to reflect changes
         UpdateResourceDisplay();
@@ -371,6 +409,7 @@ public class HomeSceneUI : MonoBehaviour
     {
         PotionType type;
         float value;
+        int cost = 2; // Base cost for temporary potions
 
         switch (potionName)
         {
@@ -386,16 +425,13 @@ public class HomeSceneUI : MonoBehaviour
                 return;
         }
 
-        // Let CreatePotion handle the resource deduction
-        Potion newPotion = inventory.CreatePotion(type, value, false);
-        
-        // Check if potion was created successfully
-        if (newPotion == null)
+        if (!inventory.UseResource(ResourceType.Mushroom, cost))
         {
-            // Creation failed, likely due to insufficient resources
+            Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
             return;
         }
-        
+
+        inventory.CreatePotion(type, value, false);
         UpdatePotionDisplay();
     }
 

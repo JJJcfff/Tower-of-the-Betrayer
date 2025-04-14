@@ -25,6 +25,17 @@ public class ContactDamager : MonoBehaviour
         {
             return;
         }
+
+        // Scale player damage if applicable
+        if (isPlayerBullet && FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.ModifyPlayerDamage(ref damage);
+        }
+        // Scale enemy damage if applicable
+        else if (!isPlayerBullet && FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.ModifyEnemyDamage(ref damage);
+        }
         
         // Apply damage to enemy
         if (other.TryGetComponent(out EnemyHealth enemyHealth))

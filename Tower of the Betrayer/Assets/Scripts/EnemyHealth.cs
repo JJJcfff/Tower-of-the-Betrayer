@@ -23,7 +23,15 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        // Apply floor difficulty scaling if available
+        if (FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.ModifyEnemyHealth(this);
+        }
+        else
+        {
+            currentHealth = maxHealth;
+        }
         
         // Store the original scale
         enemyTransform = transform;

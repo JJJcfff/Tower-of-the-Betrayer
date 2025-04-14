@@ -108,6 +108,12 @@ public class GameManager : MonoBehaviour
             currentFloor++;
             Debug.Log($"Next floor will be {currentFloor}");
 
+            // Mark that new modifiers need to be generated for the next floor
+            if (FloorDifficultyManager.Instance != null)
+            {
+                FloorDifficultyManager.Instance.MarkForModifierGeneration();
+            }
+
             // Return to home screen between floors
             SceneManager.LoadScene("Home");
         }
@@ -115,6 +121,16 @@ public class GameManager : MonoBehaviour
         {
             // Handle failure
             SceneManager.LoadScene("LoseScreen");
+        }
+    }
+
+    // Called when entering the Game scene
+    public void ApplyFloorDifficulty()
+    {
+        // Apply the existing modifiers that were generated in the home scene
+        if (FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.ApplyExistingModifiers();
         }
     }
 

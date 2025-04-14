@@ -48,6 +48,12 @@ public class PlayerMovement : MonoBehaviour
         {
             baseSpeed = speed;
         }
+        
+        // Apply floor difficulty modifiers to speed
+        if (FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.ModifyPlayerSpeed(this);
+        }
     }
     
     public void OnMove(InputValue value)

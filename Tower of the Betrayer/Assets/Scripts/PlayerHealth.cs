@@ -39,6 +39,12 @@ public class PlayerHealth: MonoBehaviour
         maxHealth = PlayerStats.Instance.MaxHealth;
         currentHealth = maxHealth;
 
+        // Apply difficulty scaling to player health
+        if (FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.ModifyPlayerHealth(this);
+        }
+
         // Store the original scale
         playerTransform = transform;
         originalScale = playerTransform.localScale;
@@ -97,6 +103,12 @@ public class PlayerHealth: MonoBehaviour
                 healthBar.SetMaxHealth(maxHealth);
                 healthBar.SetHealth(currentHealth);
             }
+        }
+
+        // Apply health regeneration from floor modifiers
+        if (FloorDifficultyManager.Instance != null)
+        {
+            FloorDifficultyManager.Instance.UpdatePlayerHealthRegen(this);
         }
 
         if (currentHealth <= 0 && gameObject.activeSelf) 

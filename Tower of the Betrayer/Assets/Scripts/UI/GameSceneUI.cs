@@ -33,9 +33,18 @@ public class GameSceneUI : MonoBehaviour
     [Header("Speed Display")]
     public TextMeshProUGUI speedText;
     
+    [Header("Floor Modifiers Display")]
+    public TextMeshProUGUI modifiersText;
+    public GameObject modifiersPanel;
+    public float modifiersDisplayDuration = 5f;
+    public Color goodModifierColor = Color.green;
+    public Color badModifierColor = Color.red;
+    public KeyCode toggleModifiersKey = KeyCode.Tab;
+    
     private InventoryManager inventoryManager;
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
+    private List<FloorModifier> activeModifiers = new List<FloorModifier>();
 
     private void Start()
     {
@@ -68,11 +77,26 @@ public class GameSceneUI : MonoBehaviour
         if (healthPotionHotkeyText != null) healthPotionHotkeyText.text = "[Q]";
         if (speedPotionHotkeyText != null) speedPotionHotkeyText.text = "[E]";
 
+        // Get active floor modifiers
+        if (FloorDifficultyManager.Instance != null)
+        {
+            activeModifiers = FloorDifficultyManager.Instance.GetActiveModifiers();
+            
+            // Show modifiers panel at start
+            if (modifiersPanel != null)
+            {
+                modifiersPanel.SetActive(true);
+                // Auto-hide after a delay
+                Invoke(nameof(HideModifiersPanel), modifiersDisplayDuration);
+            }
+        }
+
         // Initial UI update
         UpdateResourceDisplay();
         UpdatePotionDisplay();
         UpdateFloorDisplay();
         UpdateSpeedDisplay();
+        UpdateModifiersDisplay();
 
         // Update the UI every 0.5 seconds
         InvokeRepeating(nameof(UpdateUI), 0.5f, 0.5f);
@@ -88,6 +112,12 @@ public class GameSceneUI : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E))
         {
             UseFirstPotionOfType(PotionType.SpeedBoost);
+        }
+        
+        // Toggle modifiers display
+        if (Input.GetKeyDown(toggleModifiersKey))
+        {
+            ToggleModifiersPanel();
         }
 
         // Update UI
@@ -189,6 +219,54 @@ public class GameSceneUI : MonoBehaviour
             }
             
             speedText.text = speedInfo;
+        }
+    }
+    
+    private void UpdateModifiersDisplay()
+    {
+        if (modifiersText == null) return;
+        
+        if (activeModifiers.Count == 0)
+        {
+            modifiersText.text = "No active modifiers";
+        }
+        else
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            
+            foreach (FloorModifier modifier in activeModifiers)
+            {
+                string description = modifier.GetDescription();
+                string colorHex = ColorUtility.ToHtmlStringRGB(modifier.isGood ? goodModifierColor : badModifierColor);
+                
+                sb.AppendLine($"<color=#{colorHex}>{description}</color>");
+            }
+            
+            modifiersText.text = sb.ToString();
+        }
+    }
+    
+    public void ShowModifiersPanel()
+    {
+        if (modifiersPanel != null)
+        {
+            modifiersPanel.SetActive(true);
+        }
+    }
+    
+    public void HideModifiersPanel()
+    {
+        if (modifiersPanel != null)
+        {
+            modifiersPanel.SetActive(false);
+        }
+    }
+    
+    public void ToggleModifiersPanel()
+    {
+        if (modifiersPanel != null)
+        {
+            modifiersPanel.SetActive(!modifiersPanel.activeSelf);
         }
     }
 } 
