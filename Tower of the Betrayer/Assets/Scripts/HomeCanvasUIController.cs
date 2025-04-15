@@ -11,6 +11,12 @@ public class HomeCanvasUIController : MonoBehaviour
     private GameObject potionsUI;
     private GameObject closeButton;
 
+    private bool weaponUIOpen = false;
+    private bool potionsUIOpen = false;
+
+    // Reference to the movement script to send the player back to neutral
+    public SmoothMoverWithUITrigger movementController;
+
     void Awake()
     {
         Transform panel = transform.Find("Panel");
@@ -53,8 +59,10 @@ public class HomeCanvasUIController : MonoBehaviour
         if (leftPanel != null) leftPanel.SetActive(true);
         if (weaponUI != null) weaponUI.SetActive(true);
         if (potionsUI != null) potionsUI.SetActive(false);
-
         if (closeButton != null) closeButton.SetActive(true);
+
+        weaponUIOpen = true;
+        potionsUIOpen = false;
     }
 
     public void ShowPotionsUI()
@@ -64,8 +72,10 @@ public class HomeCanvasUIController : MonoBehaviour
         if (leftPanel != null) leftPanel.SetActive(true);
         if (potionsUI != null) potionsUI.SetActive(true);
         if (weaponUI != null) weaponUI.SetActive(false);
-
         if (closeButton != null) closeButton.SetActive(true);
+
+        potionsUIOpen = true;
+        weaponUIOpen = false;
     }
 
     public void CloseAllUI()
@@ -75,8 +85,18 @@ public class HomeCanvasUIController : MonoBehaviour
         if (weaponUI != null) weaponUI.SetActive(false);
         if (potionsUI != null) potionsUI.SetActive(false);
         if (closeButton != null) closeButton.SetActive(false);
-
-        // Optionally, hide Left panel too if both are closed
         if (leftPanel != null) leftPanel.SetActive(false);
+
+        weaponUIOpen = false;
+        potionsUIOpen = false;
+
+        // Send player back to neutral
+        if (movementController != null)
+        {
+            movementController.GoToNeutral();
+        }
     }
+
+    public bool IsWeaponUIOpen() => weaponUIOpen;
+    public bool IsPotionsUIOpen() => potionsUIOpen;
 }
