@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     public class WeaponStats
     {
         public float damage = 10f;
-        public float attackSpeed = 10f;
+        public float attackSpeed = 5f;
         public float attackRange = 10f;
         
         // Track gem dust spent on each stat

@@ -8,22 +8,32 @@ using UnityEngine.Events;
 // Manages the enemy's health and computes damage taken.
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("Health Settings")]
     public float maxHealth = 100;
     public float currentHealth;
-    public float damageFlashDuration = 0.2f; // Duration of the damage flash effect
-    public Color damageFlashColor = Color.red; // Color to flash when taking damage
-    public float damagePulseScale = 1.2f; // How much to scale up when taking damage
-    
+
+    [Header("Damage Flash Settings")]
+    public float damageFlashDuration = 0.2f;
+    public Color damageFlashColor = Color.red;
+    public float damagePulseScale = 1.2f;
+
+    [Header("Audio")]
+    public AudioClip deathSound;
+
     private Material[] originalMaterials;
     private Material[] damageMaterials;
     private bool isFlashing = false;
+    private bool hasDied = false;
+
     private Renderer[] enemyRenderers;
     private Vector3 originalScale;
     private Transform enemyTransform;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
-        // Apply floor difficulty scaling if available
+        // Apply floor difficulty scaling
         if (FloorDifficultyManager.Instance != null)
         {
             FloorDifficultyManager.Instance.ModifyEnemyHealth(this);
@@ -32,12 +42,10 @@ public class EnemyHealth : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
-        
-        // Store the original scale
+
         enemyTransform = transform;
         originalScale = enemyTransform.localScale;
-        
-        // Get ALL renderers in this object and its children
+
         enemyRenderers = GetComponentsInChildren<Renderer>();
         if (enemyRenderers.Length == 0)
         {
@@ -46,16 +54,14 @@ public class EnemyHealth : MonoBehaviour
         }
 
         Debug.Log($"Found {enemyRenderers.Length} renderers on enemy");
-        
-        // Store original materials from all renderers
+
         List<Material> originalMaterialsList = new List<Material>();
         foreach (Renderer renderer in enemyRenderers)
         {
             originalMaterialsList.AddRange(renderer.materials);
         }
         originalMaterials = originalMaterialsList.ToArray();
-        
-        // Create damage materials (red versions of original materials)
+
         damageMaterials = new Material[originalMaterials.Length];
         for (int i = 0; i < originalMaterials.Length; i++)
         {
@@ -64,29 +70,52 @@ public class EnemyHealth : MonoBehaviour
             damageMaterials[i].EnableKeyword("_EMISSION");
             damageMaterials[i].SetColor("_EmissionColor", damageFlashColor * 2f);
         }
+
+        // Setup audio
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // MODIFIED: Load audio from Resources if not set in Inspector
+        if (deathSound == null)
+        {
+            deathSound = Resources.Load<AudioClip>("enemyDeath");
+            if (deathSound == null)
+            {
+                Debug.LogWarning("Could not load enemyDeath.wav from Resources folder!");
+            }
+        }
     }
 
     void Update()
     {
-        if (currentHealth <= 0)
+        if (!hasDied && currentHealth <= 0)
         {
-            Destroy(gameObject);
+            hasDied = true;
+
+            // Play death sound
+            if (deathSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(deathSound);
+            }
+
+            float delay = (deathSound != null) ? deathSound.length : 0f;
+            Destroy(gameObject, delay);
         }
     }
-    
-    // Method to apply damage to the enemy
+
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        //Debug.Log($"Enemy took {damage} damage. Health: {currentHealth}");
-        
-        // Show damage feedback if not already flashing
+
         if (!isFlashing)
         {
             StartCoroutine(DamageFlashEffect());
         }
     }
-    
+
     private IEnumerator DamageFlashEffect()
     {
         if (enemyRenderers == null || enemyRenderers.Length == 0)
@@ -94,14 +123,12 @@ public class EnemyHealth : MonoBehaviour
             Debug.LogWarning("No renderers available for damage flash effect!");
             yield break;
         }
-        
+
         isFlashing = true;
         Debug.Log("Starting damage flash effect");
-        
-        // Scale up
+
         enemyTransform.localScale = originalScale * damagePulseScale;
-        
-        // Apply damage materials to all renderers
+
         int materialIndex = 0;
         foreach (Renderer renderer in enemyRenderers)
         {
@@ -112,14 +139,11 @@ public class EnemyHealth : MonoBehaviour
             }
             renderer.materials = currentDamageMaterials;
         }
-        
-        // Wait for flash duration
+
         yield return new WaitForSeconds(damageFlashDuration);
-        
-        // Restore original scale
+
         enemyTransform.localScale = originalScale;
-        
-        // Restore original materials to all renderers
+
         materialIndex = 0;
         foreach (Renderer renderer in enemyRenderers)
         {
@@ -130,14 +154,13 @@ public class EnemyHealth : MonoBehaviour
             }
             renderer.materials = currentOriginalMaterials;
         }
-        
+
         isFlashing = false;
         Debug.Log("Damage flash effect complete");
     }
-    
+
     private void OnDestroy()
     {
-        // Clean up damage materials
         if (damageMaterials != null)
         {
             foreach (Material mat in damageMaterials)
