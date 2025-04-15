@@ -21,13 +21,21 @@ public class ContactDamager : MonoBehaviour
     {
         Debug.Log($"Contact with: {other.name}");
 
-        // Ignore self-damage to player
+        // Destroy bullet if it hits a wall
+        if (other.CompareTag("Wall"))
+        {
+            Debug.Log("💥 Bullet hit a wall and is destroyed");
+            Destroy(gameObject);
+            return;
+        }
+
+        // Prevent self-damage to player
         if (isPlayerBullet && other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             return;
         }
 
-        // Apply damage modifiers
+        // Modify damage if difficulty manager exists
         if (isPlayerBullet && FloorDifficultyManager.Instance != null)
         {
             FloorDifficultyManager.Instance.ModifyPlayerDamage(ref damage);
@@ -37,26 +45,18 @@ public class ContactDamager : MonoBehaviour
             FloorDifficultyManager.Instance.ModifyEnemyDamage(ref damage);
         }
 
-        // Apply damage to enemy
+        // Apply damage to enemies
         if (other.TryGetComponent(out EnemyHealth enemyHealth))
         {
             enemyHealth.TakeDamage(damage);
         }
 
-        // Apply damage to player and play sound
+        // Apply damage to player
         if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
-            // Deal damage manually
-            playerHealth.currentHealth -= damage;
-            playerHealth.currentHealth = Mathf.Max(playerHealth.currentHealth, 0);
-            Debug.Log($"Player took {damage} damage. Health: {playerHealth.currentHealth}");
+            playerHealth.TakeDamage(damage);
 
-            if (playerHealth.healthBar != null)
-            {
-                playerHealth.healthBar.SetHealth(playerHealth.currentHealth);
-            }
-
-            // ✅ Play sound manually
+          
             AudioClip hitSound = Resources.Load<AudioClip>("playerTakingDamage");
             if (hitSound != null)
             {
@@ -64,16 +64,14 @@ public class ContactDamager : MonoBehaviour
                 if (audio == null)
                 {
                     audio = other.gameObject.AddComponent<AudioSource>();
-                    audio.spatialBlend = 0f; // 2D
+                    audio.spatialBlend = 0f;
                 }
                 audio.PlayOneShot(hitSound);
             }
-            else
-            {
-                Debug.LogWarning("❌ Could not load playerTakingDamage.mp3 from Resources!");
-            }
+            
         }
 
+        // Destroy bullet after any hit
         Destroy(gameObject);
     }
 }
