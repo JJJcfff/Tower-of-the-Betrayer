@@ -182,10 +182,10 @@ public class PlayerStats : MonoBehaviour
                     return currentValue + 2f;
                     
                 case "Speed":
-                    return currentValue * 1.5f;
+                    return currentValue + 2f;
                     
                 case "Range":
-                    return currentValue + 1f;
+                    return currentValue + 0.5f;
                     
                 default:
                     Debug.LogError($"Unknown stat type: {statType}");

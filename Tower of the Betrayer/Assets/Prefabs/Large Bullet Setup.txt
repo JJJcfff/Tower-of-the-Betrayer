@@ -1,0 +1,36 @@
+Instructions for Setting Up the Large Bullet Prefab
+
+1. In Unity, duplicate the "Bullet Enemy" prefab (found in Assets/Prefabs).
+2. Rename the duplicate to "Large Bullet Enemy".
+3. Select the new prefab and make these changes in the Inspector:
+
+   a. Transform:
+      - Scale: Increase to (0.5, 0.5, 0.5) - twice the size of regular bullets
+
+   b. Add the LargeBullet component:
+      - Damage: 20
+      - Speed: 15
+      - Lifetime: 5
+      - Bullet Color: (1, 0.2, 0.2, 1) - deep red
+      - Pulse Speed: 2
+      - Pulse Amount: 0.2
+
+   c. Contact Damager:
+      - Damage: 20 (higher than regular bullets)
+
+   d. Material:
+      - Change color to red or create a new material
+      - Enable emission with a bright red glow
+
+4. Add a light component (optional):
+      - Type: Point
+      - Color: Red
+      - Range: 2
+      - Intensity: 2
+
+5. Apply the changes to the prefab.
+
+6. In GameSceneInitializer:
+   - Assign this prefab to the "Large Bullet Prefab" field
+
+The Large Bullet should now be ready for the boss to use in its special attacks! 

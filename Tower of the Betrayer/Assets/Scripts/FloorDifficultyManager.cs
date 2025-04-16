@@ -11,11 +11,11 @@ public class FloorDifficultyManager : MonoBehaviour
 
     [Header("Base Difficulty Scaling")]
     [Tooltip("Health increase per floor (percentage)")]
-    public float enemyHealthIncreasePerFloor = 10f;
+    public float enemyHealthIncreasePerFloor = 20f;
     [Tooltip("Damage increase per floor (percentage)")]
     public float enemyDamageIncreasePerFloor = 10f;
     [Tooltip("Increase in number of enemies per floor (percentage)")]
-    public float enemyCountIncreasePerFloor = 30f;
+    public float enemyCountIncreasePerFloor = 20f;
 
     [Header("Modifier Settings")]
     [Tooltip("Maximum number of modifiers that can be active on a floor (0-3)")]

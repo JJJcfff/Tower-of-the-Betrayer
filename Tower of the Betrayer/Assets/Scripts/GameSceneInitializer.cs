@@ -11,6 +11,8 @@ public class GameSceneInitializer : MonoBehaviour
     public Transform bossSpawnPoint;  // Where to spawn the boss (optional)
     public float bossSpawnDelay = 2f;  // Delay before the boss appears
     public GameObject bossHealthBarObject; // Reference to the BossHealthBar GameObject
+    public GameObject regularBulletPrefab; // Regular bullet prefab for boss
+    public GameObject largeBulletPrefab; // Large bullet prefab for boss special attack
 
     // Start is called before the first frame update
     void Start()
@@ -163,6 +165,41 @@ public class GameSceneInitializer : MonoBehaviour
             enemyHealth.maxHealth *= 3.0f; // Triple the health for the boss
             enemyHealth.currentHealth = enemyHealth.maxHealth;
             enemyHealth.isBoss = true; // Mark as boss explicitly
+        }
+        
+        // Disable the regular enemy FSM and add our boss combat component
+        var enemyFSM = boss.GetComponentInChildren<EnemyFSM>();
+        if (enemyFSM != null)
+        {
+            enemyFSM.enabled = false; // Disable regular enemy behavior
+        }
+        
+        // Add boss combat component
+        var bossCombat = boss.AddComponent<BossCombat>();
+        if (bossCombat != null)
+        {
+            // Configure boss combat settings
+            bossCombat.bulletPrefab = regularBulletPrefab;
+            bossCombat.largeBulletPrefab = largeBulletPrefab;
+            bossCombat.regularFireRate = 1.5f; // Slightly slower than regular enemies
+            bossCombat.attackRange = 20f; // Larger attack range
+            bossCombat.stoppingDistance = 15f; // Stop further away
+            bossCombat.specialAttackCooldown = 5f; // Special attack every 5 seconds
+            
+            // If boss already has a NavMeshAgent, configure it
+            var agent = boss.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.speed = 3.5f; // Make boss move faster
+                agent.acceleration = 12f; // Faster acceleration
+                agent.stoppingDistance = bossCombat.stoppingDistance;
+            }
+            
+            Debug.Log("BossCombat component added to boss");
+        }
+        else
+        {
+            Debug.LogError("Failed to add BossCombat component to boss!");
         }
         
         Debug.Log($"Boss spawned! GameObject name: {boss.name}");

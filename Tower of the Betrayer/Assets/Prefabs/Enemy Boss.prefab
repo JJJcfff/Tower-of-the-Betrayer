@@ -12457,6 +12457,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 188988858554821616, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: fireRate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 188988858554821616, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: attackRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 188988858554821616, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: stoppingDistance
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2699812187895349125, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: m_Convex
@@ -12475,7 +12490,17 @@ PrefabInstance:
     - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: maxHealth
-      value: 200
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: currentHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: damagePulseScale
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 8003388738644797459, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}

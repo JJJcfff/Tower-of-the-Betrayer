@@ -2926,6 +2926,10 @@ MonoBehaviour:
   bossSpawnPoint: {fileID: 0}
   bossSpawnDelay: 2
   bossHealthBarObject: {fileID: 1364820894}
+  regularBulletPrefab: {fileID: 4565382164983471439, guid: 63b0242d68f46a940a1dbb3a5cfe06a7,
+    type: 3}
+  largeBulletPrefab: {fileID: 4565382164983471439, guid: 5bb67e95f6e14784e8da546080178ea6,
+    type: 3}
 --- !u!4 &694311850
 Transform:
   m_ObjectHideFlags: 0
