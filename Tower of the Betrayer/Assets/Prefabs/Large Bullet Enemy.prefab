@@ -226,5 +226,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3896289067588341404, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8668676641496680185}
   m_SourcePrefab: {fileID: 100100000, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5, type: 3}
+--- !u!1 &4565382164983471439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3896289067588341404, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
+    type: 3}
+  m_PrefabInstance: {fileID: 669093097403651027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8668676641496680185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4565382164983471439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23dfbbd81ecd10f43966884e9159c6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 50
+  speed: 40
+  lifetime: 5
+  bulletColor: {r: 1, g: 0.2, b: 0.2, a: 1}
+  pulseSpeed: 2
+  pulseAmount: 0.2

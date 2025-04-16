@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages the boss's large bullet projectile with enhanced damage, visual effects, and impact behavior.
+
 using UnityEngine;
 
 public class LargeBullet : MonoBehaviour

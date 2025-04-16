@@ -1,3 +1,6 @@
+// Authors: Jeff Cui, Elaine Zhao
+// Manages boss combat behavior with regular attacks and special attack patterns including dash, circular bullets and large projectiles.
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
