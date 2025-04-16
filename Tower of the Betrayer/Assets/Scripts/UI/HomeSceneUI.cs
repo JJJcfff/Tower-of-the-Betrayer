@@ -386,24 +386,31 @@ public class HomeSceneUI : MonoBehaviour
     private void OnPermanentPotionCraft(string potionName)
     {
         float value;
-        int cost = 10; // Base cost for permanent potions
-
-        // Check if we have enough mushrooms
-        if (!inventory.UseResource(ResourceType.Mushroom, cost))
-        {
-            Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
-            return;
-        }
+        int cost;
 
         // Apply permanent effect directly to player stats
         switch (potionName)
         {
             case "MaxHealth":
+                cost = 10; // Cost for max health potion
+
+                if (!inventory.UseResource(ResourceType.Mushroom, cost))
+                {
+                    Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
+                    return;
+                }
                 value = 10f;
                 playerStats.IncreaseMaxHealth(value);
                 Debug.Log($"Increased Max Health by {value}");
                 break;
             case "Speed":
+                cost = 5;
+
+                if (!inventory.UseResource(ResourceType.Mushroom, cost))
+                {
+                    Debug.Log($"Not enough Mushrooms for potion! Need {cost}");
+                    return;
+                }
                 value = 1f;
                 playerStats.IncreaseSpeed(value);
                 Debug.Log($"Increased Speed by {value}");
@@ -421,22 +428,25 @@ public class HomeSceneUI : MonoBehaviour
     {
         PotionType type;
         float value;
-        int cost = 2; // Base cost for temporary potions
+        int cost;
 
         switch (potionName)
         {
             case "Health":
                 type = PotionType.HealthRestore;
                 value = 50f;
+                cost = 5; // Cost for temporary health potion
                 break;
             case "Speed":
                 type = PotionType.SpeedBoost;
                 value = 2f;
+                cost = 2; // Cost for temporary speed potion
                 break;
             default:
                 return;
         }
 
+        Debug.Log($"using mushroms for {potionName}");
         if (!inventory.UseResource(ResourceType.Mushroom, cost))
         {
             Debug.Log($"Not enough Mushrooms for potion! Need {cost}");

@@ -135,34 +135,44 @@ namespace Inventory
         public Potion CreatePotion(PotionType type, float effectValue, bool isPermanent)
         {
             // Set cost based on potion type and permanence
-            int mushroomCost;
-            
+            int mushroomCost = 0;
+
             if (isPermanent)
             {
-                // Permanent potions
-                if (type == PotionType.MaxHealthBoost)
-                    mushroomCost = 10; // Max Health potion
-                else if (type == PotionType.SpeedBoost)
-                    mushroomCost = 5;  // Speed potion
-                else
-                    mushroomCost = 10; // Default for other permanent potions
+                switch (type)
+                {
+                    case PotionType.MaxHealthBoost:
+                        mushroomCost = 10;
+                        break;
+                    case PotionType.SpeedBoost:
+                        mushroomCost = 5;
+                        break;
+                    default:
+                        mushroomCost = 10; // Default for any other permanent potions
+                        break;
+                }
             }
             else
             {
-                // Temporary potions
-                if (type == PotionType.HealthRestore)
-                    mushroomCost = 5;  // Health restore potion
-                else if (type == PotionType.SpeedBoost)
-                    mushroomCost = 2;  // Speed boost potion
-                else
-                    mushroomCost = 5;  // Default for other temporary potions
+                switch (type)
+                {
+                    case PotionType.HealthRestore:
+                        mushroomCost = 5;
+                        break;
+                    case PotionType.SpeedBoost:
+                        mushroomCost = 2;
+                        break;
+                    default:
+                        mushroomCost = 5; // Default for any other temporary potions
+                        break;
+                }
             }
-            
-            if (!UseResource(ResourceType.Mushroom, mushroomCost))
-            {
-                Debug.Log("Not enough mushrooms to create the potion!");
-                return null;
-            }
+
+            // if (!UseResource(ResourceType.Mushroom, mushroomCost))
+            // {
+            //     Debug.Log("Not enough mushrooms to create the potion!");
+            //     return null;
+            // }
 
             Potion newPotion = new Potion(
                 type,
@@ -171,10 +181,11 @@ namespace Inventory
                 $"{type} Potion",
                 GetPotionDescription(type, effectValue, isPermanent)
             );
-            
+
             potions.Add(newPotion);
             return newPotion;
         }
+
 
         public bool UsePotion(string potionId)
         {
