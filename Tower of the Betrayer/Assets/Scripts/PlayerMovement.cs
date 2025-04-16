@@ -65,12 +65,18 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get normalized input direction in world space
         Vector3 moveDirection = new Vector3(movementValue.x, 0, movementValue.y).normalized;
-        
+
         // Calculate movement delta
         Vector3 movement = moveDirection * speed * Time.fixedDeltaTime;
-        
-        // Move the transform directly in world space
-        transform.position += movement;
+
+        // Apply movement
+        Vector3 newPosition = transform.position + movement;
+
+        // Clamp the new position within room bounds
+        newPosition.x = Mathf.Clamp(newPosition.x, -19.3f, 19.3f);
+        newPosition.z = Mathf.Clamp(newPosition.z, -19.3f, 19.3f);
+
+        transform.position = newPosition;
 
         // Send movement direction to PlayerShooting
         if (playerShooting != null)
@@ -78,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
             playerShooting.SetMovementDirection(moveDirection);
         }
     }
-    
+
     // Apply a temporary speed boost that stacks with other boosts
     public void ApplySpeedBoost(float boostAmount, float duration)
     {
