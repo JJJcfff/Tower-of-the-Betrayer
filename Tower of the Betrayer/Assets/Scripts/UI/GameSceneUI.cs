@@ -14,6 +14,9 @@ public class GameSceneUI : MonoBehaviour
     public HealthBar healthBar;
     public Color healthBarColor = new Color(0.8f, 0.2f, 0.2f); // Dark red for health
 
+    [Header("Boss Health Display")]
+    public GameObject bossHealthBarObject; // Reference to boss health bar GameObject
+    
     [Header("Resource Display")]
     public TextMeshProUGUI gemScrapsText;
     public TextMeshProUGUI mushroomText;
@@ -71,6 +74,13 @@ public class GameSceneUI : MonoBehaviour
             healthBar.SetMaxHealth(playerHealth.maxHealth);
             healthBar.SetHealth(playerHealth.currentHealth);
             healthBar.SetColor(healthBarColor);
+        }
+
+        // Set up boss health bar visibility based on floor
+        if (bossHealthBarObject != null)
+        {
+            bool isBossFloor = GameManager.Instance != null && GameManager.Instance.IsNextFloorBoss();
+            bossHealthBarObject.SetActive(isBossFloor);
         }
 
         // Set up potion hotkey texts
@@ -161,14 +171,29 @@ public class GameSceneUI : MonoBehaviour
             if (GameManager.Instance.IsNextFloorBoss())
             {
                 floorText.text = "Boss Battle";
-            }
-            else if (isEndlessModeEnabled && currentFloor > GameManager.BOSS_FLOOR)
-            {
-                floorText.text = $"Floor {currentFloor} (Endless)";
+                
+                // Ensure boss health bar is visible on boss floors
+                if (bossHealthBarObject != null && !bossHealthBarObject.activeSelf)
+                {
+                    bossHealthBarObject.SetActive(true);
+                }
             }
             else
             {
-                floorText.text = $"Floor {currentFloor}";
+                // Hide boss health bar on non-boss floors
+                if (bossHealthBarObject != null && bossHealthBarObject.activeSelf)
+                {
+                    bossHealthBarObject.SetActive(false);
+                }
+                
+                if (isEndlessModeEnabled && currentFloor > GameManager.BOSS_FLOOR)
+                {
+                    floorText.text = $"Floor {currentFloor} (Endless)";
+                }
+                else
+                {
+                    floorText.text = $"Floor {currentFloor}";
+                }
             }
         }
     }

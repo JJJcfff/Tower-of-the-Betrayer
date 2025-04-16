@@ -10,6 +10,7 @@ public class GameSceneInitializer : MonoBehaviour
     public GameObject bossPrefab;  // Assign the Enemy Boss prefab in the inspector
     public Transform bossSpawnPoint;  // Where to spawn the boss (optional)
     public float bossSpawnDelay = 2f;  // Delay before the boss appears
+    public GameObject bossHealthBarObject; // Reference to the BossHealthBar GameObject
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,12 @@ public class GameSceneInitializer : MonoBehaviour
         bool isBossFloor = GameManager.Instance.IsNextFloorBoss();
         
         Debug.Log($"[GameSceneInitializer] Initializing floor {currentFloor}. Boss Floor? {isBossFloor}");
+        
+        // Setup boss health bar visibility
+        if (bossHealthBarObject != null)
+        {
+            bossHealthBarObject.SetActive(isBossFloor);
+        }
         
         if (isBossFloor)
         {
@@ -155,6 +162,7 @@ public class GameSceneInitializer : MonoBehaviour
         {
             enemyHealth.maxHealth *= 3.0f; // Triple the health for the boss
             enemyHealth.currentHealth = enemyHealth.maxHealth;
+            enemyHealth.isBoss = true; // Mark as boss explicitly
         }
         
         Debug.Log($"Boss spawned! GameObject name: {boss.name}");

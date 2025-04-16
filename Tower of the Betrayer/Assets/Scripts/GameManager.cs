@@ -124,18 +124,15 @@ public class GameManager : MonoBehaviour
         // Check if this is explicitly marked as a boss floor from endless mode toggle
         if (nextFloorIsBoss)
         {
-            Debug.Log($"[Boss Check] nextFloorIsBoss flag is TRUE - this is a boss floor");
             return true;
         }
             
         // Or if this is the standard boss floor (10) and not in endless mode
         if (currentFloor == BOSS_FLOOR && !endlessMode)
         {
-            Debug.Log($"[Boss Check] Floor {currentFloor} is boss floor and endless mode is disabled");
             return true;
         }
         
-        Debug.Log($"[Boss Check] Not a boss floor. Floor: {currentFloor}, Endless: {endlessMode}, NextFloorIsBoss: {nextFloorIsBoss}");
         return false;
     }
 
@@ -159,6 +156,9 @@ public class GameManager : MonoBehaviour
             currentFloor++;
             Debug.Log($"Next floor will be {currentFloor}");
 
+            // Reset any boss health bars in the scene
+            ResetBossHealthBar();
+
             // Mark that new modifiers need to be generated for the next floor
             if (FloorDifficultyManager.Instance != null)
             {
@@ -174,6 +174,15 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("LoseScreen");
         }
     }
+    
+    private void ResetBossHealthBar()
+    {
+        BossHealthBar bossHealthBar = FindObjectOfType<BossHealthBar>();
+        if (bossHealthBar != null)
+        {
+            bossHealthBar.ResetBossHealthBar();
+        }
+    }
 
     // Called when entering the Game scene
     public void ApplyFloorDifficulty()
@@ -185,6 +194,13 @@ public class GameManager : MonoBehaviour
         if (FloorDifficultyManager.Instance != null)
         {
             FloorDifficultyManager.Instance.ApplyExistingModifiers();
+        }
+        
+        // Update boss health bar if it exists
+        BossHealthBar bossHealthBar = FindObjectOfType<BossHealthBar>();
+        if (bossHealthBar != null)
+        {
+            bossHealthBar.OnLevelChange();
         }
         
         Debug.Log($"[Game Scene Start] Floor: {currentFloor}, Boss Flag: {nextFloorIsBoss}, Endless: {endlessMode}");

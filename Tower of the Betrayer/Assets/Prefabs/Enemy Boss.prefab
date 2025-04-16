@@ -12469,6 +12469,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
+      propertyPath: isBoss
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
       propertyPath: maxHealth
       value: 200
       objectReference: {fileID: 0}
