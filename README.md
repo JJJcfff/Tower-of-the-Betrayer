@@ -173,7 +173,12 @@ Quick Look of the Game:
 
 ### Project Checkpoint 3-4: Sound, UI, and Animation
 
-We added increasing difficulty floor-by-floor and randomized game modifiers on each floor, and implemented the boss in this iteration. Following feedback from last iteration, we added more particle effects in the Home Scene and made possible to close the panel using the G/P keys as well. Audio effects of player's taking damage and enemy death are also added in this checkpoint. We also adjusted the animation of the sword attack, and added movement (up/down) animations to the boss.
+We added increasing difficulty floor-by-floor and randomized game modifiers on each floor, and implemented the boss battle in this iteration. Following feedback from last iteration, we added more particle effects in the Home Scene and made possible to close the panel using the G/P keys as well. Audio effects of player's taking damage and enemy death are also added in this checkpoint. We also adjusted the animation of the sword attack, and added movement (up/down) animations to the boss.
+
+<img width="500" alt="Screenshot 2025-04-16 at 8 41 40 PM" src="https://github.com/user-attachments/assets/b562e855-c575-4df1-b85b-93cd1947935f" />
+<img width="500" alt="Screenshot 2025-04-16 at 8 42 37 PM" src="https://github.com/user-attachments/assets/3a958654-33bb-49c5-a2c3-7ddb09768f15" />
+
+
 
 Resources we used:
 
