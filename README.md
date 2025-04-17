@@ -104,18 +104,33 @@ In this game, players take on the role of the most skilled warrior from a villag
 
 ### Project Checkpoint 3-4: Sound, UI, and Animation (Ch 14, 15, 17)
 
-- Player & Enemy Animation
-  - Implement proper movement animations for player and enemies
-  - Add audio effect at necessary points (i.e. ememy death, attacking)
-- Finalize Game Play Parameters
-  - Design the difficulty upgrade floor by floor, implement the random factor and hints
-  - Finalize the gem system (weapon upgrade and potion power) parameter setting
-- Implement Boss Fight
-  - Design boss character with special attacks and arena
-  - Create boss health visualization system
-- Other Fixes
-  - Consider adding collision detection between player and enemey, letting player take damage on these
-  - Improve animation glitches (i.e. limit movement of player and bullets within the field)
+- ~~Player & Enemy Animation~~
+  - ~~Implement proper movement animations for player and enemies~~
+  - ~~Add audio effect at necessary points (i.e. ememy death, attacking)~~
+- ~~Finalize Game Play Parameters~~
+  - ~~Design the difficulty upgrade floor by floor, implement the random factor and hints~~
+  - ~~Finalize the gem system (weapon upgrade and potion power) parameter setting~~
+- ~~Implement Boss Fight~~
+  - ~~Design boss character with special attacks and arena~~
+  - ~~Create boss health visualization system~~
+- ~~Other Fixes~~
+
+  - ~~Consider adding collision detection between player and enemey, letting player take damage on these (we think without the damage works better since sword already has close attack range, this is skipped)~~
+  - ~~Improve animation glitches (i.e. limit movement of player and bullets within the field)~~
+
+  **Additions**
+
+  - ~~Added more particle effects in the Home Scene, the fireplace and the potion pot.~~
+  - ~~Slightly adjusted the light in the main battlefield.~~
+  - ~~Incorporated last checkpoint feedback and enabled open/close panel in Home scene with keys G and P~~
+
+### Project Part 4: Finishing Touches (Ch 18, 19)
+
+- Improve Win/Lose Screen (with win/lose audio tracks)
+- Adjust and test with weapon upgrading / player's upgrading parameters to the right difficulty level
+- Fix bugs
+  - endless mode
+- Build and Release
 
 ## Development
 
@@ -156,6 +171,25 @@ Quick Look of the Game:
 <img width="600" alt="PotionPurchase" src="https://github.com/user-attachments/assets/63b58a4f-b21f-4595-af19-0658608b40be" />
 <img width="600" alt="Game" src="https://github.com/user-attachments/assets/18a1174c-e433-4856-865a-022549faed83" />
 
+### Project Checkpoint 3-4: Sound, UI, and Animation
+
+We added increasing difficulty floor-by-floor and randomized game modifiers on each floor, and implemented the boss in this iteration. Following feedback from last iteration, we added more particle effects in the Home Scene and made possible to close the panel using the G/P keys as well. Audio effects of player's taking damage and enemy death are also added in this checkpoint. We also adjusted the animation of the sword attack, and added movement (up/down) animations to the boss.
+
+Resources we used:
+
+Fire
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/free-fire-vfx-urp-266226
+
+Monster Death Sound
+https://freesound.org/people/RedRoxPeterPepper/sounds/420250/
+
+Player Damage Sound
+https://freesound.org/people/deleted_user_3330286/sounds/188549/
+
+Background tracks
+http://epidemicsound.com/track/cKvr2xxYss/
+https://www.epidemicsound.com/track/wOJUGbdCra/
+
 # Instructions on How to Play and Testing the Game
 
 ## Getting Started
@@ -195,3 +229,4 @@ Quick Look of the Game:
 
 - J: add 50 Gem Dust (Home scene)
 - K: add 50 Mushrooms (Home scene)
+- L: skip to the 9th floor (Home scene)
