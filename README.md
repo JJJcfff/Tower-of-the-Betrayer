@@ -119,7 +119,7 @@ In this game, players take on the role of the most skilled warrior from a villag
   - ~~Improve animation glitches (i.e. limit movement of player and bullets within the field)~~
 
   **Additions**
-
+  - ~~Added hints in the right panel before each game~~
   - ~~Added more particle effects in the Home Scene, the fireplace and the potion pot.~~
   - ~~Slightly adjusted the light in the main battlefield.~~
   - ~~Incorporated last checkpoint feedback and enabled open/close panel in Home scene with keys G and P~~
