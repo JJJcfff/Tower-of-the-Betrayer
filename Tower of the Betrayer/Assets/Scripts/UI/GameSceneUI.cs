@@ -239,12 +239,22 @@ public class GameSceneUI : MonoBehaviour
             // Add active boost count if any boosts are active
             if (playerMovement.speedBoosted)
             {
-                speedInfo += $" (+{(playerMovement.speed - playerMovement.baseSpeed):F1})";
+                // Get boost amount and remaining time
+                float boostAmount = playerMovement.speed - playerMovement.baseSpeed;
+                float remainingTime = playerMovement.GetRemainingBoostTime();
+                
+                speedInfo += $" (+{boostAmount:F1})";
+                
+                // Add remaining time to display
+                speedInfo += $" [{remainingTime:F1}s]";
+                
+                // Show multiple boosts if active
                 int boostCount = playerMovement.GetActiveBoostCount();
                 if (boostCount > 1)
                 {
-                    speedInfo += $" [{boostCount} active]";
+                    speedInfo += $" x{boostCount}";
                 }
+                
                 speedText.color = new Color(0.2f, 0.8f, 0.2f); // Green for boosted speed
             }
             else

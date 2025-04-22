@@ -18,6 +18,16 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
 
     // Store original rotation at game start
     private Quaternion originalRotation;
+    
+    // Track which UI to show when player stops
+    private UIType targetUI = UIType.None;
+    
+    private enum UIType
+    {
+        None,
+        Weapon,
+        Potion
+    }
 
     void Start()
     {
@@ -41,17 +51,31 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
             }
         }
 
+        bool startedMovement = false;
+
         if (Input.GetKeyDown(KeyCode.G))
         {
             targetPosition = weaponPosition;
+            targetUI = UIType.Weapon;
+            startedMovement = true;
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
             targetPosition = potionsPosition;
+            targetUI = UIType.Potion;
+            startedMovement = true;
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             targetPosition = neutralPosition;
+            targetUI = UIType.None;
+            startedMovement = true;
+        }
+        
+        // Hide UI when movement starts
+        if (startedMovement && canvasController != null)
+        {
+            canvasController.CloseAllUI();
         }
 
         if (targetPosition.HasValue)
@@ -76,28 +100,42 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
                 // Reset to original facing direction
                 transform.rotation = originalRotation;
 
-                HandleArrival(targetPosition.Value);
+                HandleArrival();
                 targetPosition = null;
             }
         }
     }
 
-    void HandleArrival(Vector3 arrivedPosition)
+    void HandleArrival()
     {
         if (canvasController == null) return;
 
-        if (Vector3.Distance(arrivedPosition, weaponPosition) < 0.1f)
+        switch (targetUI)
         {
-            canvasController.ShowWeaponUI();
+            case UIType.Weapon:
+                canvasController.ShowWeaponUI();
+                break;
+            case UIType.Potion:
+                canvasController.ShowPotionsUI();
+                break;
+            case UIType.None:
+                // Keep all UI closed
+                break;
         }
-        else if (Vector3.Distance(arrivedPosition, potionsPosition) < 0.1f)
-        {
-            canvasController.ShowPotionsUI();
-        }
+        
+        // Reset target UI
+        targetUI = UIType.None;
     }
 
     public void GoToNeutral()
     {
         targetPosition = neutralPosition;
+        targetUI = UIType.None;
+        
+        // Hide UI during movement
+        if (canvasController != null)
+        {
+            canvasController.CloseAllUI();
+        }
     }
 }

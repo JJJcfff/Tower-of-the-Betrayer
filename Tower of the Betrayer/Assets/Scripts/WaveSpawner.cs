@@ -38,11 +38,15 @@ public class WaveSpawner : MonoBehaviour
             mapCenter = transform;
         }
         
-        // Adjust spawn rate based on floor difficulty
+        // Keep spawn rate the same but adjust spawn duration based on floor difficulty
         if (FloorDifficultyManager.Instance != null)
         {
+            // Get the spawn rate (stays constant)
             FloorDifficultyManager.Instance.ModifyEnemySpawnRate(ref spawnRate);
-            Debug.Log($"Adjusted spawn rate to {spawnRate} based on floor difficulty");
+            
+            // Increase the spawn duration instead
+            FloorDifficultyManager.Instance.ModifyEnemySpawnDuration(ref endTime);
+            Debug.Log($"Using spawn rate: {spawnRate}, Adjusted end time to {endTime} based on floor difficulty");
         }
         
         WaveManager.instance.AddWave(this);

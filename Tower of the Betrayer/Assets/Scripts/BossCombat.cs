@@ -11,7 +11,7 @@ public class BossCombat : MonoBehaviour
     public GameObject bulletPrefab;
     public float regularFireRate = 1f;
     public float attackRange = 15f;
-    public float stoppingDistance = 10f;
+    public float stoppingDistance = 3f;
 
     [Header("Special Attacks")]
     public float specialAttackCooldown = 5f;

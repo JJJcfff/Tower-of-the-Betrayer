@@ -24,11 +24,18 @@ public class PlayerMovement : MonoBehaviour
     {
         public float amount;
         public Coroutine coroutine;
+        public float endTime; // When this boost will end
         
-        public SpeedBoost(float amount, Coroutine coroutine)
+        public SpeedBoost(float amount, Coroutine coroutine, float duration)
         {
             this.amount = amount;
             this.coroutine = coroutine;
+            this.endTime = Time.time + duration;
+        }
+        
+        public float GetRemainingTime()
+        {
+            return Mathf.Max(0, endTime - Time.time);
         }
     }
 
@@ -92,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         Coroutine boostCoroutine = StartCoroutine(HandleSpeedBoost(boostAmount, duration));
         
         // Add to active boosts list
-        activeSpeedBoosts.Add(new SpeedBoost(boostAmount, boostCoroutine));
+        activeSpeedBoosts.Add(new SpeedBoost(boostAmount, boostCoroutine, duration));
         
         // Apply the boost immediately
         speed += boostAmount;
@@ -135,5 +142,20 @@ public class PlayerMovement : MonoBehaviour
     public int GetActiveBoostCount()
     {
         return activeSpeedBoosts.Count;
+    }
+    
+    // Get the remaining time of the longest-lasting speed boost
+    public float GetRemainingBoostTime()
+    {
+        if (activeSpeedBoosts.Count == 0)
+            return 0f;
+            
+        float longestTime = 0f;
+        foreach (var boost in activeSpeedBoosts)
+        {
+            longestTime = Mathf.Max(longestTime, boost.GetRemainingTime());
+        }
+        
+        return longestTime;
     }
 }

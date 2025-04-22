@@ -28,6 +28,7 @@ public class HomeSceneUI : MonoBehaviour
     public Button[] swordUpgradeButtons;
     public Button swordRefundButton;
     public TextMeshProUGUI swordRefundText;
+    public TextMeshProUGUI[] swordUpgradeCostTexts;
 
     [Header("Weapon Stats - Staff")]
     public TextMeshProUGUI staffDamageText;
@@ -36,6 +37,7 @@ public class HomeSceneUI : MonoBehaviour
     public Button[] staffUpgradeButtons;
     public Button staffRefundButton;
     public TextMeshProUGUI staffRefundText;
+    public TextMeshProUGUI[] staffUpgradeCostTexts;
 
     [Header("Potion Crafting")]
     public Button[] permanentPotionButtons;
@@ -120,6 +122,16 @@ public class HomeSceneUI : MonoBehaviour
         if (staffDamageText == null) { Debug.LogError("Staff Damage Text not assigned!"); isValid = false; }
         if (staffSpeedText == null) { Debug.LogError("Staff Speed Text not assigned!"); isValid = false; }
         if (staffRangeText == null) { Debug.LogError("Staff Range Text not assigned!"); isValid = false; }
+        
+        // Check cost texts
+        if (swordUpgradeCostTexts == null || swordUpgradeCostTexts.Length < 3) { 
+            Debug.LogError("Sword Upgrade Cost Texts not properly assigned! Need 3 (damage, speed, range)"); 
+            isValid = false; 
+        }
+        if (staffUpgradeCostTexts == null || staffUpgradeCostTexts.Length < 3) { 
+            Debug.LogError("Staff Upgrade Cost Texts not properly assigned! Need 3 (damage, speed, range)"); 
+            isValid = false; 
+        }
 
         // Check buttons and toggles
         if (swordUpgradeButtons == null || swordUpgradeButtons.Length == 0) { Debug.LogError("Sword Upgrade Buttons not assigned!"); isValid = false; }
@@ -226,6 +238,28 @@ public class HomeSceneUI : MonoBehaviour
         staffDamageText.text = $"Damage: {playerStats.GetWeaponDamage(WeaponType.Staff):F1}";
         staffSpeedText.text = $"Atk Speed: {playerStats.GetWeaponSpeed(WeaponType.Staff):F1}";
         staffRangeText.text = $"Atk Range: {playerStats.GetWeaponRange(WeaponType.Staff):F1}";
+        
+        // Update upgrade button texts to show the current cost
+        UpdateUpgradeButtonTexts();
+    }
+    
+    private void UpdateUpgradeButtonTexts()
+    {
+        // Update sword upgrade costs
+        for (int i = 0; i < swordUpgradeButtons.Length && i < swordUpgradeCostTexts.Length; i++)
+        {
+            string statType = swordUpgradeButtons[i].name;
+            int cost = playerStats.GetUpgradeCost(WeaponType.Sword, statType);
+            swordUpgradeCostTexts[i].text = $"Cost: {cost}";
+        }
+        
+        // Update staff upgrade costs
+        for (int i = 0; i < staffUpgradeButtons.Length && i < staffUpgradeCostTexts.Length; i++)
+        {
+            string statType = staffUpgradeButtons[i].name;
+            int cost = playerStats.GetUpgradeCost(WeaponType.Staff, statType);
+            staffUpgradeCostTexts[i].text = $"Cost: {cost}";
+        }
     }
 
     private void UpdatePotionDisplay()

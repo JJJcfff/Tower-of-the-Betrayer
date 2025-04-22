@@ -183,7 +183,7 @@ public class GameSceneInitializer : MonoBehaviour
             bossCombat.largeBulletPrefab = largeBulletPrefab;
             bossCombat.regularFireRate = 1.5f; // Slightly slower than regular enemies
             bossCombat.attackRange = 20f; // Larger attack range
-            bossCombat.stoppingDistance = 15f; // Stop further away
+            bossCombat.stoppingDistance = 3f; // Stop closer to player
             bossCombat.specialAttackCooldown = 5f; // Special attack every 5 seconds
             
             // If boss already has a NavMeshAgent, configure it

@@ -12465,12 +12465,12 @@ PrefabInstance:
     - target: {fileID: 188988858554821616, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: attackRange
-      value: 10
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 188988858554821616, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: stoppingDistance
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2699812187895349125, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
@@ -12490,17 +12490,22 @@ PrefabInstance:
     - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: maxHealth
-      value: 10000
+      value: 6000
       objectReference: {fileID: 0}
     - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: currentHealth
-      value: 10000
+      value: 6000
       objectReference: {fileID: 0}
     - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: damagePulseScale
       value: 1.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069243815286330422, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: distance
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8003388738644797459, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}

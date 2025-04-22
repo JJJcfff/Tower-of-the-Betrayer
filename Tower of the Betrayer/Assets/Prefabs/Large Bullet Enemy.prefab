@@ -191,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 7772939416864247189, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
         type: 3}
       propertyPath: damage
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8998128113529457910, guid: 60ccaef7cd91fbc46ba180a9a2d0fcf5,
         type: 3}
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23dfbbd81ecd10f43966884e9159c6f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 30
   speed: 40
   lifetime: 5
   bulletColor: {r: 1, g: 0.2, b: 0.2, a: 1}

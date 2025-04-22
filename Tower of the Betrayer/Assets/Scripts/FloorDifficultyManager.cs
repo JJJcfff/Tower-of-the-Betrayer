@@ -121,6 +121,10 @@ public class FloorDifficultyManager : MonoBehaviour
         currentPlayerDamageMultiplier = 1f;
         currentPlayerHealthMultiplier = 1f;
         currentPlayerHealthRegenRate = 0f;
+        
+        Debug.Log($"[EnemyCount] Calculating difficulty for floor {floor}");
+        Debug.Log($"[EnemyCount] Using enemyCountIncreasePerFloor value: {enemyCountIncreasePerFloor}%");
+        Debug.Log($"[EnemyCount] Calculated enemyCountMultiplier: {currentEnemyCountMultiplier}");
     }
 
     private void GenerateRandomModifiers()
@@ -341,8 +345,17 @@ public class FloorDifficultyManager : MonoBehaviour
     // Called by WaveSpawner to adjust spawn rate/count
     public void ModifyEnemySpawnRate(ref float spawnRate)
     {
-        // Lower spawn rate means more enemies in the same time
-        spawnRate /= currentEnemyCountMultiplier;
+        // We'll keep the original spawn rate constant now
+        Debug.Log($"[EnemyCount] Floor {GameManager.Instance.currentFloor}: Using spawn rate: {spawnRate}, Multiplier: {currentEnemyCountMultiplier}");
+    }
+    
+    // New method to modify the spawn duration instead of rate
+    public void ModifyEnemySpawnDuration(ref float endTime)
+    {
+        float originalEndTime = endTime;
+        // Increase spawn duration proportionally to enemy count multiplier
+        endTime *= currentEnemyCountMultiplier;
+        Debug.Log($"[EnemyCount] Floor {GameManager.Instance.currentFloor}: Original duration: {originalEndTime}, Modified: {endTime}, Multiplier: {currentEnemyCountMultiplier}");
     }
     
     // Called by PlayerStats or PlayerHealth on level start

@@ -24,6 +24,11 @@ public class PlayerStats : MonoBehaviour
         public int gemDustSpentOnSpeed = 0;
         public int gemDustSpentOnRange = 0;
         
+        // Count of upgrades for each stat
+        public int damageUpgradeCount = 0;
+        public int speedUpgradeCount = 0;
+        public int rangeUpgradeCount = 0;
+        
         // Total gem dust spent on this weapon
         public int TotalGemDustSpent => gemDustSpentOnDamage + gemDustSpentOnSpeed + gemDustSpentOnRange;
     }
@@ -42,8 +47,19 @@ public class PlayerStats : MonoBehaviour
         attackRange = 10f
     };
     
-    // Cost of upgrading a weapon stat
-    private const int UPGRADE_COST = 10;
+    // Base cost of upgrading a weapon stat
+    private const int BASE_UPGRADE_COST = 10;
+    
+    // Calculate upgrade cost based on the number of upgrades already applied
+    private int CalculateUpgradeCost(int upgradeCount)
+    {
+        // If it's the first upgrade, cost is exactly BASE_UPGRADE_COST
+        if (upgradeCount == 0)
+            return BASE_UPGRADE_COST;
+            
+        // For subsequent upgrades, apply the scaling formula: base * 1.05^upgradeCount
+        return Mathf.RoundToInt(BASE_UPGRADE_COST * Mathf.Pow(1.06f, upgradeCount));
+    }
 
     private void Awake()
     {
@@ -74,6 +90,11 @@ public class PlayerStats : MonoBehaviour
         swordStats.gemDustSpentOnDamage = PlayerPrefs.GetInt("SwordDamageGemDust", 0);
         swordStats.gemDustSpentOnSpeed = PlayerPrefs.GetInt("SwordSpeedGemDust", 0);
         swordStats.gemDustSpentOnRange = PlayerPrefs.GetInt("SwordRangeGemDust", 0);
+        
+        // Load sword upgrade counts
+        swordStats.damageUpgradeCount = PlayerPrefs.GetInt("SwordDamageUpgrades", 0);
+        swordStats.speedUpgradeCount = PlayerPrefs.GetInt("SwordSpeedUpgrades", 0);
+        swordStats.rangeUpgradeCount = PlayerPrefs.GetInt("SwordRangeUpgrades", 0);
 
         // Load staff stats
         staffStats.damage = PlayerPrefs.GetFloat("StaffDamage", 10f);
@@ -84,6 +105,11 @@ public class PlayerStats : MonoBehaviour
         staffStats.gemDustSpentOnDamage = PlayerPrefs.GetInt("StaffDamageGemDust", 0);
         staffStats.gemDustSpentOnSpeed = PlayerPrefs.GetInt("StaffSpeedGemDust", 0);
         staffStats.gemDustSpentOnRange = PlayerPrefs.GetInt("StaffRangeGemDust", 0);
+        
+        // Load staff upgrade counts
+        staffStats.damageUpgradeCount = PlayerPrefs.GetInt("StaffDamageUpgrades", 0);
+        staffStats.speedUpgradeCount = PlayerPrefs.GetInt("StaffSpeedUpgrades", 0);
+        staffStats.rangeUpgradeCount = PlayerPrefs.GetInt("StaffRangeUpgrades", 0);
     }
 
     private void SaveStats()
@@ -101,6 +127,11 @@ public class PlayerStats : MonoBehaviour
         PlayerPrefs.SetInt("SwordDamageGemDust", swordStats.gemDustSpentOnDamage);
         PlayerPrefs.SetInt("SwordSpeedGemDust", swordStats.gemDustSpentOnSpeed);
         PlayerPrefs.SetInt("SwordRangeGemDust", swordStats.gemDustSpentOnRange);
+        
+        // Save sword upgrade counts
+        PlayerPrefs.SetInt("SwordDamageUpgrades", swordStats.damageUpgradeCount);
+        PlayerPrefs.SetInt("SwordSpeedUpgrades", swordStats.speedUpgradeCount);
+        PlayerPrefs.SetInt("SwordRangeUpgrades", swordStats.rangeUpgradeCount);
 
         // Save staff stats
         PlayerPrefs.SetFloat("StaffDamage", staffStats.damage);
@@ -111,6 +142,11 @@ public class PlayerStats : MonoBehaviour
         PlayerPrefs.SetInt("StaffDamageGemDust", staffStats.gemDustSpentOnDamage);
         PlayerPrefs.SetInt("StaffSpeedGemDust", staffStats.gemDustSpentOnSpeed);
         PlayerPrefs.SetInt("StaffRangeGemDust", staffStats.gemDustSpentOnRange);
+        
+        // Save staff upgrade counts
+        PlayerPrefs.SetInt("StaffDamageUpgrades", staffStats.damageUpgradeCount);
+        PlayerPrefs.SetInt("StaffSpeedUpgrades", staffStats.speedUpgradeCount);
+        PlayerPrefs.SetInt("StaffRangeUpgrades", staffStats.rangeUpgradeCount);
 
         PlayerPrefs.Save();
     }
@@ -196,10 +232,13 @@ public class PlayerStats : MonoBehaviour
 
     public bool UpgradeWeaponDamage(WeaponType type)
     {
+        WeaponStats stats = type == WeaponType.Sword ? swordStats : staffStats;
+        int upgradeCost = CalculateUpgradeCost(stats.damageUpgradeCount);
+        
         // Try to spend gem dust
-        if (!InventoryManager.Instance.UseResource(ResourceType.GemDust, UPGRADE_COST))
+        if (!InventoryManager.Instance.UseResource(ResourceType.GemDust, upgradeCost))
         {
-            Debug.Log("Not enough Gem Dust for upgrade!");
+            Debug.Log($"Not enough Gem Dust for upgrade! Need {upgradeCost}");
             return false;
         }
         
@@ -207,12 +246,16 @@ public class PlayerStats : MonoBehaviour
         if (type == WeaponType.Sword)
         {
             swordStats.damage = CalculateUpgradedStat(type, swordStats.damage, "Damage");
-            swordStats.gemDustSpentOnDamage += UPGRADE_COST;
+            swordStats.gemDustSpentOnDamage += upgradeCost;
+            swordStats.damageUpgradeCount++;
+            Debug.Log($"Sword damage upgraded. New cost will be: {CalculateUpgradeCost(swordStats.damageUpgradeCount)}");
         }
         else
         {
             staffStats.damage = CalculateUpgradedStat(type, staffStats.damage, "Damage");
-            staffStats.gemDustSpentOnDamage += UPGRADE_COST;
+            staffStats.gemDustSpentOnDamage += upgradeCost;
+            staffStats.damageUpgradeCount++;
+            Debug.Log($"Staff damage upgraded. New cost will be: {CalculateUpgradeCost(staffStats.damageUpgradeCount)}");
         }
         SaveStats();
         return true;
@@ -220,10 +263,13 @@ public class PlayerStats : MonoBehaviour
 
     public bool UpgradeWeaponSpeed(WeaponType type)
     {
+        WeaponStats stats = type == WeaponType.Sword ? swordStats : staffStats;
+        int upgradeCost = CalculateUpgradeCost(stats.speedUpgradeCount);
+        
         // Try to spend gem dust
-        if (!InventoryManager.Instance.UseResource(ResourceType.GemDust, UPGRADE_COST))
+        if (!InventoryManager.Instance.UseResource(ResourceType.GemDust, upgradeCost))
         {
-            Debug.Log("Not enough Gem Dust for upgrade!");
+            Debug.Log($"Not enough Gem Dust for upgrade! Need {upgradeCost}");
             return false;
         }
         
@@ -231,12 +277,16 @@ public class PlayerStats : MonoBehaviour
         if (type == WeaponType.Sword)
         {
             swordStats.attackSpeed = CalculateUpgradedStat(type, swordStats.attackSpeed, "Speed");
-            swordStats.gemDustSpentOnSpeed += UPGRADE_COST;
+            swordStats.gemDustSpentOnSpeed += upgradeCost;
+            swordStats.speedUpgradeCount++;
+            Debug.Log($"Sword speed upgraded. New cost will be: {CalculateUpgradeCost(swordStats.speedUpgradeCount)}");
         }
         else
         {
             staffStats.attackSpeed = CalculateUpgradedStat(type, staffStats.attackSpeed, "Speed");
-            staffStats.gemDustSpentOnSpeed += UPGRADE_COST;
+            staffStats.gemDustSpentOnSpeed += upgradeCost;
+            staffStats.speedUpgradeCount++;
+            Debug.Log($"Staff speed upgraded. New cost will be: {CalculateUpgradeCost(staffStats.speedUpgradeCount)}");
         }
         SaveStats();
         return true;
@@ -244,10 +294,13 @@ public class PlayerStats : MonoBehaviour
 
     public bool UpgradeWeaponRange(WeaponType type)
     {
+        WeaponStats stats = type == WeaponType.Sword ? swordStats : staffStats;
+        int upgradeCost = CalculateUpgradeCost(stats.rangeUpgradeCount);
+        
         // Try to spend gem dust
-        if (!InventoryManager.Instance.UseResource(ResourceType.GemDust, UPGRADE_COST))
+        if (!InventoryManager.Instance.UseResource(ResourceType.GemDust, upgradeCost))
         {
-            Debug.Log("Not enough Gem Dust for upgrade!");
+            Debug.Log($"Not enough Gem Dust for upgrade! Need {upgradeCost}");
             return false;
         }
         
@@ -255,12 +308,16 @@ public class PlayerStats : MonoBehaviour
         if (type == WeaponType.Sword)
         {
             swordStats.attackRange = CalculateUpgradedStat(type, swordStats.attackRange, "Range");
-            swordStats.gemDustSpentOnRange += UPGRADE_COST;
+            swordStats.gemDustSpentOnRange += upgradeCost;
+            swordStats.rangeUpgradeCount++;
+            Debug.Log($"Sword range upgraded. New cost will be: {CalculateUpgradeCost(swordStats.rangeUpgradeCount)}");
         }
         else
         {
             staffStats.attackRange = CalculateUpgradedStat(type, staffStats.attackRange, "Range");
-            staffStats.gemDustSpentOnRange += UPGRADE_COST;
+            staffStats.gemDustSpentOnRange += upgradeCost;
+            staffStats.rangeUpgradeCount++;
+            Debug.Log($"Staff range upgraded. New cost will be: {CalculateUpgradeCost(staffStats.rangeUpgradeCount)}");
         }
         SaveStats();
         return true;
@@ -294,7 +351,14 @@ public class PlayerStats : MonoBehaviour
             {
                 damage = 20f,
                 attackSpeed = 3f,
-                attackRange = 4f
+                attackRange = 4f,
+                // Reset all upgrade counters to zero
+                gemDustSpentOnDamage = 0,
+                gemDustSpentOnSpeed = 0,
+                gemDustSpentOnRange = 0,
+                damageUpgradeCount = 0,
+                speedUpgradeCount = 0,
+                rangeUpgradeCount = 0
             };
         }
         else
@@ -303,7 +367,14 @@ public class PlayerStats : MonoBehaviour
             {
                 damage = 10f,
                 attackSpeed = 5f,
-                attackRange = 10f
+                attackRange = 10f,
+                // Reset all upgrade counters to zero
+                gemDustSpentOnDamage = 0,
+                gemDustSpentOnSpeed = 0,
+                gemDustSpentOnRange = 0,
+                damageUpgradeCount = 0,
+                speedUpgradeCount = 0,
+                rangeUpgradeCount = 0
             };
         }
         
@@ -321,18 +392,51 @@ public class PlayerStats : MonoBehaviour
         {
             damage = 20f,
             attackSpeed = 3f,
-            attackRange = 4f
+            attackRange = 4f,
+            // Reset all upgrade counters to zero
+            gemDustSpentOnDamage = 0,
+            gemDustSpentOnSpeed = 0,
+            gemDustSpentOnRange = 0,
+            damageUpgradeCount = 0,
+            speedUpgradeCount = 0,
+            rangeUpgradeCount = 0
         };
         staffStats = new WeaponStats()
         {
             damage = 10f,
             attackSpeed = 5f,
-            attackRange = 10f
+            attackRange = 10f,
+            // Reset all upgrade counters to zero
+            gemDustSpentOnDamage = 0,
+            gemDustSpentOnSpeed = 0,
+            gemDustSpentOnRange = 0,
+            damageUpgradeCount = 0,
+            speedUpgradeCount = 0,
+            rangeUpgradeCount = 0
         };
 
         // Save the reset stats
         SaveStats();
         
         Debug.Log("Player stats reset to default values");
+    }
+
+    // Get the current cost to upgrade a specific weapon stat
+    public int GetUpgradeCost(WeaponType type, string statType)
+    {
+        WeaponStats stats = type == WeaponType.Sword ? swordStats : staffStats;
+        
+        switch (statType)
+        {
+            case "Damage":
+                return CalculateUpgradeCost(stats.damageUpgradeCount);
+            case "Speed":
+                return CalculateUpgradeCost(stats.speedUpgradeCount);
+            case "Range":
+                return CalculateUpgradeCost(stats.rangeUpgradeCount);
+            default:
+                Debug.LogError($"Unknown stat type: {statType}");
+                return 0;
+        }
     }
 } 

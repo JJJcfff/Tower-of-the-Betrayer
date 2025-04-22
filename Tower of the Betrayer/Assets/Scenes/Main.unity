@@ -1528,6 +1528,9 @@ MonoBehaviour:
     gemDustSpentOnDamage: 0
     gemDustSpentOnSpeed: 0
     gemDustSpentOnRange: 0
+    damageUpgradeCount: 0
+    speedUpgradeCount: 0
+    rangeUpgradeCount: 0
   staffStats:
     damage: 10
     attackSpeed: 10
@@ -1535,6 +1538,9 @@ MonoBehaviour:
     gemDustSpentOnDamage: 0
     gemDustSpentOnSpeed: 0
     gemDustSpentOnRange: 0
+    damageUpgradeCount: 0
+    speedUpgradeCount: 0
+    rangeUpgradeCount: 0
 --- !u!114 &1768601806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1593,12 +1599,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffb5720f1b74f74438d1b6d0fbf3d7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealthIncreasePerFloor: 10
+  enemyHealthIncreasePerFloor: 20
   enemyDamageIncreasePerFloor: 10
-  enemyCountIncreasePerFloor: 10
+  enemyCountIncreasePerFloor: 30
   maxModifiersPerFloor: 3
-  modifierChance: 0.7
-  goodModifierChance: 0.5
 --- !u!1001 &1810140148
 PrefabInstance:
   m_ObjectHideFlags: 0

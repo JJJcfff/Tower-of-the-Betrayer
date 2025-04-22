@@ -8188,6 +8188,10 @@ MonoBehaviour:
   - {fileID: 779850217}
   swordRefundButton: {fileID: 36083587}
   swordRefundText: {fileID: 916016253}
+  swordUpgradeCostTexts:
+  - {fileID: 1773920235}
+  - {fileID: 526071276}
+  - {fileID: 1102962859}
   staffDamageText: {fileID: 160623252}
   staffSpeedText: {fileID: 98407413}
   staffRangeText: {fileID: 1795394533}
@@ -8197,6 +8201,10 @@ MonoBehaviour:
   - {fileID: 1339348582}
   staffRefundButton: {fileID: 2117153105}
   staffRefundText: {fileID: 1643060795}
+  staffUpgradeCostTexts:
+  - {fileID: 1272593858}
+  - {fileID: 378131826}
+  - {fileID: 557502355}
   permanentPotionButtons:
   - {fileID: 408801599}
   - {fileID: 201978148}
@@ -8222,6 +8230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dd422ecb813499f914dd8471832aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementController: {fileID: 0}
 --- !u!1 &881333768
 GameObject:
   m_ObjectHideFlags: 0
