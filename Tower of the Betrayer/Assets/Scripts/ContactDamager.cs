@@ -56,7 +56,13 @@ public class ContactDamager : MonoBehaviour
         {
             playerHealth.TakeDamage(damage);
 
-          
+            // Camera shake
+            CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
+            if (cameraFollow != null)
+            {
+                cameraFollow.ShakeCamera(0.2f, 0.25f);
+            }
+
             AudioClip hitSound = Resources.Load<AudioClip>("playerTakingDamage");
             if (hitSound != null)
             {

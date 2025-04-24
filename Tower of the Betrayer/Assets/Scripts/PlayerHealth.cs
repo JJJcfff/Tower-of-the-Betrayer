@@ -131,14 +131,6 @@ public class PlayerHealth: MonoBehaviour
         {
             healthBar.SetHealth(currentHealth);
         }
-
-        // Camera shake
-        CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        if (cameraFollow != null)
-        {
-            cameraFollow.ShakeCamera(0.2f, 0.15f);
-        }
-
     
         // Show damage feedback if not already flashing
         if (!isFlashing && damage > 0)
