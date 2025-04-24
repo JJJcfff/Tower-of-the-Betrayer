@@ -119,6 +119,7 @@ In this game, players take on the role of the most skilled warrior from a villag
   - ~~Improve animation glitches (i.e. limit movement of player and bullets within the field)~~
 
   **Additions**
+
   - ~~Added hints in the right panel before each game~~
   - ~~Added more particle effects in the Home Scene, the fireplace and the potion pot.~~
   - ~~Slightly adjusted the light in the main battlefield.~~
@@ -126,11 +127,24 @@ In this game, players take on the role of the most skilled warrior from a villag
 
 ### Project Part 4: Finishing Touches (Ch 18, 19)
 
-- Improve Win/Lose Screen (with win/lose audio tracks)
-- Adjust and test with weapon upgrading / player's upgrading parameters to the right difficulty level
-- Fix bugs
-  - endless mode
-- Build and Release
+- ~~Improve Win/Lose Screen (with win/lose audio tracks)~~
+- ~~Adjust and test with weapon upgrading / player's upgrading parameters to the right difficulty level~~
+- ~~Fix bugs~~
+  - ~~endless mode~~
+- ~~Build and Release~~
+
+  **Additions**
+
+  - ~~Incorporated feedback from last checkpoint:~~
+    - ~~added sprites to the cost in Home Scene~~
+    - ~~added the increase of upgrading cost as the difficulty improves~~
+  - ~~added camera shake when player takes damage~~
+
+### Final Project Submission
+
+- Try to find a better asset and enable animation of the Home Scene character
+- Add particle effects when enemy dies
+- Add sound of sword/staff shooting as necessary
 
 ## Development
 
@@ -178,8 +192,6 @@ We added increasing difficulty floor-by-floor and randomized game modifiers on e
 <img width="500" alt="Screenshot 2025-04-16 at 8 41 40 PM" src="https://github.com/user-attachments/assets/b562e855-c575-4df1-b85b-93cd1947935f" />
 <img width="500" alt="Screenshot 2025-04-16 at 8 42 37 PM" src="https://github.com/user-attachments/assets/3a958654-33bb-49c5-a2c3-7ddb09768f15" />
 
-
-
 Resources we used:
 
 Fire
@@ -194,6 +206,16 @@ https://freesound.org/people/deleted_user_3330286/sounds/188549/
 Background tracks
 http://epidemicsound.com/track/cKvr2xxYss/
 https://www.epidemicsound.com/track/wOJUGbdCra/
+
+### Project Part 4:
+
+We mainly focused on adjusting game parameters and debugging the endless mode during this iteration. We also incorporated feedback from last checkpoint and implemented the increase of the cost of upgrading as game progresses, and in the panel there's also sprites next to the cost indicating what materials the player's using. We added camera shake when player takes the damage and improved the win/lose screen with proper fonts and sounds.
+
+Resources we used:
+
+Sound tracks for lose/win
+https://pixabay.com/sound-effects/game-bonus-144751/
+https://pixabay.com/sound-effects/game-over-38511/
 
 # Instructions on How to Play and Testing the Game
 
