@@ -121,18 +121,9 @@ public class GameManager : MonoBehaviour
     
     public bool IsNextFloorBoss()
     {
-        // Check if this is explicitly marked as a boss floor from endless mode toggle
-        if (nextFloorIsBoss)
-        {
+        if (currentFloor > 9 && !endlessMode) {
             return true;
         }
-            
-        // Or if this is the standard boss floor (10) and not in endless mode
-        if (currentFloor == BOSS_FLOOR && !endlessMode)
-        {
-            return true;
-        }
-        
         return false;
     }
 
@@ -188,7 +179,7 @@ public class GameManager : MonoBehaviour
     public void ApplyFloorDifficulty()
     {
         // Load boss flag from PlayerPrefs
-        nextFloorIsBoss = PlayerPrefs.GetInt("NextFloorIsBoss", 0) == 1;
+        nextFloorIsBoss = PlayerPrefs.GetInt("NextFloorIsBoss", 1) == 1;
         
         // Apply the existing modifiers that were generated in the home scene
         if (FloorDifficultyManager.Instance != null)

@@ -281,8 +281,7 @@ public class HomeSceneUI : MonoBehaviour
         {
             endlessModeToggle.isOn = GameManager.Instance.IsEndlessModeEnabled();
             startBattleButton.GetComponentInChildren<TextMeshProUGUI>().text = endlessModeToggle.isOn ? 
-                "Continue Endless Mode" : 
-                (GameManager.Instance.currentFloor == GameManager.BOSS_FLOOR ? "Start Boss Fight" : "Continue Adventure");
+                "Continue Endless Mode" :  "Start Boss Fight";
         }
         else
         {
