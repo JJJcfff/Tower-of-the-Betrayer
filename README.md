@@ -179,18 +179,18 @@ Asset we used:
 
 Quick Look of the Game:
 
-<img width="600" alt="Main" src="https://github.com/user-attachments/assets/ef9abe6b-352c-4145-b065-d6fd2622263c" />
-<img width="600" alt="HomeScene" src="https://github.com/user-attachments/assets/e166a61c-9d8e-4d1a-b3a9-2d7cef31ca74" />
-<img width="600" alt="GemCrafting" src="https://github.com/user-attachments/assets/bbe114aa-eb15-4ea8-aabe-fa344b054950" />
-<img width="600" alt="PotionPurchase" src="https://github.com/user-attachments/assets/63b58a4f-b21f-4595-af19-0658608b40be" />
-<img width="600" alt="Game" src="https://github.com/user-attachments/assets/18a1174c-e433-4856-865a-022549faed83" />
+<img width="400" alt="Main" src="https://github.com/user-attachments/assets/ef9abe6b-352c-4145-b065-d6fd2622263c" />
+<img width="400" alt="HomeScene" src="https://github.com/user-attachments/assets/e166a61c-9d8e-4d1a-b3a9-2d7cef31ca74" />
+<img width="400" alt="GemCrafting" src="https://github.com/user-attachments/assets/bbe114aa-eb15-4ea8-aabe-fa344b054950" />
+<img width="400" alt="PotionPurchase" src="https://github.com/user-attachments/assets/63b58a4f-b21f-4595-af19-0658608b40be" />
+<img width="400" alt="Game" src="https://github.com/user-attachments/assets/18a1174c-e433-4856-865a-022549faed83" />
 
 ### Project Checkpoint 3-4: Sound, UI, and Animation
 
 We added increasing difficulty floor-by-floor and randomized game modifiers on each floor, and implemented the boss battle in this iteration. Following feedback from last iteration, we added more particle effects in the Home Scene and made possible to close the panel using the G/P keys as well. Audio effects of player's taking damage and enemy death are also added in this checkpoint. We also adjusted the animation of the sword attack, and added movement (up/down) animations to the boss.
 
-<img width="500" alt="Screenshot 2025-04-16 at 8 41 40 PM" src="https://github.com/user-attachments/assets/b562e855-c575-4df1-b85b-93cd1947935f" />
-<img width="500" alt="Screenshot 2025-04-16 at 8 42 37 PM" src="https://github.com/user-attachments/assets/3a958654-33bb-49c5-a2c3-7ddb09768f15" />
+<img width="400" alt="Screenshot 2025-04-16 at 8 41 40 PM" src="https://github.com/user-attachments/assets/b562e855-c575-4df1-b85b-93cd1947935f" />
+<img width="400" alt="Screenshot 2025-04-16 at 8 42 37 PM" src="https://github.com/user-attachments/assets/3a958654-33bb-49c5-a2c3-7ddb09768f15" />
 
 Resources we used:
 
@@ -207,9 +207,14 @@ Background tracks
 http://epidemicsound.com/track/cKvr2xxYss/
 https://www.epidemicsound.com/track/wOJUGbdCra/
 
-### Project Part 4:
+### Project Part 4: Finishing Touches
 
 We mainly focused on adjusting game parameters and debugging the endless mode during this iteration. We also incorporated feedback from last checkpoint and implemented the increase of the cost of upgrading as game progresses, and in the panel there's also sprites next to the cost indicating what materials the player's using. We added camera shake when player takes the damage and improved the win/lose screen with proper fonts and sounds.
+
+<img width="400" alt="Screenshot 2025-04-24 at 7 43 52 PM" src="https://github.com/user-attachments/assets/fee10b0e-3570-4c51-a786-6d45f06e2d89" />
+<img width="400" alt="Screenshot 2025-04-24 at 7 43 37 PM" src="https://github.com/user-attachments/assets/3403619b-ceed-4cbb-9270-19de6fd0d1a9" />
+<img width="400" alt="Screenshot 2025-04-24 at 7 44 12 PM" src="https://github.com/user-attachments/assets/28b8ab8b-28bc-4450-b628-c3220fdb3597" />
+
 
 Resources we used:
 
