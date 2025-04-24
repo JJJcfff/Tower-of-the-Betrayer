@@ -124,13 +124,22 @@ public class PlayerHealth: MonoBehaviour
         // Apply damage
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0);
+
         
         // Update health bar
         if (healthBar != null)
         {
             healthBar.SetHealth(currentHealth);
         }
-        
+
+        // Camera shake
+        CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        if (cameraFollow != null)
+        {
+            cameraFollow.ShakeCamera(0.2f, 0.15f);
+        }
+
+    
         // Show damage feedback if not already flashing
         if (!isFlashing && damage > 0)
         {
