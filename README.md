@@ -145,6 +145,7 @@ In this game, players take on the role of the most skilled warrior from a villag
 - Try to find a better asset and enable animation of the Home Scene character
 - Add particle effects when enemy dies
 - Add sound of sword/staff shooting as necessary
+- Solve UI Display Bug (seems like the web rendered is not in correct ratio)
 
 ## Development
 
