@@ -1,6 +1,5 @@
 // Authors: Jeff Cui, Elaine Zhao
 // Handles player movement and UI interaction triggers in the home scene.
-
 using UnityEngine;
 
 public class SmoothMoverWithUITrigger : MonoBehaviour
@@ -10,18 +9,17 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
 
     private Vector3? targetPosition = null;
 
-    private Vector3 weaponPosition = new Vector3(-11f, 1f, -5f);
-    private Vector3 potionsPosition = new Vector3(5.5f, 1f, -5f);
-    private Vector3 neutralPosition = new Vector3(-2f, 1f, -9f);
+    private Vector3 weaponPosition = new Vector3(-11f, 1.5f, -5f);
+    private Vector3 potionsPosition = new Vector3(4f, 1.5f, -5f);
+    private Vector3 neutralPosition = new Vector3(-2f, 1.5f, -9f);
 
     public HomeCanvasUIController canvasController;
 
-    // Store original rotation at game start
     private Quaternion originalRotation;
-    
-    // Track which UI to show when player stops
+    public Animator animator;
+
     private UIType targetUI = UIType.None;
-    
+
     private enum UIType
     {
         None,
@@ -32,6 +30,15 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
     void Start()
     {
         originalRotation = transform.rotation;
+
+        if (animator == null)
+        {
+            Debug.LogError("Animator component not found on player object.");
+        }
+        else
+        {
+            Debug.Log("Animator found: Ready to control animations.");
+        }
     }
 
     void Update()
@@ -71,38 +78,61 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
             targetUI = UIType.None;
             startedMovement = true;
         }
-        
-        // Hide UI when movement starts
+
         if (startedMovement && canvasController != null)
         {
             canvasController.CloseAllUI();
+
+                
+            if (animator != null)
+            {
+                animator.SetBool("isMoving", true);
+                Debug.Log("Animator: movement just started → isMoving = true");
+            }
         }
+
+
+
+
+        bool currentlyMoving = false;
 
         if (targetPosition.HasValue)
         {
-            Vector3 direction = targetPosition.Value - transform.position;
-            direction.y = 0f; // ignore vertical rotation
+            float distance = Vector3.Distance(transform.position, targetPosition.Value);
+            currentlyMoving = distance > 0.05f;
 
-            if (direction.magnitude > 0.01f)
+            if (currentlyMoving)
             {
-                // Rotate toward target
+                Vector3 direction = targetPosition.Value - transform.position;
+                direction.y = 0f;
+
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition.Value, moveSpeed * Time.deltaTime);
             }
-
-            // Move toward target
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition.Value, moveSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, targetPosition.Value) < 0.01f)
+            else
             {
                 transform.position = targetPosition.Value;
-
-                // Reset to original facing direction
                 transform.rotation = originalRotation;
 
                 HandleArrival();
                 targetPosition = null;
             }
+        }
+
+        if (animator != null)
+        {
+            bool previous = animator.GetBool("isMoving");
+            if (previous != currentlyMoving)
+            {
+                Debug.Log("Setting isMoving = " + currentlyMoving);
+                animator.SetBool("isMoving", currentlyMoving);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Animator still not assigned.");
         }
     }
 
@@ -119,11 +149,9 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
                 canvasController.ShowPotionsUI();
                 break;
             case UIType.None:
-                // Keep all UI closed
                 break;
         }
-        
-        // Reset target UI
+
         targetUI = UIType.None;
     }
 
@@ -131,8 +159,7 @@ public class SmoothMoverWithUITrigger : MonoBehaviour
     {
         targetPosition = neutralPosition;
         targetUI = UIType.None;
-        
-        // Hide UI during movement
+
         if (canvasController != null)
         {
             canvasController.CloseAllUI();

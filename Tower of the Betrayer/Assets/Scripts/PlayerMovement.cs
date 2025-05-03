@@ -6,33 +6,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Manages player movement and rotation based on user input.
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 2f;
     public float baseSpeed;
     public bool speedBoosted = false;
-    
+
     private Vector2 movementValue;
     private PlayerShooting playerShooting;
-    
-    // Track active speed boosts
+
     private List<SpeedBoost> activeSpeedBoosts = new List<SpeedBoost>();
-    
-    // Class to track individual speed boosts
+
     private class SpeedBoost
     {
         public float amount;
         public Coroutine coroutine;
-        public float endTime; // When this boost will end
-        
+        public float endTime;
+
         public SpeedBoost(float amount, Coroutine coroutine, float duration)
         {
             this.amount = amount;
             this.coroutine = coroutine;
             this.endTime = Time.time + duration;
         }
-        
+
         public float GetRemainingTime()
         {
             return Mathf.Max(0, endTime - Time.time);
@@ -44,8 +42,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerShooting = GetComponent<PlayerShooting>();
-        
-        // Initialize speed from PlayerStats if available
+
         if (PlayerStats.Instance != null)
         {
             speed = PlayerStats.Instance.Speed;
@@ -55,68 +52,52 @@ public class PlayerMovement : MonoBehaviour
         {
             baseSpeed = speed;
         }
-        
-        // Apply floor difficulty modifiers to speed
+
         if (FloorDifficultyManager.Instance != null)
         {
             FloorDifficultyManager.Instance.ModifyPlayerSpeed(this);
         }
     }
-    
+
     public void OnMove(InputValue value)
     {
         movementValue = value.Get<Vector2>();
+        Debug.Log("Move input received: " + movementValue);
     }
-    
+
     void FixedUpdate()
     {
-        // Get normalized input direction in world space
         Vector3 moveDirection = new Vector3(movementValue.x, 0, movementValue.y).normalized;
-
-        // Calculate movement delta
         Vector3 movement = moveDirection * speed * Time.fixedDeltaTime;
 
-        // Apply movement
         Vector3 newPosition = transform.position + movement;
-
-        // Clamp the new position within room bounds
         newPosition.x = Mathf.Clamp(newPosition.x, -19.3f, 19.3f);
         newPosition.z = Mathf.Clamp(newPosition.z, -19.3f, 19.3f);
 
         transform.position = newPosition;
 
-        // Send movement direction to PlayerShooting
         if (playerShooting != null)
         {
             playerShooting.SetMovementDirection(moveDirection);
         }
     }
 
-    // Apply a temporary speed boost that stacks with other boosts
     public void ApplySpeedBoost(float boostAmount, float duration)
     {
-        // Start coroutine to track this specific boost
         Coroutine boostCoroutine = StartCoroutine(HandleSpeedBoost(boostAmount, duration));
-        
-        // Add to active boosts list
         activeSpeedBoosts.Add(new SpeedBoost(boostAmount, boostCoroutine, duration));
-        
-        // Apply the boost immediately
         speed += boostAmount;
         speedBoosted = true;
     }
-    
+
     private IEnumerator HandleSpeedBoost(float boostAmount, float duration)
     {
         yield return new WaitForSeconds(duration);
-        
-        // Remove this specific boost
         RemoveSpeedBoost(boostAmount);
     }
-    
+
     private void RemoveSpeedBoost(float boostAmount)
     {
-        // Find the boost in the list
         SpeedBoost boostToRemove = null;
         foreach (var boost in activeSpeedBoosts)
         {
@@ -126,36 +107,24 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
         }
-        
+
         if (boostToRemove != null)
         {
-            // Remove the boost amount from speed
             speed -= boostToRemove.amount;
             activeSpeedBoosts.Remove(boostToRemove);
-            
-            // Update speedBoosted flag
             speedBoosted = activeSpeedBoosts.Count > 0;
         }
     }
-    
-    // For debugging purposes
-    public int GetActiveBoostCount()
-    {
-        return activeSpeedBoosts.Count;
-    }
-    
-    // Get the remaining time of the longest-lasting speed boost
+
+    public int GetActiveBoostCount() => activeSpeedBoosts.Count;
+
     public float GetRemainingBoostTime()
     {
-        if (activeSpeedBoosts.Count == 0)
-            return 0f;
-            
         float longestTime = 0f;
         foreach (var boost in activeSpeedBoosts)
         {
             longestTime = Mathf.Max(longestTime, boost.GetRemainingTime());
         }
-        
         return longestTime;
     }
 }

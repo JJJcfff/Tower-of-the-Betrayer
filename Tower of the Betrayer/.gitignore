@@ -75,3 +75,6 @@ crashlytics-build.properties
 # code ide workspace files
 .idea/
 .vscode/
+
+# In .gitignore
+*.zip
