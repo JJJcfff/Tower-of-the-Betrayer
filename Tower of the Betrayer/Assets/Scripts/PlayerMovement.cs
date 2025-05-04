@@ -1,5 +1,4 @@
 // Authors: Jeff Cui, Elaine Zhao
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 movementValue;
     private PlayerShooting playerShooting;
+
+    [SerializeField] private Animator animator;
 
     private List<SpeedBoost> activeSpeedBoosts = new List<SpeedBoost>();
 
@@ -41,7 +42,17 @@ public class PlayerMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
         playerShooting = GetComponent<PlayerShooting>();
+
+        if (animator == null)
+        {
+            Debug.LogError("❌ Animator is not assigned in the Inspector.");
+        }
+        else
+        {
+            Debug.Log("✅ Animator assigned: " + animator.gameObject.name);
+        }
 
         if (PlayerStats.Instance != null)
         {
@@ -62,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         movementValue = value.Get<Vector2>();
-        Debug.Log("Move input received: " + movementValue);
+        Debug.Log("⬅️ Move input: " + movementValue);
     }
 
     void FixedUpdate()
@@ -75,6 +86,18 @@ public class PlayerMovement : MonoBehaviour
         newPosition.z = Mathf.Clamp(newPosition.z, -19.3f, 19.3f);
 
         transform.position = newPosition;
+
+        // ✅ Set animation state
+        if (animator != null)
+        {
+            bool isActuallyMoving = movementValue.magnitude > 0.01f;
+
+            // Debug state transition
+            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+            Debug.Log($"🎞 Animator state: {state.shortNameHash}, isMoving = {isActuallyMoving}");
+
+            animator.SetBool("isMoving", isActuallyMoving);
+        }
 
         if (playerShooting != null)
         {
