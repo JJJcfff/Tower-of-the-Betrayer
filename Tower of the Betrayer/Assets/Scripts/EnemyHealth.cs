@@ -23,6 +23,10 @@ public class EnemyHealth : MonoBehaviour
     [Header("Audio")]
     public AudioClip deathSound;
     
+    [Header("Death Effect")]
+    public GameObject deathParticleEffect;
+    public float destroyEffectDelay = 2f;
+    
     // Instant death when health reaches zero (no delay)
     public bool instantDeath = false;
 
@@ -110,6 +114,21 @@ public class EnemyHealth : MonoBehaviour
                 Debug.LogWarning("Could not load enemyDeath.wav from Resources folder!");
             }
         }
+        
+        // Load default death particle effect if not set in Inspector
+        if (deathParticleEffect == null)
+        {
+            deathParticleEffect = Resources.Load<GameObject>("EnemyDeathEffect");
+            if (deathParticleEffect == null)
+            {
+                // Try to load one of the VFX fire prefabs directly as a fallback
+                deathParticleEffect = Resources.Load<GameObject>("VFX_Fire_01_Small");
+                if (deathParticleEffect == null)
+                {
+                    deathParticleEffect = Resources.Load<GameObject>("Assets/Vefects/Free Fire VFX URP/Particles/VFX_Fire_01_Small");
+                }
+            }
+        }
     }
 
     void Update()
@@ -172,6 +191,13 @@ public class EnemyHealth : MonoBehaviour
         if (deathSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(deathSound);
+        }
+        
+        // Spawn death particle effect
+        if (deathParticleEffect != null)
+        {
+            GameObject effectInstance = Instantiate(deathParticleEffect, transform.position, Quaternion.identity);
+            Destroy(effectInstance, destroyEffectDelay);
         }
 
         // If instant death is set or this is a boss, destroy immediately

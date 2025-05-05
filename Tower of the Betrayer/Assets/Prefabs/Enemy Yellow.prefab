@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Yellow
       objectReference: {fileID: 0}
+    - target: {fileID: 3678708162435348193, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
+        type: 3}
+      propertyPath: deathParticleEffect
+      value: 
+      objectReference: {fileID: 5976481480987488615, guid: 9398a50aa741706498b23a67a753f9f0,
+        type: 3}
     - target: {fileID: 8003388738644797459, guid: c582f62be42ec8d47b7f2002f0cc4c9d,
         type: 3}
       propertyPath: m_Controller
