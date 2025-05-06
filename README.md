@@ -186,7 +186,6 @@ Quick Look of the Game:
 <img width="400" alt="Main" src="https://github.com/user-attachments/assets/ef9abe6b-352c-4145-b065-d6fd2622263c" />
 <img width="400" alt="HomeScene" src="https://github.com/user-attachments/assets/e166a61c-9d8e-4d1a-b3a9-2d7cef31ca74" />
 <img width="400" alt="GemCrafting" src="https://github.com/user-attachments/assets/bbe114aa-eb15-4ea8-aabe-fa344b054950" />
-<img width="400" alt="PotionPurchase" src="https://github.com/user-attachments/assets/63b58a4f-b21f-4595-af19-0658608b40be" />
 <img width="400" alt="Game" src="https://github.com/user-attachments/assets/18a1174c-e433-4856-865a-022549faed83" />
 
 ### Project Checkpoint 3-4: Sound, UI, and Animation
@@ -228,6 +227,11 @@ https://pixabay.com/sound-effects/game-over-38511/
 ### Final Project Submission
 
 We updated animation for the player character in the Home Scene and Game Scene. Added death particles. Also fixed the UI scaling issues.
+
+<img width="400" alt="Screenshot 2025-05-06 at 11 54 37 AM" src="https://github.com/user-attachments/assets/45808d80-31b5-43b4-9006-aaea20d60276" />
+<img width="400" alt="Screenshot 2025-05-06 at 11 53 53 AM" src="https://github.com/user-attachments/assets/b90ee29e-20e9-41c1-b16f-af198ed13b2f" />
+<img width="400" alt="Screenshot 2025-05-06 at 11 53 02 AM" src="https://github.com/user-attachments/assets/a7ac10e7-ef14-4bcd-8fd0-9d7665a78d66" />
+
 
 Resources we used:
 https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/rpg-hero-pbr-hp-polyart-121480
