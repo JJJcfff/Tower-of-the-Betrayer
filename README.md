@@ -142,10 +142,13 @@ In this game, players take on the role of the most skilled warrior from a villag
 
 ### Final Project Submission
 
-- Try to find a better asset and enable animation of the Home Scene character
-- Add particle effects when enemy dies
-- Add sound of sword/staff shooting as necessary
-- Solve UI Display Bug (seems like the web rendered is not in correct ratio)
+- ~~Try to find a better asset and enable animation of the Home Scene character~~
+- ~~Add particle effects when enemy dies~~
+- ~~Add sound of sword/staff shooting as necessary~~
+- ~~Solve UI Display Bug (seems like the web rendered is not in correct ratio)~~
+
+  **Additions**
+  (No additional implementation)
 
 ## Development
 
@@ -216,23 +219,29 @@ We mainly focused on adjusting game parameters and debugging the endless mode du
 <img width="400" alt="Screenshot 2025-04-24 at 7 43 37 PM" src="https://github.com/user-attachments/assets/3403619b-ceed-4cbb-9270-19de6fd0d1a9" />
 <img width="400" alt="Screenshot 2025-04-24 at 7 44 12 PM" src="https://github.com/user-attachments/assets/28b8ab8b-28bc-4450-b628-c3220fdb3597" />
 
-
 Resources we used:
 
 Sound tracks for lose/win
 https://pixabay.com/sound-effects/game-bonus-144751/
 https://pixabay.com/sound-effects/game-over-38511/
 
-# Instructions on How to Play and Testing the Game
+### Final Project Submission
 
-## Getting Started
+We updated animation for the player character in the Home Scene and Game Scene. Added death particles. Also fixed the UI scaling issues.
+
+Resources we used:
+https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/rpg-hero-pbr-hp-polyart-121480
+
+## Instructions on How to Play and Test the Game
+
+#### Getting Started
 
 - Load the **Main** scene to play the game, click "Start Game" to start, and you'll be directed to the **Home** scene
 - Select your weapon by checking sword or staff toggle.
 - [!! Not applicable for first floor] Start gem crafting by pressing G or potion purchase by pressing P. Close button of the pop-up windows are on upper left.
 - Click "Start Battle" to begin, the battlefield is created on **Game** scene.
 
-## Combat & Controls
+#### Combat & Controls
 
 - WASD to move
 - Character automatically faces the nearest enemy
@@ -243,23 +252,77 @@ https://pixabay.com/sound-effects/game-over-38511/
 - E: Use speed potion
 - Enemy drops random amounts of Gemdust and Mushrooms
 
-## Upgrading Weapons
+#### Upgrading Weapons
 
 - Spend Gem Dust for Damage, Attack Speed, and Range upgrades
 - Reset buttons refund 80% of spent Gem Dust
 
-## Potions
+#### Potions
 
 - Craft potions with Mushrooms in the Home scene
 - Permanent potions provide lasting stat increases
 - Temporally Potion can be used during battle
 
-## Game Progression
+#### Game Progression
 
 - "Return to Main Menu" after winning or losing
 
-## Debug Commands
+#### Debug Commands
 
 - J: add 50 Gem Dust (Home scene)
 - K: add 50 Mushrooms (Home scene)
 - L: skip to the 9th floor (Home scene)
+
+## Demo
+
+Check out a play-through showcase of the game:
+[Demo Video](https://livejohnshopkins-my.sharepoint.com/personal/jcui19_jh_edu/_layouts/15/stream.aspx?id=%2Fpersonal%2Fjcui19%5Fjh%5Fedu%2FDocuments%2FTower%20Of%20The%20Betrayer%20Demo%2Emov&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ee9edb5e7%2D3f52%2D45b2%2Db192%2Dbdf3c12ab195&ga=1&LOF=1)
+
+Download:
+[WebGL](https://jjjcff.itch.io/tower-of-the-betrayer)
+
+## Future Work
+
+Below are some high-level changes we could make given longer development time:
+
+#### More Playable Characters
+
+- Unlockable heroes with unique abilities
+- Each character has a different starting loadout and skill tree
+
+#### Expanded Weapon System
+
+- Add more weapon types (bows, daggers, shields) with new gem slots
+- Introduce weapon fusions or ultimate forms after upgrades
+- Improve attack animation and effects
+
+#### Smarter Enemies & Bosses
+
+- Improve AI to dodge or surround players
+- Add mini-bosses on higher floors with unique powers
+
+#### Dynamic Floor
+
+- Add traps, moving platforms, or destructible walls etc
+- Weather or lighting effects that affect gameplay
+
+## Contribution
+
+- **Jeff Cui**
+
+  - Designed and implemented core gameplay logic, including weapon upgrade systems and difficulty scaling
+  - Developed the boss battle mechanics and effects
+  - Built UI panel in Home Scene
+  - UI Scaling fixes
+
+- **Elaine Zhao**
+
+  - Created and animated the Home Scene with UI interactions
+  - Adapted and fitted 3D models into Game Scene environment for polished visuals
+  - Integrated particle effects and sound design across scenes
+  - Minor bug fixes in game logic
+
+- **Collaboration**
+
+  Overall Jeff built the core gameplay skeleton and system back-end (e.g. upgrade mechanics, floor logic, boss control) and Elaine adjusted and integrated UI elements, visual feedback, and animations on top of the gameplay systems.
+  An example of the collaborative process is the Home Scene development: Jeff implemented the weapon upgrade backend with inventory management and computation and a basic full-size UI panel. Elaine introduced the player character movement in the 3D scene and the pop-up effects of a precise section of the panel according to which weapon/material the player's working on.
